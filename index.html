@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Login Page</title>
+</head>
+<body>
+
+<div class="container">
+    <h2><CENTER>KAMAL KUMARI DEVI MODEL SCHOOL</CENTER></h2>
+    <form id="loginForm">
+        <input type="text" id="userId" placeholder="User ID" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="button" id="showPasswordBtn">Show Password</button>
+        <button type="submit">Login</button>
+    </form>
+    <div id="error" class="error"></div>
+</div>
+
+<div class="main">
+    <div id="homePage" class="hidden">
+        <h2><CENTER>KAMAL KUMARI DEVI MODEL SCHOOL</CENTER></h2><BR>
+        <h1>Welcome, <span id="userName"></span>!</h1>
+        <div class="button-container">
+            <button onclick="loadPage('https://formfacade.com/headless/107304971746362659980/home/form/1FAIpQLScK7VYlTEA8lMDHlDL6nLUKJ-36Yg59Pe3PCng-O3aXqvufdw')">QP Submission PA III</button>
+
+            <!-- Dropdown Menu -->
+            <select id="pageDropdown" onchange="handleDropdownSelection()">
+		    <option value="" disabled selected>Syllabus</option>
+                    <option value="example.html">Balvatika 1</option>
+                    <option value="example.html">Balvatika 2</option>
+                    <option value="example.html">Balvatika 3</option>
+                    <option value="example.html">Class 1 A</option>
+                    <option value="example.html">Class 1 B</option>
+                    <option value="example.html">Class 2</option>
+                    <option value="example.html">Class 3 A</option>
+                    <option value="example.html">Class 3 B</option>
+                    <option value="example.html">Class 4 A</option>
+                    <option value="example.html">Class 4 B</option>
+                    <option value="example.html">Class 5</option>
+                    <option value="example.html">Class 6 A</option>
+                    <option value="example.html">Class 6 B</option>
+                    <option value="example.html">Class 7 A</option>
+                    <option value="example.html">Class 7 B</option>
+                    <option value="example.html">Class 8</option>
+                    <option value="example.html">Class 9</option>
+                    <option value="example.html">Class 10</option>
+                    <option value="example.html">Class 11 Arts</option>
+                    <option value="example.html">Class 11 Commerce</option>
+                    <option value="example.html">Class 11 Science</option>
+                    <option value="example.html">Class 12 Arts</option>
+                    <option value="example.html">Class 12 Science</option>
+            </select>
+
+            <button onclick="loadPage('res/index.html')">Remarks</button>
+        </div>
+    </div>
+
+    <iframe id="contentFrame" class="welcome-frame hidden" src=""></iframe> 
+    <script src="script.js"></script>
+</div>
+
+</body>
+</html>
