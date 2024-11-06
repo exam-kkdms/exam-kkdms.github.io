@@ -2,8 +2,7 @@
 const users = [
 
     { name: "Abdul Sir", userId: "Abdul1998", password: "Abdul@1998" },
-    { name: "John Doe", userId: "john", password: "12345" },
-    { name: "Jane Smith", userId: "jane", password: "abcde" }
+    { name: "KKDMS", userId: "Kkdms2425", password: "Kkdms@2425" }
 ];
 
 // Login form submission
