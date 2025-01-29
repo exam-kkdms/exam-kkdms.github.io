@@ -75,6 +75,37 @@
     <div class="dropdown-content">
 	    <button onclick="loadPage('https://docs.google.com/forms/d/e/1FAIpQLSdgvenN0lpCtgQrrwSEKJBX8yBqqSlp8L-o3aMk4csfIMfQww/viewform?usp=sf_link')">Term- II Syllabus & Project</button>
 	    <button onclick="loadPage('https://docs.google.com/forms/d/e/1FAIpQLScU-BMcLnqHV9Kwu3iG4eBdMCWYzJF9pQU2PE84LdyVHpvptA/viewform?usp=sf_link')">Term- II OP Upload form</button>
+  
+    
+     <select id="pageDropdown" onchange="handleDropdownSelection()">
+		    <option value="" disabled selected>Syllabus</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=776916366&single=true">Balvatika 1</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=68763686&single=true">Balvatika 2</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=346385582&single=true">Balvatika 3</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=2119765223&single=true">Class 1 A</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=2119765223&single=true">Class 1 B</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=626633115&single=true">Class 2</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=326424763&single=true">Class 3 A</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=326424763&single=true">Class 3 B</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=1391289831&single=true">Class 4 A</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=1391289831&single=true">Class 4 B</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=257720599&single=true">Class 5</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=1036197910&single=true">Class 6 A</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=1036197910&single=true">Class 6 B</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=1365582175&single=true">Class 7 A</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=1365582175&single=true">Class 7 B</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=144447479&single=true">Class 8</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=2085987985&single=true">Class 9</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=962483280&single=true">Class 10</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=988223556&single=true">Class 11 Arts</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=923582085&single=true">Class 11 Commerce</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=791289833&single=true">Class 11 Science</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=1170636338&single=true">Class 12 Arts</option>
+                    <option value="https://docs.google.com/spreadsheets/d/e/2PACX-1vRIvI3h8pHq6Wc8xv9uBowvopd7wJOt4AJRWPLbFoq3j1uFhn1i2QkKSaKLkcQG76ww-Eq0rHKa6D-T/pubhtml?gid=1838100321&single=true">Class 12 Science</option>
+
+            </select>
+    
+    
     </div>
 </div>
 
