@@ -51,8 +51,17 @@ function loadPage(pageUrl) {
     iframe.src = pageUrl;
 }
 
-function handleDropdownSelection() {
-    const dropdown = document.getElementById('pageDropdown');
+function handleDropdownSelection1() {
+    const dropdown = document.getElementById('pageDropdown1');
+    const selectedPage = dropdown.value;
+
+    if (selectedPage) {
+        loadPage(selectedPage);
+    }
+}
+
+function handleDropdownSelection2() {
+    const dropdown = document.getElementById('pageDropdown2');
     const selectedPage = dropdown.value;
 
     if (selectedPage) {
