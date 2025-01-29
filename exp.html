@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work in Progress</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .dots {
+            font-size: 3rem;
+            color: #3498db;
+            display: inline-block;
+            animation: dot-blink 1.5s infinite steps(5, end);
+        }
+
+        @keyframes dot-blink {
+            0% { content: "."; }
+            20% { content: ".."; }
+            40% { content: "..."; }
+            60% { content: ".."; }
+            80% { content: "."; }
+            100% { content: "."; }
+        }
+
+        /* To support the actual animation of the dots */
+        .dots::after {
+            content: ".";
+            animation: dot-blink 1.5s infinite steps(5, end);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Work in Progress</h1>
+        <div class="dots">.</div>
+    </div>
+
+</body>
+</html>
