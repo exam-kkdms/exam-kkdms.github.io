@@ -2,108 +2,249 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Teacher Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f7fa;
-            margin: 0;
-            padding: 20px;
-        }
+/* KEEPING YOUR CSS EXACTLY SAME WITH MINOR FIX */
 
-        h1 {
-            text-align: center;
-            color: #333;
-        }
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('https://i.ibb.co/vxYj1BM/Building-1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
 
-        .button-group {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+.container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
-        button {
-            background: #4a90e2;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            margin: 5px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: background 0.3s, transform 0.2s;
-        }
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 
-        button:hover {
-            background: #357ABD;
-            transform: translateY(-2px);
-        }
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+}
 
-        .submenu, .view-submenu {
-            display: none;
-            text-align: center;
-            margin-bottom: 15px;
-            animation: fadeIn 0.3s ease-in;
-        }
+select {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+}
 
-        .submenu button, .view-submenu button {
-            background: #6fb1fc;
-            font-size: 14px;
-            padding: 10px 16px;
-        }
+button:hover {
+    background-color: #45a049;
+}
 
-        select {
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-            width: 200px;
-            margin: 5px;
-        }
+.error {
+    color: red;
+    margin-top: 10px;
+}
 
-        iframe {
-            width: 100%;
-            height: 500px;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            background: white;
-        }
+.hidden {
+    display: none;
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+#homePage {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.welcome-frame {
+    width: 100%;
+    height: 650px; /* fixed missing semicolon */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.button-container {
+    margin: 20px 0;
+}
+
+#showPasswordBtn {
+    background-color: #007bff;
+}
+
+.main {
+    width: 90%;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .container, #homePage {
+        width: 90%; 
+        margin: 10px auto; 
+    }
+
+    .welcome-frame {
+        height: 600px; 
+    }
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+/* FIX: hide all submenu & view-submenu initially */
+.submenu, .view-submenu {
+    display: none;
+}
+
+
+.submenu {
+    background-color: #e0f0ff; /* Light blue background */
+}
+
+.submenu button {
+    background-color: #007BFF; /* Bootstrap primary blue */
+    color: white;
+}
+
+.submenu button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+
+
+
+.
+
+
     </style>
+    <title>Login Page</title>
 </head>
 <body>
 
-    <h1>Teacher Portal</h1>
+<div class="container">
+    <h2><CENTER>KAMAL KUMARI DEVI MODEL SCHOOL</CENTER></h2>
+    <form id="loginForm">
+        <input type="text" id="userId" placeholder="User ID" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="button" id="showPasswordBtn">Show Password</button>
+        <button type="submit">Login</button>
+    </form>
+    <div id="error" class="error"></div>
+</div>
 
-    <div class="button-group">
-        <button onclick="toggleMenu('uploadMenu')">Upload</button>
-        <button onclick="toggleMenu('downloadMenu')">Download</button>
-        <button onclick="toggleMenu('viewMenu')">View</button>
-        <button onclick="toggleMenu('lessonPlanMenu')">Lesson Plan</button>
-        <button onclick="toggleMenu('datesMenu')">Dates</button>
-    </div>
+<div class="main">
+    <div id="homePage" class="hidden">
+        <h2><CENTER>KAMAL KUMARI DEVI MODEL SCHOOL</CENTER></h2><BR>
+        <h1>Welcome, <span id="userName"></span>!</h1>
+        <div class="button-container">
 
-    <!-- Upload -->
-    <div id="uploadMenu" class="submenu">
-        <button onclick="loadIframe('https://docs.google.com/forms/d/e/1FAIpQLSepF4_h9IY2TQwqop1aS7YAc1XCIjsKcjZD8JZkH4MMbhN9cA/viewform?embedded=true')">Syllabus</button>
-        <button onclick="loadIframe('https://docs.google.com/forms/question-paper-link')">Question Paper</button>
-        <button onclick="loadIframe('https://docs.google.com/forms/projects-link')">Projects</button>
-    </div>
+		
 
-    <!-- Download -->
-    <div id="downloadMenu" class="submenu">
-        <a href="https://your-download-link/PA-I.docx" download><button>PA I</button></a>
-        <a href="https://your-download-link/PA-II.docx" download><button>PA II</button></a>
-        <a href="https://your-download-link/PA-III.docx" download><button>PA III</button></a>
-        <a href="https://your-download-link/Term-I.docx" download><button>Term I</button></a>
-        <a href="https://your-download-link/Term-II.docx" download><button>Term II</button></a>
-        <a href="https://your-download-link/Pre-Board.docx" download><button>Pre Board</button></a>
-    </div>
+
+   <h1>Teacher Portal</h1>
+
+<div class="button-group">
+    <button onclick="toggleMenu('uploadMenu')">Upload</button>
+    <button onclick="toggleMenu('downloadMenu')">Download</button>
+    <button onclick="toggleMenu('viewMenu')">View</button>
+    <button onclick="toggleMenu('lessonPlanMenu')">Lesson Plan</button>
+    <button onclick="toggleMenu('datesMenu')">Dates</button>
+</div>
+
+<!-- Upload -->
+<div id="uploadMenu" class="submenu">
+    <button onclick="loadIframe('https://docs.google.com/forms/d/e/1FAIpQLSepF4_h9IY2TQwqop1aS7YAc1XCIjsKcjZD8JZkH4MMbhN9cA/viewform?embedded=true')">Syllabus</button>
+    <button onclick="loadIframe('exp.html')">Question Paper</button>
+    <button onclick="loadIframe('exp.html')">Projects</button>
+    <button onclick="toggleMenu('markUploadMenu')">Mark Upload</button> <!-- New button -->
+</div>
+
+<!-- Mark Upload submenu (initially hidden) -->
+<div id="markUploadMenu" class="submenu" style="margin-left: 20px;">
+    <a href="https://docs.google.com/spreadsheets/d/PA1_SHEET_URL/view" target="_blank"><button>PA I</button></a>
+    <a href="https://docs.google.com/spreadsheets/d/PA2_SHEET_URL/view" target="_blank"><button>PA II</button></a>
+    <a href="https://docs.google.com/spreadsheets/d/PA3_SHEET_URL/view" target="_blank"><button>PA III</button></a>
+    <a href="https://docs.google.com/spreadsheets/d/PA4_SHEET_URL/view" target="_blank"><button>PA IV</button></a>
+    <a href="https://docs.google.com/spreadsheets/d/TERM1_SHEET_URL/view" target="_blank"><button>Term I</button></a>
+    <a href="https://docs.google.com/spreadsheets/d/TERM2_SHEET_URL/view" target="_blank"><button>Term II</button></a>
+    <a href="https://docs.google.com/spreadsheets/d/PREBOARD_SHEET_URL/view" target="_blank"><button>Pre-Board</button></a>
+</div>
+
+<!-- Download -->
+<div id="downloadMenu" class="submenu">
+    <a href="https://your-download-link/PA-I.docx" download><button>PA I</button></a>
+    <a href="https://your-download-link/PA-II.docx" download><button>PA II</button></a>
+    <a href="https://your-download-link/PA-III.docx" download><button>PA III</button></a>
+    <a href="https://your-download-link/Term-I.docx" download><button>Term I</button></a>
+    <a href="https://your-download-link/Term-II.docx" download><button>Term II</button></a>
+    <a href="https://your-download-link/Pre-Board.docx" download><button>Pre Board</button></a>
+</div>
 
     <!-- View -->
     <div id="viewMenu" class="submenu">
@@ -121,30 +262,30 @@
         <label><strong>PA I Classes:</strong></label><br>
         <select onchange="loadIframe(this.value)">
             <option value="">Select Class</option>
-            <option value="exp.html">Balvatika 1</option>
-            <option value="exp.html">Balvatika 2</option>
-            <option value="exp.html">Balvatika 3</option>
-            <option value="exp.html">Class 1 A</option>
-            <option value="exp.html">Class 1 B</option>
-            <option value="exp.html">Class 2</option>
-            <option value="exp.html">Class 3 A</option>
-            <option value="exp.html">Class 3 B</option>
-            <option value="exp.html">Class 4 A</option>
-            <option value="exp.html">Class 4 B</option>
-            <option value="exp.html">Class 5</option>
-            <option value="exp.html">Class 6 A</option>
-            <option value="exp.html">Class 6 B</option>
-            <option value="exp.html">Class 7 A</option>
-            <option value="exp.html">Class 7 B</option>
-            <option value="exp.html">Class 8</option>
-            <option value="exp.html">Class 9</option>
-            <option value="exp.html">Class 10</option>
-            <option value="exp.html">Class 11 art</option>
-            <option value="exp.html">Class 11 sci</option>
-            <option value="exp.html">Class 11 com</option>
-            <option value="exp.html">Class 12 art</option>
-            <option value="exp.html">Class 12 sci</option>
-            <option value="exp.html">Class 12 com</option>
+            <option value='exp.html'>Balvatika 1</option>
+            <option value='exp.html'>Balvatika 2</option>
+            <option value='exp.html'>Balvatika 3</option>
+            <option value='exp.html'>Class 1 A</option>
+            <option value='exp.html'>Class 1 B</option>
+            <option value='exp.html'>Class 2</option>
+            <option value='exp.html'>Class 3 A</option>
+            <option value='exp.html'>Class 3 B</option>
+            <option value='exp.html'>Class 4 A</option>
+            <option value='exp.html'>Class 4 B</option>
+            <option value='exp.html'>Class 5</option>
+            <option value='exp.html'>Class 6 A</option>
+            <option value='exp.html'>Class 6 B</option>
+            <option value='exp.html'>Class 7 A</option>
+            <option value='exp.html'>Class 7 B</option>
+            <option value='exp.html'>Class 8</option>
+            <option value='exp.html'>Class 9</option>
+            <option value='exp.html'>Class 10</option>
+            <option value='exp.html'>Class 11 art</option>
+            <option value='exp.html'>Class 11 sci</option>
+            <option value='exp.html'>Class 11 com</option>
+            <option value='exp.html'>Class 12 art</option>
+            <option value='exp.html'>Class 12 sci</option>
+            <option value='exp.html'>Class 12 com</option>
         </select>
     </div>
 
@@ -152,117 +293,269 @@
     <div id="viewSubmenu_PAII" class="view-submenu">
         <label><strong>PA II Classes:</strong></label><br>
         <select onchange="loadIframe(this.value)">
-            <!-- same options -->
             <option value="">Select Class</option>
-            <option value="exp.html">Balvatika 1</option>
-            <!-- ... rest same as above -->
-            <option value="exp.html">Class 12 com</option>
+            <option value='exp.html'>Balvatika 1</option>
+            <option value='exp.html'>Balvatika 2</option>
+            <option value='exp.html'>Balvatika 3</option>
+            <option value='exp.html'>Class 1 A</option>
+            <option value='exp.html'>Class 1 B</option>
+            <option value='exp.html'>Class 2</option>
+            <option value='exp.html'>Class 3 A</option>
+            <option value='exp.html'>Class 3 B</option>
+            <option value='exp.html'>Class 4 A</option>
+            <option value='exp.html'>Class 4 B</option>
+            <option value='exp.html'>Class 5</option>
+            <option value='exp.html'>Class 6 A</option>
+            <option value='exp.html'>Class 6 B</option>
+            <option value='exp.html'>Class 7 A</option>
+            <option value='exp.html'>Class 7 B</option>
+            <option value='exp.html'>Class 8</option>
+            <option value='exp.html'>Class 9</option>
+            <option value='exp.html'>Class 10</option>
+            <option value='exp.html'>Class 11 art</option>
+            <option value='exp.html'>Class 11 sci</option>
+            <option value='exp.html'>Class 11 com</option>
+            <option value='exp.html'>Class 12 art</option>
+            <option value='exp.html'>Class 12 sci</option>
+            <option value='exp.html'>Class 12 com</option>
         </select>
     </div>
 
     <div id="viewSubmenu_PAIII" class="view-submenu">
         <label><strong>PA III Classes:</strong></label><br>
         <select onchange="loadIframe(this.value)">
-            <!-- same options -->
             <option value="">Select Class</option>
-            <option value="exp.html">Balvatika 1</option>
-            <!-- ... -->
-            <option value="exp.html">Class 12 com</option>
+            <option value='exp.html'>Balvatika 1</option>
+            <option value='exp.html'>Balvatika 2</option>
+            <option value='exp.html'>Balvatika 3</option>
+            <option value='exp.html'>Class 1 A</option>
+            <option value='exp.html'>Class 1 B</option>
+            <option value='exp.html'>Class 2</option>
+            <option value='exp.html'>Class 3 A</option>
+            <option value='exp.html'>Class 3 B</option>
+            <option value='exp.html'>Class 4 A</option>
+            <option value='exp.html'>Class 4 B</option>
+            <option value='exp.html'>Class 5</option>
+            <option value='exp.html'>Class 6 A</option>
+            <option value='exp.html'>Class 6 B</option>
+            <option value='exp.html'>Class 7 A</option>
+            <option value='exp.html'>Class 7 B</option>
+            <option value='exp.html'>Class 8</option>
+            <option value='exp.html'>Class 9</option>
+            <option value='exp.html'>Class 10</option>
+            <option value='exp.html'>Class 11 art</option>
+            <option value='exp.html'>Class 11 sci</option>
+            <option value='exp.html'>Class 11 com</option>
+            <option value='exp.html'>Class 12 art</option>
+            <option value='exp.html'>Class 12 sci</option>
+            <option value='exp.html'>Class 12 com</option>
         </select>
     </div>
 
     <div id="viewSubmenu_PAIV" class="view-submenu">
         <label><strong>PA IV Classes:</strong></label><br>
-        <select onchange="loadIframe(this.value)">
-            <!-- same options -->
+                <select onchange="loadIframe(this.value)">
             <option value="">Select Class</option>
-            <option value="exp.html">Balvatika 1</option>
-            <!-- ... -->
-            <option value="exp.html">Class 12 com</option>
+            <option value='exp.html'>Balvatika 1</option>
+            <option value='exp.html'>Balvatika 2</option>
+            <option value='exp.html'>Balvatika 3</option>
+            <option value='exp.html'>Class 1 A</option>
+            <option value='exp.html'>Class 1 B</option>
+            <option value='exp.html'>Class 2</option>
+            <option value='exp.html'>Class 3 A</option>
+            <option value='exp.html'>Class 3 B</option>
+            <option value='exp.html'>Class 4 A</option>
+            <option value='exp.html'>Class 4 B</option>
+            <option value='exp.html'>Class 5</option>
+            <option value='exp.html'>Class 6 A</option>
+            <option value='exp.html'>Class 6 B</option>
+            <option value='exp.html'>Class 7 A</option>
+            <option value='exp.html'>Class 7 B</option>
+            <option value='exp.html'>Class 8</option>
+            <option value='exp.html'>Class 9</option>
+            <option value='exp.html'>Class 10</option>
+            <option value='exp.html'>Class 11 art</option>
+            <option value='exp.html'>Class 11 sci</option>
+            <option value='exp.html'>Class 11 com</option>
+            <option value='exp.html'>Class 12 art</option>
+            <option value='exp.html'>Class 12 sci</option>
+            <option value='exp.html'>Class 12 com</option>
         </select>
     </div>
 
     <div id="viewSubmenu_TermI" class="view-submenu">
         <label><strong>Term I Classes:</strong></label><br>
         <select onchange="loadIframe(this.value)">
-            <!-- same options -->
             <option value="">Select Class</option>
-            <option value="exp.html">Balvatika 1</option>
-            <!-- ... -->
-            <option value="exp.html">Class 12 com</option>
+            <option value='exp.html'>Balvatika 1</option>
+            <option value='exp.html'>Balvatika 2</option>
+            <option value='exp.html'>Balvatika 3</option>
+            <option value='exp.html'>Class 1 A</option>
+            <option value='exp.html'>Class 1 B</option>
+            <option value='exp.html'>Class 2</option>
+            <option value='exp.html'>Class 3 A</option>
+            <option value='exp.html'>Class 3 B</option>
+            <option value='exp.html'>Class 4 A</option>
+            <option value='exp.html'>Class 4 B</option>
+            <option value='exp.html'>Class 5</option>
+            <option value='exp.html'>Class 6 A</option>
+            <option value='exp.html'>Class 6 B</option>
+            <option value='exp.html'>Class 7 A</option>
+            <option value='exp.html'>Class 7 B</option>
+            <option value='exp.html'>Class 8</option>
+            <option value='exp.html'>Class 9</option>
+            <option value='exp.html'>Class 10</option>
+            <option value='exp.html'>Class 11 art</option>
+            <option value='exp.html'>Class 11 sci</option>
+            <option value='exp.html'>Class 11 com</option>
+            <option value='exp.html'>Class 12 art</option>
+            <option value='exp.html'>Class 12 sci</option>
+            <option value='exp.html'>Class 12 com</option>
         </select>
     </div>
 
     <div id="viewSubmenu_TermII" class="view-submenu">
         <label><strong>Term II Classes:</strong></label><br>
         <select onchange="loadIframe(this.value)">
-            <!-- same options -->
             <option value="">Select Class</option>
-            <option value="exp.html">Balvatika 1</option>
-            <!-- ... -->
-            <option value="exp.html">Class 12 com</option>
+            <option value='exp.html'>Balvatika 1</option>
+            <option value='exp.html'>Balvatika 2</option>
+            <option value='exp.html'>Balvatika 3</option>
+            <option value='exp.html'>Class 1 A</option>
+            <option value='exp.html'>Class 1 B</option>
+            <option value='exp.html'>Class 2</option>
+            <option value='exp.html'>Class 3 A</option>
+            <option value='exp.html'>Class 3 B</option>
+            <option value='exp.html'>Class 4 A</option>
+            <option value='exp.html'>Class 4 B</option>
+            <option value='exp.html'>Class 5</option>
+            <option value='exp.html'>Class 6 A</option>
+            <option value='exp.html'>Class 6 B</option>
+            <option value='exp.html'>Class 7 A</option>
+            <option value='exp.html'>Class 7 B</option>
+            <option value='exp.html'>Class 8</option>
+            <option value='exp.html'>Class 9</option>
+            <option value='exp.html'>Class 10</option>
+            <option value='exp.html'>Class 11 art</option>
+            <option value='exp.html'>Class 11 sci</option>
+            <option value='exp.html'>Class 11 com</option>
+            <option value='exp.html'>Class 12 art</option>
+            <option value='exp.html'>Class 12 sci</option>
+            <option value='exp.html'>Class 12 com</option>
         </select>
     </div>
 
     <div id="viewSubmenu_BoardProjects" class="view-submenu">
         <label><strong>Board Projects Classes:</strong></label><br>
         <select onchange="loadIframe(this.value)">
-            <!-- same options -->
             <option value="">Select Class</option>
-            <option value="exp.html">Balvatika 1</option>
-            <!-- ... -->
-            <option value="exp.html">Class 12 com</option>
+            <option value='exp.html'>Class 10</option>
+            <option value='exp.html'>Class 12 art</option>
+            <option value='exp.html'>Class 12 sci</option>
+            <option value='exp.html'>Class 12 com</option>
         </select>
     </div>
 
     <!-- Lesson Plan -->
     <div id="lessonPlanMenu" class="submenu">
-        <button onclick="loadIframe('https://docs.google.com/forms/lesson-upload')">Upload</button>
-        <button onclick="loadIframe('https://docs.google.com/forms/lesson-view')">View</button>
+        <button onclick="loadIframe('exp.html')">Upload</button>
+        <button onclick="loadIframe('exp.html')">View</button>
     </div>
 
     <!-- Dates -->
     <div id="datesMenu" class="submenu">
-        <button onclick="loadIframe('https://docs.google.com/forms/date-PA-I')">PA I</button>
-        <button onclick="loadIframe('https://docs.google.com/forms/date-PA-II')">PA II</button>
-        <button onclick="loadIframe('https://docs.google.com/forms/date-PA-III')">PA III</button>
-        <button onclick="loadIframe('https://docs.google.com/forms/date-PA-IV')">PA IV</button>
-        <button onclick="loadIframe('https://docs.google.com/forms/date-Term-I')">Term I</button>
-        <button onclick="loadIframe('https://docs.google.com/forms/date-Term-II')">Term II</button>
-        <button onclick="loadIframe('https://docs.google.com/forms/date-Pre-Board')">Pre Board</button>
+        <button onclick="loadIframe('exp.html')">PA I</button>
+        <button onclick="loadIframe('exp.html')">PA II</button>
+        <button onclick="loadIframe('exp.html')">PA III</button>
+        <button onclick="loadIframe('exp.html')">PA IV</button>
+        <button onclick="loadIframe('exp.html')">Term I</button>
+        <button onclick="loadIframe('exp.html')">Term II</button>
+        <button onclick="loadIframe('exp.html')">Pre Board</button>
     </div>
 
-    <iframe id="contentFrame"></iframe>
 
-    <script>
-        function toggleMenu(menuId) {
-            document.querySelectorAll('.submenu').forEach(menu => {
-                if (menu.id === menuId) {
-                    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-                } else {
-                    menu.style.display = 'none';
-                }
-            });
-            // hide view submenus
-            document.querySelectorAll('.view-submenu').forEach(sub => sub.style.display = 'none');
-        }
 
-        function toggleViewSubmenu(submenuId) {
-            document.querySelectorAll('.view-submenu').forEach(sub => {
-                if (sub.id === 'viewSubmenu_' + submenuId) {
-                    sub.style.display = (sub.style.display === 'block') ? 'none' : 'block';
-                } else {
-                    sub.style.display = 'none';
-                }
-            });
-        }
 
-        function loadIframe(url) {
-            if (url) {
-                document.getElementById('contentFrame').src = url;
-            }
+
+
+    <iframe id="contentFrame" class="welcome-frame hidden" src="" height="600" width="100%"></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+// Simulated user data
+const users = [
+    { name: "Abdul Sir", userId: "Abdul1998", password: "Abdul@1998" },
+    { name: "KKDMS", userId: "Kkdms2526", password: "Kkdms@2526" }
+];
+
+// Login form submission
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const userId = document.getElementById('userId').value;
+    const password = document.getElementById('password').value;
+    const errorDiv = document.getElementById('error');
+    const homePage = document.getElementById('homePage');
+    const userNameSpan = document.getElementById('userName');
+
+    errorDiv.textContent = '';
+    const user = users.find(user => user.userId === userId && user.password === password);
+
+    if (user) {
+        document.querySelector('.container').classList.add('hidden');
+        homePage.classList.remove('hidden');
+        userNameSpan.textContent = user.name;
+    } else {
+        errorDiv.textContent = 'Invalid User ID or Password';
+    }
+});
+
+// Show/hide password functionality
+document.getElementById('showPasswordBtn').addEventListener('click', function() {
+    const passwordInput = document.getElementById('password');
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        this.textContent = "Hide Password";
+    } else {
+        passwordInput.type = "password";
+        this.textContent = "Show Password";
+    }
+});
+
+function toggleMenu(menuId) {
+    document.querySelectorAll('.submenu').forEach(menu => {
+        if (menu.id === menuId) {
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        } else {
+            menu.style.display = 'none';
         }
-    </script>
+    });
+    document.querySelectorAll('.view-submenu').forEach(sub => sub.style.display = 'none');
+}
+
+function toggleViewSubmenu(submenuId) {
+    document.querySelectorAll('.view-submenu').forEach(sub => {
+        if (sub.id === 'viewSubmenu_' + submenuId) {
+            sub.style.display = (sub.style.display === 'block') ? 'none' : 'block';
+        } else {
+            sub.style.display = 'none';
+        }
+    });
+}
+
+function loadIframe(url) {
+    if (url) {
+        const frame = document.getElementById('contentFrame');
+        frame.src = url;
+        frame.classList.remove('hidden'); // show iframe
+    }
+}
+
+
+
+
+</script>
 
 </body>
 </html>
