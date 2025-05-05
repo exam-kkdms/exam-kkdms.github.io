@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Portal</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: #357ABD;
+            transform: translateY(-2px);
+        }
+
+        .submenu, .view-submenu {
+            display: none;
+            text-align: center;
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .submenu button, .view-submenu button {
+            background: #6fb1fc;
+            font-size: 14px;
+            padding: 10px 16px;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            width: 200px;
+            margin: 5px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background: white;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Teacher Portal</h1>
+
+    <div class="button-group">
+        <button onclick="toggleMenu('uploadMenu')">Upload</button>
+        <button onclick="toggleMenu('downloadMenu')">Download</button>
+        <button onclick="toggleMenu('viewMenu')">View</button>
+        <button onclick="toggleMenu('lessonPlanMenu')">Lesson Plan</button>
+        <button onclick="toggleMenu('datesMenu')">Dates</button>
+    </div>
+
+    <!-- Upload -->
+    <div id="uploadMenu" class="submenu">
+        <button onclick="loadIframe('https://docs.google.com/forms/d/e/1FAIpQLSepF4_h9IY2TQwqop1aS7YAc1XCIjsKcjZD8JZkH4MMbhN9cA/viewform?embedded=true')">Syllabus</button>
+        <button onclick="loadIframe('https://docs.google.com/forms/question-paper-link')">Question Paper</button>
+        <button onclick="loadIframe('https://docs.google.com/forms/projects-link')">Projects</button>
+    </div>
+
+    <!-- Download -->
+    <div id="downloadMenu" class="submenu">
+        <a href="https://your-download-link/PA-I.docx" download><button>PA I</button></a>
+        <a href="https://your-download-link/PA-II.docx" download><button>PA II</button></a>
+        <a href="https://your-download-link/PA-III.docx" download><button>PA III</button></a>
+        <a href="https://your-download-link/Term-I.docx" download><button>Term I</button></a>
+        <a href="https://your-download-link/Term-II.docx" download><button>Term II</button></a>
+        <a href="https://your-download-link/Pre-Board.docx" download><button>Pre Board</button></a>
+    </div>
+
+    <!-- View -->
+    <div id="viewMenu" class="submenu">
+        <button onclick="toggleViewSubmenu('PAI')">PA I</button>
+        <button onclick="toggleViewSubmenu('PAII')">PA II</button>
+        <button onclick="toggleViewSubmenu('PAIII')">PA III</button>
+        <button onclick="toggleViewSubmenu('PAIV')">PA IV</button>
+        <button onclick="toggleViewSubmenu('TermI')">Term I</button>
+        <button onclick="toggleViewSubmenu('TermII')">Term II</button>
+        <button onclick="toggleViewSubmenu('BoardProjects')">Board Projects</button>
+    </div>
+
+    <!-- View Submenus -->
+    <div id="viewSubmenu_PAI" class="view-submenu">
+        <label><strong>PA I Classes:</strong></label><br>
+        <select onchange="loadIframe(this.value)">
+            <option value="">Select Class</option>
+            <option value="exp.html">Balvatika 1</option>
+            <option value="exp.html">Balvatika 2</option>
+            <option value="exp.html">Balvatika 3</option>
+            <option value="exp.html">Class 1 A</option>
+            <option value="exp.html">Class 1 B</option>
+            <option value="exp.html">Class 2</option>
+            <option value="exp.html">Class 3 A</option>
+            <option value="exp.html">Class 3 B</option>
+            <option value="exp.html">Class 4 A</option>
+            <option value="exp.html">Class 4 B</option>
+            <option value="exp.html">Class 5</option>
+            <option value="exp.html">Class 6 A</option>
+            <option value="exp.html">Class 6 B</option>
+            <option value="exp.html">Class 7 A</option>
+            <option value="exp.html">Class 7 B</option>
+            <option value="exp.html">Class 8</option>
+            <option value="exp.html">Class 9</option>
+            <option value="exp.html">Class 10</option>
+            <option value="exp.html">Class 11 art</option>
+            <option value="exp.html">Class 11 sci</option>
+            <option value="exp.html">Class 11 com</option>
+            <option value="exp.html">Class 12 art</option>
+            <option value="exp.html">Class 12 sci</option>
+            <option value="exp.html">Class 12 com</option>
+        </select>
+    </div>
+
+    <!-- Repeat similar blocks for other viewSubmenu IDs -->
+    <div id="viewSubmenu_PAII" class="view-submenu">
+        <label><strong>PA II Classes:</strong></label><br>
+        <select onchange="loadIframe(this.value)">
+            <!-- same options -->
+            <option value="">Select Class</option>
+            <option value="exp.html">Balvatika 1</option>
+            <!-- ... rest same as above -->
+            <option value="exp.html">Class 12 com</option>
+        </select>
+    </div>
+
+    <div id="viewSubmenu_PAIII" class="view-submenu">
+        <label><strong>PA III Classes:</strong></label><br>
+        <select onchange="loadIframe(this.value)">
+            <!-- same options -->
+            <option value="">Select Class</option>
+            <option value="exp.html">Balvatika 1</option>
+            <!-- ... -->
+            <option value="exp.html">Class 12 com</option>
+        </select>
+    </div>
+
+    <div id="viewSubmenu_PAIV" class="view-submenu">
+        <label><strong>PA IV Classes:</strong></label><br>
+        <select onchange="loadIframe(this.value)">
+            <!-- same options -->
+            <option value="">Select Class</option>
+            <option value="exp.html">Balvatika 1</option>
+            <!-- ... -->
+            <option value="exp.html">Class 12 com</option>
+        </select>
+    </div>
+
+    <div id="viewSubmenu_TermI" class="view-submenu">
+        <label><strong>Term I Classes:</strong></label><br>
+        <select onchange="loadIframe(this.value)">
+            <!-- same options -->
+            <option value="">Select Class</option>
+            <option value="exp.html">Balvatika 1</option>
+            <!-- ... -->
+            <option value="exp.html">Class 12 com</option>
+        </select>
+    </div>
+
+    <div id="viewSubmenu_TermII" class="view-submenu">
+        <label><strong>Term II Classes:</strong></label><br>
+        <select onchange="loadIframe(this.value)">
+            <!-- same options -->
+            <option value="">Select Class</option>
+            <option value="exp.html">Balvatika 1</option>
+            <!-- ... -->
+            <option value="exp.html">Class 12 com</option>
+        </select>
+    </div>
+
+    <div id="viewSubmenu_BoardProjects" class="view-submenu">
+        <label><strong>Board Projects Classes:</strong></label><br>
+        <select onchange="loadIframe(this.value)">
+            <!-- same options -->
+            <option value="">Select Class</option>
+            <option value="exp.html">Balvatika 1</option>
+            <!-- ... -->
+            <option value="exp.html">Class 12 com</option>
+        </select>
+    </div>
+
+    <!-- Lesson Plan -->
+    <div id="lessonPlanMenu" class="submenu">
+        <button onclick="loadIframe('https://docs.google.com/forms/lesson-upload')">Upload</button>
+        <button onclick="loadIframe('https://docs.google.com/forms/lesson-view')">View</button>
+    </div>
+
+    <!-- Dates -->
+    <div id="datesMenu" class="submenu">
+        <button onclick="loadIframe('https://docs.google.com/forms/date-PA-I')">PA I</button>
+        <button onclick="loadIframe('https://docs.google.com/forms/date-PA-II')">PA II</button>
+        <button onclick="loadIframe('https://docs.google.com/forms/date-PA-III')">PA III</button>
+        <button onclick="loadIframe('https://docs.google.com/forms/date-PA-IV')">PA IV</button>
+        <button onclick="loadIframe('https://docs.google.com/forms/date-Term-I')">Term I</button>
+        <button onclick="loadIframe('https://docs.google.com/forms/date-Term-II')">Term II</button>
+        <button onclick="loadIframe('https://docs.google.com/forms/date-Pre-Board')">Pre Board</button>
+    </div>
+
+    <iframe id="contentFrame"></iframe>
+
+    <script>
+        function toggleMenu(menuId) {
+            document.querySelectorAll('.submenu').forEach(menu => {
+                if (menu.id === menuId) {
+                    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+                } else {
+                    menu.style.display = 'none';
+                }
+            });
+            // hide view submenus
+            document.querySelectorAll('.view-submenu').forEach(sub => sub.style.display = 'none');
+        }
+
+        function toggleViewSubmenu(submenuId) {
+            document.querySelectorAll('.view-submenu').forEach(sub => {
+                if (sub.id === 'viewSubmenu_' + submenuId) {
+                    sub.style.display = (sub.style.display === 'block') ? 'none' : 'block';
+                } else {
+                    sub.style.display = 'none';
+                }
+            });
+        }
+
+        function loadIframe(url) {
+            if (url) {
+                document.getElementById('contentFrame').src = url;
+            }
+        }
+    </script>
+
+</body>
+</html>
