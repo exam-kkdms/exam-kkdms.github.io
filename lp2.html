@@ -82,19 +82,69 @@
     <label for="week">Week:</label>
     <select id="week" name="week">
       <option value="">Select Week</option>
-      <option value="Week-11 ;  June-16">Week-11 ; June-16</option>
-      <option value="Week-12 ;  June-23">Week-12 ; June-23</option>
-      <!-- Add more weeks as needed -->
-      <option value="Week-51 ;  March-23">Week-51 ; March-23</option>
+          <option value="Week-11 ;  June-16">Week-11 ; June-16</option>
+          <option value="Week-12 ;  June-23">Week-12 ; June-23</option>
+          <option value="Week-13 ;  June-30">Week-13 ; June-30</option>
+          <option value="Week-14 ;  July-7">Week-14 ; July-7</option>
+          <option value="Week-15 ;  July-14">Week-15 ; July-14</option>
+          <option value="Week-16 ;  July-21">Week-16 ; July-21</option>
+          <option value="Week-17 ;  July-28">Week-17 ; July-28</option>
+          <option value="Week-18 ;  August-4">Week-18 ; August-4</option>
+          <option value="Week-19 ;  August-11">Week-19 ; August-11</option>
+          <option value="Week-20 ;  August-18">Week-20 ; August-18</option>
+          <option value="Week-21 ;  August-25">Week-21 ; August-25</option>
+          <option value="Week-22 ;  September-1">Week-22 ; September-1</option>
+          <option value="Week-23 ;  September-08">Week-23 ; September-08</option>
+          <option value="Week-24 ;  September-15">Week-24 ; September-15</option>
+          <option value="Week-25 ;  September-22">Week-25 ; September-22</option>
+          <option value="Week-26 ;  September-29">Week-26 ; September-29</option>
+          <option value="Week-27 ;  October-06">Week-27 ; October-06</option>
+          <option value="Week-28 ;  October-13">Week-28 ; October-13</option>
+          <option value="Week-29 ;  October-20">Week-29 ; October-20</option>
+          <option value="Week-30 ;  October-27">Week-30 ; October-27</option>
+          <option value="Week-31 ;  November-03">Week-31 ; November-03</option>
+          <option value="Week-32 ;  November-10">Week-32 ; November-10</option>
+          <option value="Week-33 ;  November-17">Week-33 ; November-17</option>
+          <option value="Week-34 ;  November-24">Week-34 ; November-24</option>
+          <option value="Week-35 ;  December-01">Week-35 ; December-01</option>
+          <option value="Week-36 ;  December-8">Week-36 ; December-8</option>
+          <option value="Week-37 ;  December-15">Week-37 ; December-15</option>
+          <option value="Week-38 ;  December-22">Week-38 ; December-22</option>
+          <option value="Week-39 ;  December-29">Week-39 ; December-29</option>
+          <option value="Week-40 ;  January-5">Week-40 ; January-5</option>
+          <option value="Week-41 ;  January-12">Week-41 ; January-12</option>
+          <option value="Week-42 ;  January-19">Week-42 ; January-19</option>
+          <option value="Week-43 ;  January-26">Week-43 ; January-26</option>
+          <option value="Week-44 ;  February-2">Week-44 ; February-2</option>
+          <option value="Week-45 ;  February-09">Week-45 ; February-09</option>
+          <option value="Week-46 ;  February-16">Week-46 ; February-16</option>
+          <option value="Week-47 ;  February-23">Week-47 ; February-23</option>
+          <option value="Week-48 ;  March-2">Week-48 ; March-2</option>
+          <option value="Week-49 ;  March-09">Week-49 ; March-09</option>
+          <option value="Week-50 ;  March-16">Week-50 ; March-16</option>
+          <option value="Week-51 ;  March-23">Week-51 ; March-23</option>
+     
     </select>
 
     <!-- Class Dropdown -->
     <label for="class">Class:</label>
     <select id="class" name="class" onchange="updateSubjects()">
       <option value="">Select Class</option>
-      <option value="Balvatika 1">Balvatika 1</option>
-      <option value="Class 1">Class 1</option>
-      <option value="Class 12">Class 12</option>
+  <option value="Balvatika 1">Balvatika 1</option>
+  <option value="Balvatika 2">Balvatika 2</option>
+  <option value="Balvatika 3">Balvatika 3</option>
+  <option value="Class 1">Class 1</option>
+  <option value="Class 2">Class 2</option>
+  <option value="Class 3">Class 3</option>
+  <option value="Class 4">Class 4</option>
+  <option value="Class 5">Class 5</option>
+  <option value="Class 6">Class 6</option>
+  <option value="Class 7">Class 7</option>
+  <option value="Class 8">Class 8</option>
+  <option value="Class 9">Class 9</option>
+  <option value="Class 10">Class 10</option>
+  <option value="Class 11">Class 11</option>
+  <option value="Class 12">Class 12</option>
     </select>
 
     <!-- Subject Dropdown -->
@@ -110,9 +160,21 @@
 <div id="result"></div>
 <script>
   const subjectOptions = {
-    "Balvatika 1": ["English", "Mathematics", "EVS"],
-    "Class 1": ["English", "Hindi", "Mathematics", "EVS"],
-    "Class 12": ["English", "Economics", "Accountancy", "Mathematics", "Business Studies"]
+    "Balvatika 1": ["English", "Bengali", "Hindi", "Mathematics", "EVS", "Drawings"],
+          "Balvatika 2": ["English", "Bengali", "Hindi", "Mathematics", "EVS", "Drawings"],
+          "Balvatika 3": ["English", "Bengali", "Hindi", "Mathematics", "EVS", "Drawings"],
+          "Class 1": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+          "Class 2": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+          "Class 3": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+          "Class 4": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+          "Class 5": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+          "Class 6": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
+          "Class 7": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
+          "Class 8": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
+          "Class 9": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "SST", "Science", "IT"],
+          "Class 10": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "SST", "Science", "IT"],
+          "Class 11": ["English", "Bengali", "Hindi", "Mathematics", "History", "Sociology", "Economics", "Pol. Science", "Geography", "Physics", "Chemistry", "Biology", "Phy education", "Accountancy", "Business Studies", "Computer Sci", "Commercial art"],
+          "Class 12": ["English", "Bengali", "Hindi", "Mathematics", "History", "Sociology", "Economics", "Pol. Science", "Geography", "Physics", "Chemistry", "Biology", "Phy education", "Accountancy", "Business Studies", "Computer Sci", "Commercial art"]
   };
 
   function updateSubjects() {
