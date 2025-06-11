@@ -108,6 +108,12 @@
   </div>
 
 <script>
+    const subjectOptions = {
+      "Balvatika 1": ["English", "Mathematics", "EVS"],
+      "Class 1": ["English", "Hindi", "Mathematics", "EVS"],
+      "Class 12": ["English", "Economics", "Accountancy", "Mathematics", "Business Studies"]
+      // Extend for more classes
+    };
   async function search() {
     const week = document.getElementById("week").value;
     const classVal = document.getElementById("class").value;
