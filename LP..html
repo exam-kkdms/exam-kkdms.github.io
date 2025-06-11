@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lesson Plan Search</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    label, select, button { margin-top: 10px; display: block; }
+  </style>
+</head>
+<body>
+  <h2>Search Lesson Plan</h2>
+
+  <label>Week:</label>
+  <input id="week" placeholder="Week-11 ; June-16">
+
+  <label>Class:</label>
+  <input id="class" placeholder="Class 10">
+
+  <label>Subject:</label>
+  <input id="subject" placeholder="Math">
+
+  <button onclick="search()">Search</button>
+
+  <pre id="result"></pre>
+
+  <script>
+    async function search() {
+      const week = document.getElementById("week").value;
+      const classVal = document.getElementById("class").value;
+      const subject = document.getElementById("subject").value;
+
+      const url = `https://script.google.com/macros/s/AKfycbw-RvspT6K73i6kjDqWpAo4CNbTBAwiCzsM1UKFg3QaZz_Rkz8iUTIj9Ix11wMBfO6Gpg/exec?week=${encodeURIComponent(week)}&class=${encodeURIComponent(classVal)}&subject=${encodeURIComponent(subject)}`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      document.getElementById("result").textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
