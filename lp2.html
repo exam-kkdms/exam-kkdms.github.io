@@ -108,72 +108,68 @@
     <div id="result"></div>
   </div>
 
-  <script>
-    const subjectOptions = {
-      "Balvatika 1": ["English", "Mathematics", "EVS"],
-      "Class 1": ["English", "Hindi", "Mathematics", "EVS"],
-      "Class 12": ["English", "Economics", "Accountancy", "Mathematics", "Business Studies"]
-    };
+ <script>
+  const subjectOptions = {
+    "Balvatika 1": ["English", "Mathematics", "EVS"],
+    "Class 1": ["English", "Hindi", "Mathematics", "EVS"],
+    "Class 12": ["English", "Economics", "Accountancy", "Mathematics", "Business Studies"]
+  };
 
-    function updateSubjects() {
-      const classVal = document.getElementById("class").value;
-      const subjectDropdown = document.getElementById("subject");
+  function updateSubjects() {
+    const classVal = document.getElementById("class").value;
+    const subjectDropdown = document.getElementById("subject");
 
-      subjectDropdown.innerHTML = '<option value="">Select Subject</option>';
-      if (subjectOptions[classVal]) {
-        subjectOptions[classVal].forEach(subject => {
-          const option = document.createElement("option");
-          option.value = subject;
-          option.textContent = subject;
-          subjectDropdown.appendChild(option);
-        });
-      }
+    subjectDropdown.innerHTML = '<option value="">Select Subject</option>';
+    if (subjectOptions[classVal]) {
+      subjectOptions[classVal].forEach(subject => {
+        const option = document.createElement("option");
+        option.value = subject;
+        option.textContent = subject;
+        subjectDropdown.appendChild(option);
+      });
+    }
+  }
+
+  async function search() {
+    const week = document.getElementById("week").value;
+    const classVal = document.getElementById("class").value;
+    const subject = document.getElementById("subject").value;
+
+    const resultContainer = document.getElementById("result");
+    const spinner = document.getElementById("spinner");
+    resultContainer.innerHTML = "";
+    spinner.style.display = "block";
+
+    if (!week || !classVal || !subject) {
+      spinner.style.display = "none";
+      resultContainer.innerHTML = "<p style='color:red;'>Please select all fields.</p>";
+      return;
     }
 
-    async function search() {
-      const week = document.getElementById("week").value;
-      const classVal = document.getElementById("class").value;
-      const subject = document.getElementById("subject").value;
+    try {
+      const url = `https://script.google.com/macros/s/AKfycbw-RvspT6K73i6kjDqWpAo4CNbTBAwiCzsM1UKFg3QaZz_Rkz8iUTIj9Ix11wMBfO6Gpg/exec?week=${encodeURIComponent(week)}&class=${encodeURIComponent(classVal)}&subject=${encodeURIComponent(subject)}`;
+      const response = await fetch(url);
+      const data = await response.json();
 
-      const resultContainer = document.getElementById("result");
-      const spinner = document.getElementById("spinner");
-      resultContainer.innerHTML = "";
-      spinner.style.display = "block";
+      spinner.style.display = "none";
 
-      if (!week || !classVal || !subject) {
-        spinner.style.display = "none";
-        resultContainer.innerHTML = "<p style='color:red;'>Please select all fields.</p>";
-        return;
-      }
-
-      try {
-        const url = `https://script.google.com/macros/s/AKfycbw-RvspT6K73i6kjDqWpAo4CNbTBAwiCzsM1UKFg3QaZz_Rkz8iUTIj9Ix11wMBfO6Gpg/exec?week=${encodeURIComponent(week)}&class=${encodeURIComponent(classVal)}&subject=${encodeURIComponent(subject)}`;
-
-        const response = await fetch(url);
-        const data = await response.json();
-
-        spinner.style.display = "none";
-
-        if (data.error) {
-          resultContainer.innerHTML = `<p style="color: red;">${data.error}</p>`;
-        } else {
-          let table = "<table><thead><tr>";
-          for (let key in data) {
-            table += `<th>${key}</th>`;
-          }
-          table += "</tr></thead><tbody><tr>";
-          for (let key in data) {
-            table += `<td>${data[key]}</td>`;
-          }
-          table += "</tr></tbody></table>";
-          resultContainer.innerHTML = table;
+      if (data.error) {
+        resultContainer.innerHTML = `<p style="color: red;">${data.error}</p>`;
+      } else {
+        let table = "<table><tbody>";
+        for (let key in data) {
+          table += `<tr><th>${key}</th><td>${data[key]}</td></tr>`;
         }
-      } catch (err) {
-        spinner.style.display = "none";
-        resultContainer.innerHTML = `<p style="color: red;">Error fetching data. Please try again later.</p>`;
-        console.error(err);
+        table += "</tbody></table>";
+        resultContainer.innerHTML = table;
       }
+    } catch (err) {
+      spinner.style.display = "none";
+      resultContainer.innerHTML = `<p style="color: red;">Error fetching data. Please try again later.</p>`;
+      console.error(err);
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>
