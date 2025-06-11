@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
+  <title>Lesson Plan Search</title>
   <base target="_top">
   <style>
     body {
@@ -82,18 +84,17 @@
       <option value="">Select Week</option>
       <option value="Week-11 ;  June-16">Week-11 ; June-16</option>
       <option value="Week-12 ;  June-23">Week-12 ; June-23</option>
-      <!-- More options here... -->
+      <!-- Add more weeks as needed -->
       <option value="Week-51 ;  March-23">Week-51 ; March-23</option>
     </select>
 
     <!-- Class Dropdown -->
     <label for="class">Class:</label>
-    <select id="class" name="class">
+    <select id="class" name="class" onchange="updateSubjects()">
       <option value="">Select Class</option>
       <option value="Balvatika 1">Balvatika 1</option>
       <option value="Class 1">Class 1</option>
       <option value="Class 12">Class 12</option>
-      <!-- Add more classes as needed -->
     </select>
 
     <!-- Subject Dropdown -->
@@ -107,62 +108,72 @@
     <div id="result"></div>
   </div>
 
-<script>
+  <script>
     const subjectOptions = {
       "Balvatika 1": ["English", "Mathematics", "EVS"],
       "Class 1": ["English", "Hindi", "Mathematics", "EVS"],
       "Class 12": ["English", "Economics", "Accountancy", "Mathematics", "Business Studies"]
-      // Extend for more classes
     };
-  async function search() {
-    const week = document.getElementById("week").value;
-    const classVal = document.getElementById("class").value;
-    const subject = document.getElementById("subject").value;
 
-    const resultContainer = document.getElementById("result");
-    const spinner = document.getElementById("spinner");
-    resultContainer.innerHTML = "";
-    spinner.style.display = "block";
+    function updateSubjects() {
+      const classVal = document.getElementById("class").value;
+      const subjectDropdown = document.getElementById("subject");
 
-    if (!week || !classVal || !subject) {
-      spinner.style.display = "none";
-      resultContainer.innerHTML = "<p style='color:red;'>Please select all fields.</p>";
-      return;
-    }
-
-    try {
-      const url = `https://script.google.com/macros/s/AKfycbw-RvspT6K73i6kjDqWpAo4CNbTBAwiCzsM1UKFg3QaZz_Rkz8iUTIj9Ix11wMBfO6Gpg/exec?week=${encodeURIComponent(week)}&class=${encodeURIComponent(classVal)}&subject=${encodeURIComponent(subject)}`;
-
-      const response = await fetch(url);
-      const data = await response.json();
-
-      spinner.style.display = "none";
-
-      if (data.error) {
-        resultContainer.innerHTML = `<p style="color: red;">${data.error}</p>`;
-      } else {
-        let table = "<table border='1' cellpadding='8' cellspacing='0' style='border-collapse: collapse; width: 100%; background: #fff;'><thead><tr>";
-
-        for (let key in data) {
-          table += `<th style="background: #2980b9; color: white;">${key}</th>`;
-        }
-
-        table += "</tr></thead><tbody><tr>";
-
-        for (let key in data) {
-          table += `<td>${data[key]}</td>`;
-        }
-
-        table += "</tr></tbody></table>";
-        resultContainer.innerHTML = table;
+      subjectDropdown.innerHTML = '<option value="">Select Subject</option>';
+      if (subjectOptions[classVal]) {
+        subjectOptions[classVal].forEach(subject => {
+          const option = document.createElement("option");
+          option.value = subject;
+          option.textContent = subject;
+          subjectDropdown.appendChild(option);
+        });
       }
-    } catch (err) {
-      spinner.style.display = "none";
-      resultContainer.innerHTML = `<p style="color: red;">Error fetching data. Please try again later.</p>`;
-      console.error(err);
     }
-  }
-</script>
 
+    async function search() {
+      const week = document.getElementById("week").value;
+      const classVal = document.getElementById("class").value;
+      const subject = document.getElementById("subject").value;
+
+      const resultContainer = document.getElementById("result");
+      const spinner = document.getElementById("spinner");
+      resultContainer.innerHTML = "";
+      spinner.style.display = "block";
+
+      if (!week || !classVal || !subject) {
+        spinner.style.display = "none";
+        resultContainer.innerHTML = "<p style='color:red;'>Please select all fields.</p>";
+        return;
+      }
+
+      try {
+        const url = `https://script.google.com/macros/s/AKfycbw-RvspT6K73i6kjDqWpAo4CNbTBAwiCzsM1UKFg3QaZz_Rkz8iUTIj9Ix11wMBfO6Gpg/exec?week=${encodeURIComponent(week)}&class=${encodeURIComponent(classVal)}&subject=${encodeURIComponent(subject)}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        spinner.style.display = "none";
+
+        if (data.error) {
+          resultContainer.innerHTML = `<p style="color: red;">${data.error}</p>`;
+        } else {
+          let table = "<table><thead><tr>";
+          for (let key in data) {
+            table += `<th>${key}</th>`;
+          }
+          table += "</tr></thead><tbody><tr>";
+          for (let key in data) {
+            table += `<td>${data[key]}</td>`;
+          }
+          table += "</tr></tbody></table>";
+          resultContainer.innerHTML = table;
+        }
+      } catch (err) {
+        spinner.style.display = "none";
+        resultContainer.innerHTML = `<p style="color: red;">Error fetching data. Please try again later.</p>`;
+        console.error(err);
+      }
+    }
+  </script>
 </body>
 </html>
