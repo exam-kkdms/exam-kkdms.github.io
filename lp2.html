@@ -108,7 +108,7 @@
     <div id="result"></div>
   </div>
 
- <script>
+<script>
   const subjectOptions = {
     "Balvatika 1": ["English", "Mathematics", "EVS"],
     "Class 1": ["English", "Hindi", "Mathematics", "EVS"],
@@ -155,14 +155,46 @@
 
       if (data.error) {
         resultContainer.innerHTML = `<p style="color: red;">${data.error}</p>`;
-      } else {
-        let table = "<table><tbody>";
-        for (let key in data) {
-          table += `<tr><th>${key}</th><td>${data[key]}</td></tr>`;
-        }
-        table += "</tbody></table>";
-        resultContainer.innerHTML = table;
+        return;
       }
+
+      // Container for nicely styled HTML
+      let html = `<div class="container" style="font-family: Arial; max-width: 950px; margin: auto; background: #fff; padding: 20px; border-radius: 10px;">
+        <h2 style="text-align:center; color:#2c3e50;">Lesson Plan Overview</h2>`;
+
+      // Main Info Table
+      html += `<table border="1" cellpadding="10" style="width:100%; border-collapse: collapse; margin-bottom: 25px;">
+        ${data["Timestamp"] ? `<tr><th>Uploaded On</th><td>${data["Timestamp"]}</td></tr>` : ""}
+        ${data["Email Address"] ? `<tr><th>Email Address</th><td>${data["Email Address"]}</td></tr>` : ""}
+        ${data["Week"] ? `<tr><th>Week</th><td>${data["Week"]}</td></tr>` : ""}
+        ${data["Class"] ? `<tr><th>Class</th><td>${data["Class"]}</td></tr>` : ""}
+        ${data["Subject"] ? `<tr><th>Subject</th><td>${data["Subject"]}</td></tr>` : ""}
+        ${data["Teacher Name"] ? `<tr><th>Teacher Name</th><td>${data["Teacher Name"]}</td></tr>` : ""}
+        ${data["NAME  THE CHAPTER"] ? `<tr><th>Chapter Name</th><td>${data["NAME  THE CHAPTER"]}</td></tr>` : ""}
+        ${data["NO OF PERIODS REQUIRE:"] ? `<tr><th>No. of Periods Required</th><td>${data["NO OF PERIODS REQUIRE:"]}</td></tr>` : ""}
+      </table>`;
+
+      // Concept Sections
+      for (let i = 1; i <= 3; i++) {
+        const concept = data[`Concept ${i}`] || data[`Concept${i}`];
+        if (!concept) continue;
+
+        html += `<table border="1" cellpadding="10" style="width:100%; border-collapse: collapse; margin-bottom: 25px;">
+          <tr style="background:#2c3e50; color:#fff;"><th colspan="2">Concept ${i}</th></tr>
+          <tr><th>Source of LP</th><td>${data[`Source of LP :  Concept ${i}:`] || ""}</td></tr>
+          <tr><th>Lesson Plan Developer</th><td>${data[`Lesson Plan Developer : Concept ${i} :`] || ""}</td></tr>
+          <tr><th>Concept Title</th><td>${concept}</td></tr>
+          <tr><th>Learning Outcome (NCERT)</th><td>${data[`Learning Outcome(NCERT) : C${i}`] || ""}</td></tr>
+          <tr><th>Pedagogical Strategies</th><td>${data[`Pedagogical Strategies : C${i}`] || ""}</td></tr>
+          <tr><th>Assessment (Item Format)</th><td>${data[`Assessment (Item Format) : C${i}`] || ""}</td></tr>
+          <tr><th>Resources</th><td>${data[`Resources : C${i}`] || ""}</td></tr>
+          <tr><th>21st Century Skills / Value / Vocational</th><td>${data[`21st Century Skills/Value Education/ Vocational Skill : C${i}`] || ""}</td></tr>
+          <tr><th>Extension / Real-Life Application</th><td>${data[`Extension Real Life Application : C${i}`] || ""}</td></tr>
+        </table>`;
+      }
+
+      html += `</div>`;
+      resultContainer.innerHTML = html;
     } catch (err) {
       spinner.style.display = "none";
       resultContainer.innerHTML = `<p style="color: red;">Error fetching data. Please try again later.</p>`;
