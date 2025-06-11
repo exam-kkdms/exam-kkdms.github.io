@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 40px;
+      background: #f2f2f2;
+    }
+    .form-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+    #spinner {
+      display: none;
+      margin-top: 10px;
+      color: #2980b9;
+    }
+    #result {
+      margin-top: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Lesson Plan Search</h2>
+
+    <!-- Week Dropdown -->
+    <label for="week">Week:</label>
+    <select id="week" name="week">
+      <option value="">Select Week</option>
+      <option value="Week-11 ;  June-16">Week-11 ; June-16</option>
+      <option value="Week-12 ;  June-23">Week-12 ; June-23</option>
+      <!-- More options here... -->
+      <option value="Week-51 ;  March-23">Week-51 ; March-23</option>
+    </select>
+
+    <!-- Class Dropdown -->
+    <label for="class">Class:</label>
+    <select id="class" name="class">
+      <option value="">Select Class</option>
+      <option value="Balvatika 1">Balvatika 1</option>
+      <option value="Class 1">Class 1</option>
+      <option value="Class 12">Class 12</option>
+      <!-- Add more classes as needed -->
+    </select>
+
+    <!-- Subject Dropdown -->
+    <label for="subject">Subject:</label>
+    <select id="subject" name="subject">
+      <option value="">Select Subject</option>
+    </select>
+
+    <button onclick="search()">Submit</button>
+    <div id="spinner">Searching... Please wait.</div>
+    <div id="result"></div>
+  </div>
+
+<script>
+  async function search() {
+    const week = document.getElementById("week").value;
+    const classVal = document.getElementById("class").value;
+    const subject = document.getElementById("subject").value;
+
+    const resultContainer = document.getElementById("result");
+    const spinner = document.getElementById("spinner");
+    resultContainer.innerHTML = "";
+    spinner.style.display = "block";
+
+    if (!week || !classVal || !subject) {
+      spinner.style.display = "none";
+      resultContainer.innerHTML = "<p style='color:red;'>Please select all fields.</p>";
+      return;
+    }
+
+    try {
+      const url = `https://script.google.com/macros/s/AKfycbw-RvspT6K73i6kjDqWpAo4CNbTBAwiCzsM1UKFg3QaZz_Rkz8iUTIj9Ix11wMBfO6Gpg/exec?week=${encodeURIComponent(week)}&class=${encodeURIComponent(classVal)}&subject=${encodeURIComponent(subject)}`;
+
+      const response = await fetch(url);
+      const data = await response.json();
+
+      spinner.style.display = "none";
+
+      if (data.error) {
+        resultContainer.innerHTML = `<p style="color: red;">${data.error}</p>`;
+      } else {
+        let table = "<table border='1' cellpadding='8' cellspacing='0' style='border-collapse: collapse; width: 100%; background: #fff;'><thead><tr>";
+
+        for (let key in data) {
+          table += `<th style="background: #2980b9; color: white;">${key}</th>`;
+        }
+
+        table += "</tr></thead><tbody><tr>";
+
+        for (let key in data) {
+          table += `<td>${data[key]}</td>`;
+        }
+
+        table += "</tr></tbody></table>";
+        resultContainer.innerHTML = table;
+      }
+    } catch (err) {
+      spinner.style.display = "none";
+      resultContainer.innerHTML = `<p style="color: red;">Error fetching data. Please try again later.</p>`;
+      console.error(err);
+    }
+  }
+</script>
+
+</body>
+</html>
