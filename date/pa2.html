@@ -2,32 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>PA1 Timetable</title>
+  <title>PA-2 Exam Schedule</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 30px;
       background: #f4f4f4;
-    }
-
-    .container {
-      max-width: 100%;
-      margin: auto;
-      background: #fff;
       padding: 20px;
-      border-radius: 10px;
-      border: 2px solid #ccc;
     }
 
-    h2 {
-      text-align: center;
-      color: #2c3e50;
-      margin-bottom: 5px;
+    .day-schedule {
+      border: 2px solid #000;
+      border-radius: 5px;
+      background: #fff;
+      margin-bottom: 30px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    h3 {
+    .date-header {
+      background: #cfe2ff;
       text-align: center;
-      margin-top: 0;
+      font-weight: bold;
+      padding: 10px;
+      border-bottom: 2px solid #000;
+      font-size: 18px;
     }
 
     table {
@@ -36,114 +36,192 @@
       text-align: center;
     }
 
-    th, td {
-      border: 1px solid #333;
-      padding: 8px;
-      vertical-align: middle;
-    }
-
     th {
-      background-color: #d1e7ff;
+      background-color: #003366;
+      color: white;
+      padding: 8px;
+      font-size: 16px;
     }
 
-    .half {
-      background-color: #fceabb;
+    td {
+      padding: 10px;
+      border: 1px solid #000;
+      font-size: 14px;
     }
 
-    .class-label {
+    .first-half {
+      background-color: #f8d7da;
       font-weight: bold;
-      background-color: #b3d9ff;
+    }
+
+    .second-half {
+      background-color: #f9e79f;
+      font-weight: bold;
+    }
+
+    .balvatika {
+      background-color: #7ec57e;
+      font-weight: bold;
     }
 
     .no-exam {
-      background-color: #1e3f66;
+      background-color: #003366;
       color: white;
       font-weight: bold;
     }
 
-    .highlight {
+    .class-row td:first-child {
       font-weight: bold;
-      color: red;
+      background-color: #d4edda;
     }
 
     .footer {
-      margin-top: 20px;
-      font-size: 16px;
+      text-align: center;
+      margin-top: 40px;
+      color: red;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>KAMAL KUMARI DEVI MODEL SCHOOL</h2>
-    <h3>PERIODIC ASSESSMENT 2</h3>
 
+  <h2 style="text-align:center;">KAMAL KUMARI DEVI MODEL SCHOOL</h2>
+  <h3 style="text-align:center;">PERIODIC ASSESSMENT - II SCHEDULE</h3>
+
+  <!-- 07/07/2025 -->
+  <div class="day-schedule">
+    <div class="date-header">07/07/2025</div>
     <table>
       <tr>
-        <th rowspan="2">CLASS</th>
-        <th colspan="2">07/07/2025</th>
-        <th colspan="2">08/07/2025</th>
-        <th colspan="2">09/07/2025</th>
-        <th colspan="2">10/07/2025</th>
-        <th colspan="2">11/07/2025</th>
+        <th>Class</th>
+        <th class="first-half">First Half</th>
+        <th class="second-half">Second Half</th>
       </tr>
-      <tr>
-        <th class="half">FIRST HALF</th>
-        <th class="half">SECOND HALF</th>
-        <th class="half">FIRST HALF</th>
-        <th class="half">SECOND HALF</th>
-        <th class="half">FIRST HALF</th>
-        <th class="half">SECOND HALF</th>
-        <th class="half">FIRST HALF</th>
-        <th class="half">SECOND HALF</th>
-        <th class="half">FIRST HALF</th>
-        <th class="half">SECOND HALF</th>
-      </tr>
-
-      <!-- Row: BALVATIKA to V -->
-      <tr>
-        <td class="class-label">BALVATIKA TO V</td>
+      <tr class="class-row">
+        <td class="balvatika">BALVATIKA TO V</td>
         <td colspan="2" class="no-exam">NO EXAM</td>
+      </tr>
+      <tr class="class-row">
+        <td>CLASS VI TO X</td>
         <td>ENGLISH</td>
         <td>2ND LAN</td>
-        <td colspan="2" class="no-exam">NO EXAM</td>
-        <td>MATHS</td>
-        <td>EVS</td>
-        <td colspan="2" class="no-exam">NO EXAM</td>
       </tr>
+      <tr class="class-row">
+        <td>CLASS XI & XII</td>
+        <td>ENGLISH</td>
+        <td>MATHEMATICS / HISTORY</td>
+      </tr>
+    </table>
+  </div>
 
-      <!-- Row: CLASS VI TO X -->
+  <!-- 08/07/2025 -->
+  <div class="day-schedule">
+    <div class="date-header">08/07/2025</div>
+    <table>
       <tr>
-        <td class="class-label">CLASS VI TO X</td>
+        <th>Class</th>
+        <th class="first-half">First Half</th>
+        <th class="second-half">Second Half</th>
+      </tr>
+      <tr class="class-row">
+        <td class="balvatika">BALVATIKA TO V</td>
         <td>ENGLISH</td>
         <td>2ND LAN</td>
+      </tr>
+      <tr class="class-row">
+        <td>CLASS VI TO X</td>
         <td colspan="2" class="no-exam">NO EXAM</td>
+      </tr>
+      <tr class="class-row">
+        <td>CLASS XI & XII</td>
+        <td>ACCOUNTANCY / CHEMISTRY / GEOGRAPHY</td>
+        <td>BIOLOGY / ECONOMICS</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 09/07/2025 -->
+  <div class="day-schedule">
+    <div class="date-header">09/07/2025</div>
+    <table>
+      <tr>
+        <th>Class</th>
+        <th class="first-half">First Half</th>
+        <th class="second-half">Second Half</th>
+      </tr>
+      <tr class="class-row">
+        <td class="balvatika">BALVATIKA TO V</td>
+        <td>ENGLISH</td>
+        <td>2ND LAN</td>
+      </tr>
+      <tr class="class-row">
+        <td>CLASS VI TO X</td>
+        <td colspan="2" class="no-exam">NO EXAM</td>
+      </tr>
+      <tr class="class-row">
+        <td>CLASS XI & XII</td>
+        <td>ACCOUNTANCY / CHEMISTRY / GEOGRAPHY</td>
+        <td>BIOLOGY / ECONOMICS</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 10/07/2025 -->
+  <div class="day-schedule">
+    <div class="date-header">10/07/2025</div>
+    <table>
+      <tr>
+        <th>Class</th>
+        <th class="first-half">First Half</th>
+        <th class="second-half">Second Half</th>
+      </tr>
+      <tr class="class-row">
+        <td class="balvatika">BALVATIKA TO V</td>
+        <td colspan="2" class="no-exam">NO EXAM</td>
+      </tr>
+      <tr class="class-row">
+        <td>CLASS VI TO X</td>
         <td>MATHS</td>
         <td>SCIENCE</td>
+      </tr>
+      <tr class="class-row">
+        <td>CLASS XI & XII</td>
+        <td>BUSINESS STUDIES / PHYSICS / POL. SCIENCE</td>
+        <td>COMPUTER SCI. / SOCIOLOGY</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 11/07/2025 -->
+  <div class="day-schedule">
+    <div class="date-header">11/07/2025</div>
+    <table>
+      <tr>
+        <th>Class</th>
+        <th class="first-half">First Half</th>
+        <th class="second-half">Second Half</th>
+      </tr>
+      <tr class="class-row">
+        <td class="balvatika">BALVATIKA TO V</td>
         <td colspan="2" class="no-exam">NO EXAM</td>
+      </tr>
+      <tr class="class-row">
+        <td>CLASS VI TO X</td>
         <td>SST</td>
         <td>COMPUTER</td>
       </tr>
-
-      <!-- Row: CLASS XI AND XII -->
-      <tr>
-        <td class="class-label">CLASS XI AND XII</td>
-        <td>ENGLISH</td>
-        <td>MATHEMATICS<br>HISTORY</td>
-        <td>ACCOUNTANCY<br>CHEMISTRY<br>GEOGRAPHY</td>
-        <td>BIOLOGY<br>ECONOMICS</td>
-        <td>BUSINESS STUDIES<br>PHYSICS<br>POL. SCIENCE</td>
-        <td>COMPUTER SCI.<br>SOCIOLOGY</td>
+      <tr class="class-row">
+        <td>CLASS XI & XII</td>
         <td>PHYSICAL EDUCATION</td>
-        <td>COMMERCIAL ARTS</td>
-        <td>HINDI<br>BENGALI</td>
-        <td>-</td>
+        <td>COMMERCIAL ARTS / HINDI / BENGALI</td>
       </tr>
     </table>
-
-    <div class="footer">
-      <p class="highlight">QUESTION PAPER SUBMISSION LAST DATE : 18/06/2025</p>
-      <p class="highlight">PTM DATE : 26/07/2025</p>
-    </div>
   </div>
+
+  <div class="footer">
+    <p>QUESTION PAPER SUBMISSION LAST DATE: 18/06/2025</p>
+    <p>PTM DATE: 26/07/2025</p>
+  </div>
+
 </body>
 </html>
