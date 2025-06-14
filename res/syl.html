@@ -1,172 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Class Syllabus Viewer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Syllabus Viewer</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f4f6f8;
-      padding: 15px;
-      margin: 0;
+      font-family: Arial;
+      background: #f4f4f4;
+      padding: 20px;
     }
-    .container {
-      max-width: 960px;
+    .form-container {
+      background: white;
+      padding: 20px;
+      max-width: 500px;
       margin: auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      color: #2c3e50;
-      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     select, button {
-      width: 100%;
-      max-width: 300px;
       padding: 10px;
-      margin: 10px auto;
-      display: block;
-      font-size: 16px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      width: 100%;
+      margin-bottom: 10px;
     }
-    button {
-      background-color: #2c3e50;
-      color: white;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #1a252f;
+    .subject-card {
+      background: white;
+      margin: 20px auto;
+      padding: 15px;
+      max-width: 900px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
     }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 30px;
+      margin-top: 10px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
     }
     th, td {
-      border: 1px solid #ddd;
-      padding: 12px;
+      padding: 8px;
       text-align: left;
     }
-    th {
-      background-color: #f8f9fa;
-    }
-    .sub-table {
-      width: 100%;
+    .mark-table {
       margin-top: 10px;
-      font-size: 14px;
-    }
-    .sub-table th {
-      background: #e8e8e8;
-      font-weight: 500;
-    }
-    .total-row {
-      background: #f1f1f1;
-      font-weight: bold;
-    }
-    @media (max-width: 600px) {
-      body { font-size: 14px; }
-      table, th, td { font-size: 13px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>📘 Class Syllabus Viewer</h2>
-    <select id="classDropdown">
-      <option value="">-- Select Class --</option>
-      <option>Balvatika 1</option>
-      <option>Balvatika 2</option>
-      <option>Balvatika 3</option>
-      <option>Class 1</option>
-      <option>Class 2</option>
-      <option>Class 3</option>
-      <option>Class 4</option>
-      <option>Class 5</option>
-      <option>Class 6</option>
-      <option>Class 7</option>
-      <option>Class 8</option>
-      <option>Class 9</option>
-      <option>Class 10</option>
-      <option>Class 11</option>
-      <option>Class 12</option>
-    </select>
-    <button onclick="showSyllabus()">View Syllabus</button>
-    <div id="output"></div>
-  </div>
 
-  <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbxDBp1GsEc0eC13fRlYvWNdjDp3IbL1Bg27uxuMjZUOacE9IDjDD8BUjD-5Yqv5SP28xQ/exec";
-    let sheetData = [];
+<div class="form-container">
+  <h2>Select Class</h2>
+  <select id="class">
+    <option value="">Select Class</option>
+    <option>Balvatika 1</option>
+    <option>Balvatika 2</option>
+    <option>Balvatika 3</option>
+    <option>Class 1</option>
+    <option>Class 2</option>
+    <option>Class 3</option>
+    <option>Class 4</option>
+    <option>Class 5</option>
+    <option>Class 6</option>
+    <option>Class 7</option>
+    <option>Class 8</option>
+    <option>Class 9</option>
+    <option>Class 10</option>
+    <option>Class 11</option>
+    <option>Class 12</option>
+  </select>
+  <button onclick="fetchSyllabus()">Submit</button>
+</div>
 
-   fetch(API_URL)
-  .then(res => res.json())
-  .then(data => {
-    sheetData = data;
-    // Continue your rendering logic here
-  })
-  .catch(err => {
-    console.error(err);
-    document.getElementById("output").innerHTML = "Error loading data.";
-  });
+<div id="output"></div>
 
-    function showSyllabus() {
-      const selectedClass = document.getElementById("classDropdown").value;
-      const headers = sheetData[0];
-      const output = document.getElementById("output");
-      output.innerHTML = '';
+<script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbwZQqP4A5j6yjxiDCRLddhZG0gCsKFC5EF6CsZ7OmH8ejSVi_LWiZrzk233anJOGE0CZQ/exec"; // Replace with your deployed script URL
 
-      if (!selectedClass) {
-        output.innerHTML = "<p>Please select a class.</p>";
+  async function fetchSyllabus() {
+    const classVal = document.getElementById("class").value;
+    const output = document.getElementById("output");
+    output.innerHTML = "";
+
+    if (!classVal) {
+      output.innerHTML = "<p style='color:red;'>Please select a class.</p>";
+      return;
+    }
+
+    try {
+      const url = `${API_URL}?class=${encodeURIComponent(classVal)}`;
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (!data.length) {
+        output.innerHTML = "<p style='color:red;'>No data found for selected class.</p>";
         return;
       }
 
-      const classIndex = headers.indexOf('CLASS');
-      const subjectIndex = headers.indexOf('SUBJECT');
-      const syllabusIndex = headers.indexOf('SYLLABUS');
-      const teacherIndex = headers.indexOf('TEACHER');
-
-      const markIndices = headers.map((h, i) =>
-        h.includes("Select Mark") || h.includes("No of Questions") || h.includes("OR") ? i : -1
-      ).filter(i => i !== -1);
-
-      const filtered = sheetData.slice(1).filter(row => row[classIndex] === selectedClass);
-
-      filtered.forEach(row => {
-        const subject = row[subjectIndex] || '';
-        const syllabus = (row[syllabusIndex] || '').replace(/\n/g, "<br>");
-        const teacher = row[teacherIndex] || '';
-        let total = 0;
-
-        let subTable = '<table class="sub-table"><tr><th>Mark</th><th>Questions</th><th>OR</th></tr>';
-        for (let i = 0; i < markIndices.length; i += 3) {
-          const m = row[markIndices[i]] || '';
-          const q = row[markIndices[i + 1]] || '';
-          const or = row[markIndices[i + 2]] || '';
-          if (m && q) total += Number(m) * Number(q);
-          if (m || q || or) {
-            subTable += `<tr><td>${m}</td><td>${q}</td><td>${or}</td></tr>`;
-          }
-        }
-        subTable += `<tr class="total-row"><td colspan="3">Total Marks: ${total}</td></tr></table>`;
-
-        output.innerHTML += `
-          <table>
-            <tr><th>Subject</th><td>${subject}</td></tr>
-            <tr><th>Syllabus</th><td>${syllabus}</td></tr>
-            <tr><th>Teacher</th><td>${teacher}</td></tr>
-            <tr><th>Mark Distribution</th><td>${subTable}</td></tr>
-          </table>`;
+      data.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "subject-card";
+        card.innerHTML = `
+          <h3>${item.SUBJECT}</h3>
+          <p><strong>Teacher:</strong> ${item.TEACHER || "N/A"}</p>
+          <p><strong>Syllabus:</strong><br>${(item.SYLLABUS || "").replace(/\n/g, "<br>")}</p>
+          <div class="mark-table">
+            <h4>Mark Distribution</h4>
+            <table>
+              <tr>
+                <th>Mark</th>
+                <th>No. of Questions</th>
+                <th>OR Questions</th>
+              </tr>
+              ${buildMarkRows(item)}
+              <tr style="background:#eee;">
+                <td colspan="3"><strong>Total Marks:</strong> ${calculateTotalMarks(item)}</td>
+              </tr>
+            </table>
+          </div>
+        `;
+        output.appendChild(card);
       });
+    } catch (err) {
+      console.error(err);
+      output.innerHTML = "<p style='color:red;'>Error fetching data.</p>";
+    }
+  }
 
-      if (filtered.length === 0) {
-        output.innerHTML = "<p>No data found for the selected class.</p>";
+  function buildMarkRows(item) {
+    const rows = [];
+    for (let i = 0; i < 5; i++) {
+      const mark = item[`Select Mark${i ? " " + i : ""}`];
+      const questions = item[`No of Questions${i ? " " + i : ""}`];
+      const orQ = item[`No. of OR Question (If any)${i ? " " + i : ""}`];
+      if (mark && questions) {
+        rows.push(`
+          <tr>
+            <td>${mark}</td>
+            <td>${questions}</td>
+            <td>${orQ || 0}</td>
+          </tr>
+        `);
       }
     }
-  </script>
+    return rows.join("");
+  }
+
+  function calculateTotalMarks(item) {
+    let total = 0;
+    for (let i = 0; i < 5; i++) {
+      const mark = Number(item[`Select Mark${i ? " " + i : ""}`]);
+      const questions = Number(item[`No of Questions${i ? " " + i : ""}`]);
+      if (!isNaN(mark) && !isNaN(questions)) {
+        total += mark * questions;
+      }
+    }
+    return total;
+  }
+</script>
+
 </body>
 </html>
