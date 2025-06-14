@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PA1 Timetable</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background: #f4f4f4;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+
+    h3 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+
+    th, td {
+      border: 1px solid #333;
+      padding: 8px;
+      vertical-align: middle;
+    }
+
+    th {
+      background-color: #d1e7ff;
+    }
+
+    .half {
+      background-color: #fceabb;
+    }
+
+    .class-label {
+      font-weight: bold;
+      background-color: #b3d9ff;
+    }
+
+    .no-exam {
+      background-color: #1e3f66;
+      color: white;
+      font-weight: bold;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: red;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>KAMAL KUMARI DEVI MODEL SCHOOL</h2>
+    <h3>PERIODIC ASSESSMENT 1</h3>
+
+    <table>
+      <tr>
+        <th rowspan="2">CLASS</th>
+        <th colspan="2">13/05/2025</th>
+        <th colspan="2">14/05/2025</th>
+        <th colspan="2">15/05/2025</th>
+        <th colspan="2">16/05/2025</th>
+        <th colspan="2">17/05/2025</th>
+      </tr>
+      <tr>
+        <th class="half">FIRST HALF</th>
+        <th class="half">SECOND HALF</th>
+        <th class="half">FIRST HALF</th>
+        <th class="half">SECOND HALF</th>
+        <th class="half">FIRST HALF</th>
+        <th class="half">SECOND HALF</th>
+        <th class="half">FIRST HALF</th>
+        <th class="half">SECOND HALF</th>
+        <th class="half">FIRST HALF</th>
+        <th class="half">SECOND HALF</th>
+      </tr>
+
+      <!-- Row: BALVATIKA to V -->
+      <tr>
+        <td class="class-label">BALVATIKA TO V</td>
+        <td colspan="2" class="no-exam">NO EXAM</td>
+        <td>ENGLISH</td>
+        <td>2ND LAN</td>
+        <td colspan="2" class="no-exam">NO EXAM</td>
+        <td>MATHS</td>
+        <td>EVS</td>
+        <td colspan="2" class="no-exam">NO EXAM</td>
+      </tr>
+
+      <!-- Row: CLASS VI TO X -->
+      <tr>
+        <td class="class-label">CLASS VI TO X</td>
+        <td>ENGLISH</td>
+        <td>2ND LAN</td>
+        <td colspan="2" class="no-exam">NO EXAM</td>
+        <td>MATHS</td>
+        <td>SCIENCE</td>
+        <td colspan="2" class="no-exam">NO EXAM</td>
+        <td>SST</td>
+        <td>COMPUTER</td>
+      </tr>
+
+      <!-- Row: CLASS XI AND XII -->
+      <tr>
+        <td class="class-label">CLASS XI AND XII</td>
+        <td>ENGLISH</td>
+        <td>MATHEMATICS<br>HISTORY</td>
+        <td>ACCOUNTANCY<br>CHEMISTRY<br>GEOGRAPHY</td>
+        <td>BIOLOGY<br>ECONOMICS</td>
+        <td>BUSINESS STUDIES<br>PHYSICS<br>POL. SCIENCE</td>
+        <td>COMPUTER SCI.<br>SOCIOLOGY</td>
+        <td>PHYSICAL EDUCATION</td>
+        <td>COMMERCIAL ARTS</td>
+        <td>HINDI<br>BENGALI</td>
+        <td>-</td>
+      </tr>
+    </table>
+
+    <div class="footer">
+      <p class="highlight">QUESTION PAPER SUBMISSION LAST DATE : 06/05/2025</p>
+      <p class="highlight">PTM DATE : 24/05/2025</p>
+    </div>
+  </div>
+</body>
+</html>
