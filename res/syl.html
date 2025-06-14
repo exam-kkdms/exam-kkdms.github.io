@@ -100,16 +100,19 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyhfZ9RUon4cl9oGST6yQJR1J6t40Q8wU3q-1zMdEbVWnLsdXmYGRIytzMjPplnLZ1CEg/execs";
+    const API_URL = "https://script.google.com/macros/s/AKfycbxDBp1GsEc0eC13fRlYvWNdjDp3IbL1Bg27uxuMjZUOacE9IDjDD8BUjD-5Yqv5SP28xQ/exec";
     let sheetData = [];
 
-    fetch(API_URL)
-      .then(res => res.json())
-      .then(data => sheetData = data)
-      .catch(err => {
-        document.getElementById("output").innerHTML = "<p>Error loading data.</p>";
-        console.error(err);
-      });
+   fetch(API_URL)
+  .then(res => res.json())
+  .then(data => {
+    sheetData = data;
+    // Continue your rendering logic here
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById("output").innerHTML = "Error loading data.";
+  });
 
     function showSyllabus() {
       const selectedClass = document.getElementById("classDropdown").value;
