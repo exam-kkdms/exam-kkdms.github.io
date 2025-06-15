@@ -488,8 +488,8 @@
         html += `</div></div>`;
 
         // Concept Sections
-        for (let i = 1; i <= 5; i++) {
-          const concept = data[`Concept ${i}`] || data[`Concept${i}`];
+        for (let i = 1; i <= 3; i++) {
+          const concept = data[`Concept ${i}`];
           if (!concept) continue;
 
           html += `<div class="concept-card">
@@ -509,8 +509,8 @@
           ];
 
           conceptFields.forEach(([key, label, icon]) => {
-            const value = key.includes('Concept Title') ? concept : data[key];
-            if (value) {
+            const value = data[key];
+            if (value && value.trim() !== '') {
               html += `<div class="concept-item">
                 <div class="concept-label">${icon} ${label}</div>
                 <div class="concept-value">${value}</div>
