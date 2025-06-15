@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Syllabus Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .form-section {
+            padding: 30px 20px;
+            background: #f8f9fa;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results-section {
+            padding: 20px;
+            display: none;
+        }
+
+        .results-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .subject-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .subject-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+        }
+
+        .subject-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .teacher-name {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .subject-content {
+            padding: 20px;
+        }
+
+        .syllabus-section {
+            margin-bottom: 25px;
+        }
+
+        .syllabus-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #4facfe;
+            padding-bottom: 5px;
+        }
+
+        .syllabus-content {
+            line-height: 1.6;
+            color: #666;
+            white-space: pre-line;
+        }
+
+        .marks-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .marks-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .marks-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .marks-table th {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .marks-table td {
+            padding: 10px 8px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+
+        .marks-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .marks-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .total-marks {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .error {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .debug-info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            color: #1976d2;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .marks-table th,
+            .marks-table td {
+                padding: 8px 4px;
+                font-size: 0.8rem;
+            }
+
+            .subject-name {
+                font-size: 1.3rem;
+            }
+
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+
+            body {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .form-section,
+            .subject-content {
+                padding: 20px 15px;
+            }
+
+            .marks-table th,
+            .marks-table td {
+                padding: 6px 3px;
+                font-size: 0.75rem;
+            }
+
+            .submit-btn {
+                padding: 12px;
+                font-size: 1rem;
+            }
+
+            select {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Class Syllabus Viewer</h1>
+            <p>Select your class to view subjects, syllabus, and mark distribution</p>
+        </div>
+
+        <div class="form-section">
+            <form id="classForm">
+                <div class="form-group">
+                    <label for="classSelect">Select Class:</label>
+                    <select id="classSelect" required>
+                        <option value="">Choose a class...</option>
+                        <option value="Class 1">Class 1</option>
+                        <option value="Class 2">Class 2</option>
+                        <option value="Class 3">Class 3</option>
+                        <option value="Class 4">Class 4</option>
+                        <option value="Class 5">Class 5</option>
+                        <option value="Class 6">Class 6</option>
+                        <option value="Class 7">Class 7</option>
+                        <option value="Class 8">Class 8</option>
+                        <option value="Class 9">Class 9</option>
+                        <option value="Class 10">Class 10</option>
+                        <option value="Class 11">Class 11</option>
+                        <option value="Class 12">Class 12</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Get Syllabus Information</button>
+            </form>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading syllabus information...</p>
+        </div>
+
+        <div id="results" class="results-section">
+            <h2 id="resultsTitle" class="results-title"></h2>
+            <div id="subjectCards"></div>
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Replace this URL with your Google Apps Script Web App URL
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzyou85B6CMqTcfRvE0C8c2c8szUgpoaLFpXskHRwWlhv0F1LwL2RJHpsQIKZbHHcKbtQ/exec';
+
+        document.getElementById('classForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const selectedClass = document.getElementById('classSelect').value;
+            if (!selectedClass) {
+                showError('Please select a class');
+                return;
+            }
+
+            showLoading(true);
+            hideError();
+            hideResults();
+
+            // Use JSONP to bypass CORS
+            fetchDataWithJSONP(selectedClass);
+        });
+
+        function fetchDataWithJSONP(className) {
+            // Create a unique callback name
+            const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+            
+            // Create the script element
+            const script = document.createElement('script');
+            const url = `${APPS_SCRIPT_URL}?class=${encodeURIComponent(className)}&callback=${callbackName}`;
+            
+            // Define the callback function
+            window[callbackName] = function(data) {
+                try {
+                    if (data.error) {
+                        throw new Error(data.error);
+                    }
+                    displayResults(className, data);
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('Failed to load syllabus information. Please try again.');
+                } finally {
+                    showLoading(false);
+                    // Cleanup
+                    document.head.removeChild(script);
+                    delete window[callbackName];
+                }
+            };
+            
+            // Handle script loading errors
+            script.onerror = function() {
+                showError('Failed to load syllabus information. Please check your internet connection.');
+                showLoading(false);
+                // Cleanup
+                document.head.removeChild(script);
+                delete window[callbackName];
+            };
+            
+            // Set script source and add to head
+            script.src = url;
+            document.head.appendChild(script);
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('error').style.display = 'none';
+        }
+
+        function hideResults() {
+            document.getElementById('results').style.display = 'none';
+        }
+
+        function displayResults(className, subjects) {
+            const resultsTitle = document.getElementById('resultsTitle');
+            const subjectCards = document.getElementById('subjectCards');
+
+            resultsTitle.textContent = `${className} - Subjects & Syllabus`;
+            subjectCards.innerHTML = '';
+
+            subjects.forEach(subject => {
+                const card = createSubjectCard(subject);
+                subjectCards.appendChild(card);
+            });
+
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function createSubjectCard(subject) {
+            const card = document.createElement('div');
+            card.className = 'subject-card';
+
+            const marksDistribution = parseMarksDistribution(subject);
+            const totalMarks = calculateTotalMarks(marksDistribution);
+
+            // Debug: Log the parsed marks distribution
+            console.log('Subject:', subject.SUBJECT);
+            console.log('Marks Distribution:', marksDistribution);
+            console.log('Subject data keys:', Object.keys(subject));
+
+            card.innerHTML = `
+                <div class="subject-header">
+                    <div class="subject-name">${subject.SUBJECT || 'N/A'}</div>
+                    <div class="teacher-name">Teacher: ${subject.TEACHER || 'N/A'}</div>
+                </div>
+                <div class="subject-content">
+                    <div class="syllabus-section">
+                        <div class="syllabus-title">📖 Syllabus</div>
+                        <div class="syllabus-content">${subject.SYLLABUS || 'No syllabus available'}</div>
+                    </div>
+                    <div class="marks-section">
+                        <div class="marks-title">📊 Mark Distribution</div>
+                        ${marksDistribution.length > 0 ? `
+                        <table class="marks-table">
+                            <thead>
+                                <tr>
+                                    <th>Section</th>
+                                    <th>Select Mark</th>
+                                    <th>No. of Questions</th>
+                                    <th>OR Questions</th>
+                                    <th>Total Marks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${marksDistribution.map((section, index) => `
+                                    <tr>
+                                        <td>Section ${String.fromCharCode(65 + index)}</td>
+                                        <td>${section.selectMark}</td>
+                                        <td>${section.numQuestions}</td>
+                                        <td>${section.orQuestions}</td>
+                                        <td>${section.selectMark * section.numQuestions}</td>
+                                    </tr>
+                                `).join('')}
+                                <tr class="total-marks">
+                                    <td colspan="4"><strong>Total Marks</strong></td>
+                                    <td><strong>${totalMarks}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        ` : '<p>No mark distribution data available</p>'}
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function parseMarksDistribution(subject) {
+            const distribution = [];
+            
+            // Debug: Log all subject keys to understand the structure
+            console.log('All subject keys:', Object.keys(subject));
+            
+            // Define possible column name patterns for all 5 sets
+            const columnPatterns = [
+                // First set (no suffix)
+                {
+                    selectMark: ['Select Mark'],
+                    numQuestions: ['No of Questions', 'No. of Questions'],
+                    orQuestions: ['No. of OR Question (If any)', 'No of OR Question (If any)']
+                },
+                // Sets 2-5 (with suffix _1, _2, _3, _4)
+                {
+                    selectMark: ['Select Mark_1'],
+                    numQuestions: ['No of Questions_1', 'No. of Questions_1'],
+                    orQuestions: ['No. of OR Question (If any)_1', 'No of OR Question (If any)_1']
+                },
+                {
+                    selectMark: ['Select Mark_2'],
+                    numQuestions: ['No of Questions_2', 'No. of Questions_2'],
+                    orQuestions: ['No. of OR Question (If any)_2', 'No of OR Question (If any)_2']
+                },
+                {
+                    selectMark: ['Select Mark_3'],
+                    numQuestions: ['No of Questions_3', 'No. of Questions_3'],
+                    orQuestions: ['No. of OR Question (If any)_3', 'No of OR Question (If any)_3']
+                },
+                {
+                    selectMark: ['Select Mark_4'],
+                    numQuestions: ['No of Questions_4', 'No. of Questions_4'],
+                    orQuestions: ['No. of OR Question (If any)_4', 'No of OR Question (If any)_4']
+                }
+            ];
+
+            // Function to find value by trying different column name variations
+            function findValue(patterns) {
+                for (const pattern of patterns) {
+                    if (subject[pattern] !== undefined && subject[pattern] !== null && subject[pattern] !== '') {
+                        return subject[pattern];
+                    }
+                }
+                return null;
+            }
+
+            // Parse each set of mark distribution columns
+            columnPatterns.forEach((pattern, index) => {
+                const selectMark = findValue(pattern.selectMark);
+                const numQuestions = findValue(pattern.numQuestions);
+                const orQuestions = findValue(pattern.orQuestions);
+
+                console.log(`Set ${index + 1}:`, {
+                    selectMark: selectMark,
+                    numQuestions: numQuestions,
+                    orQuestions: orQuestions
+                });
+
+                // Only add if we have both selectMark and numQuestions
+                if (selectMark !== null && numQuestions !== null) {
+                    const parsedSelectMark = parseInt(selectMark) || 0;
+                    const parsedNumQuestions = parseInt(numQuestions) || 0;
+                    const parsedOrQuestions = parseInt(orQuestions) || 0;
+
+                    if (parsedSelectMark > 0 && parsedNumQuestions > 0) {
+                        distribution.push({
+                            selectMark: parsedSelectMark,
+                            numQuestions: parsedNumQuestions,
+                            orQuestions: parsedOrQuestions
+                        });
+                    }
+                }
+            });
+
+            console.log('Final distribution:', distribution);
+            return distribution;
+        }
+
+        function calculateTotalMarks(marksDistribution) {
+            return marksDistribution.reduce((total, section) => {
+                return total + (section.selectMark * section.numQuestions);
+            }, 0);
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Syllabus Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .form-section {
+            padding: 30px 20px;
+            background: #f8f9fa;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results-section {
+            padding: 20px;
+            display: none;
+        }
+
+        .results-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .subject-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .subject-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+        }
+
+        .subject-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .teacher-name {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .subject-content {
+            padding: 20px;
+        }
+
+        .syllabus-section {
+            margin-bottom: 25px;
+        }
+
+        .syllabus-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #4facfe;
+            padding-bottom: 5px;
+        }
+
+        .syllabus-content {
+            line-height: 1.6;
+            color: #666;
+            white-space: pre-line;
+        }
+
+        .marks-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .marks-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .marks-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .marks-table th {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .marks-table td {
+            padding: 10px 8px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+
+        .marks-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .marks-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .total-marks {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .error {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .debug-info {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            color: #1976d2;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .marks-table th,
+            .marks-table td {
+                padding: 8px 4px;
+                font-size: 0.8rem;
+            }
+
+            .subject-name {
+                font-size: 1.3rem;
+            }
+
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+
+            body {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .form-section,
+            .subject-content {
+                padding: 20px 15px;
+            }
+
+            .marks-table th,
+            .marks-table td {
+                padding: 6px 3px;
+                font-size: 0.75rem;
+            }
+
+            .submit-btn {
+                padding: 12px;
+                font-size: 1rem;
+            }
+
+            select {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Class Syllabus Viewer</h1>
+            <p>Select your class to view subjects, syllabus, and mark distribution</p>
+        </div>
+
+        <div class="form-section">
+            <form id="classForm">
+                <div class="form-group">
+                    <label for="classSelect">Select Class:</label>
+                    <select id="classSelect" required>
+                        <option value="">Choose a class...</option>
+                        <option value="Class 1">Class 1</option>
+                        <option value="Class 2">Class 2</option>
+                        <option value="Class 3">Class 3</option>
+                        <option value="Class 4">Class 4</option>
+                        <option value="Class 5">Class 5</option>
+                        <option value="Class 6">Class 6</option>
+                        <option value="Class 7">Class 7</option>
+                        <option value="Class 8">Class 8</option>
+                        <option value="Class 9">Class 9</option>
+                        <option value="Class 10">Class 10</option>
+                        <option value="Class 11">Class 11</option>
+                        <option value="Class 12">Class 12</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Get Syllabus Information</button>
+            </form>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading syllabus information...</p>
+        </div>
+
+        <div id="results" class="results-section">
+            <h2 id="resultsTitle" class="results-title"></h2>
+            <div id="subjectCards"></div>
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Replace this URL with your Google Apps Script Web App URL
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzyou85B6CMqTcfRvE0C8c2c8szUgpoaLFpXskHRwWlhv0F1LwL2RJHpsQIKZbHHcKbtQ/exec';
+
+        document.getElementById('classForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const selectedClass = document.getElementById('classSelect').value;
+            if (!selectedClass) {
+                showError('Please select a class');
+                return;
+            }
+
+            showLoading(true);
+            hideError();
+            hideResults();
+
+            // Use JSONP to bypass CORS
+            fetchDataWithJSONP(selectedClass);
+        });
+
+        function fetchDataWithJSONP(className) {
+            // Create a unique callback name
+            const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+            
+            // Create the script element
+            const script = document.createElement('script');
+            const url = `${APPS_SCRIPT_URL}?class=${encodeURIComponent(className)}&callback=${callbackName}`;
+            
+            // Define the callback function
+            window[callbackName] = function(data) {
+                try {
+                    if (data.error) {
+                        throw new Error(data.error);
+                    }
+                    displayResults(className, data);
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('Failed to load syllabus information. Please try again.');
+                } finally {
+                    showLoading(false);
+                    // Cleanup
+                    document.head.removeChild(script);
+                    delete window[callbackName];
+                }
+            };
+            
+            // Handle script loading errors
+            script.onerror = function() {
+                showError('Failed to load syllabus information. Please check your internet connection.');
+                showLoading(false);
+                // Cleanup
+                document.head.removeChild(script);
+                delete window[callbackName];
+            };
+            
+            // Set script source and add to head
+            script.src = url;
+            document.head.appendChild(script);
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('error').style.display = 'none';
+        }
+
+        function hideResults() {
+            document.getElementById('results').style.display = 'none';
+        }
+
+        function displayResults(className, subjects) {
+            const resultsTitle = document.getElementById('resultsTitle');
+            const subjectCards = document.getElementById('subjectCards');
+
+            resultsTitle.textContent = `${className} - Subjects & Syllabus`;
+            subjectCards.innerHTML = '';
+
+            subjects.forEach(subject => {
+                const card = createSubjectCard(subject);
+                subjectCards.appendChild(card);
+            });
+
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function createSubjectCard(subject) {
+            const card = document.createElement('div');
+            card.className = 'subject-card';
+
+            const marksDistribution = parseMarksDistribution(subject);
+            const totalMarks = calculateTotalMarks(marksDistribution);
+
+            // Debug: Log the parsed marks distribution
+            console.log('Subject:', subject.SUBJECT);
+            console.log('Marks Distribution:', marksDistribution);
+            console.log('Subject data keys:', Object.keys(subject));
+
+            card.innerHTML = `
+                <div class="subject-header">
+                    <div class="subject-name">${subject.SUBJECT || 'N/A'}</div>
+                    <div class="teacher-name">Teacher: ${subject.TEACHER || 'N/A'}</div>
+                </div>
+                <div class="subject-content">
+                    <div class="syllabus-section">
+                        <div class="syllabus-title">📖 Syllabus</div>
+                        <div class="syllabus-content">${subject.SYLLABUS || 'No syllabus available'}</div>
+                    </div>
+                    <div class="marks-section">
+                        <div class="marks-title">📊 Mark Distribution</div>
+                        ${marksDistribution.length > 0 ? `
+                        <table class="marks-table">
+                            <thead>
+                                <tr>
+                                    <th>Section</th>
+                                    <th>Select Mark</th>
+                                    <th>No. of Questions</th>
+                                    <th>OR Questions</th>
+                                    <th>Total Marks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${marksDistribution.map((section, index) => `
+                                    <tr>
+                                        <td>Section ${String.fromCharCode(65 + index)}</td>
+                                        <td>${section.selectMark}</td>
+                                        <td>${section.numQuestions}</td>
+                                        <td>${section.orQuestions}</td>
+                                        <td>${section.selectMark * section.numQuestions}</td>
+                                    </tr>
+                                `).join('')}
+                                <tr class="total-marks">
+                                    <td colspan="4"><strong>Total Marks</strong></td>
+                                    <td><strong>${totalMarks}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        ` : '<p>No mark distribution data available</p>'}
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function parseMarksDistribution(subject) {
+            const distribution = [];
+            
+            // Debug: Log all subject keys to understand the structure
+            console.log('All subject keys:', Object.keys(subject));
+            
+            // Define possible column name patterns for all 5 sets
+            const columnPatterns = [
+                // First set (no suffix)
+                {
+                    selectMark: ['Select Mark'],
+                    numQuestions: ['No of Questions', 'No. of Questions'],
+                    orQuestions: ['No. of OR Question (If any)', 'No of OR Question (If any)']
+                },
+                // Sets 2-5 (with suffix _1, _2, _3, _4)
+                {
+                    selectMark: ['Select Mark_1'],
+                    numQuestions: ['No of Questions_1', 'No. of Questions_1'],
+                    orQuestions: ['No. of OR Question (If any)_1', 'No of OR Question (If any)_1']
+                },
+                {
+                    selectMark: ['Select Mark_2'],
+                    numQuestions: ['No of Questions_2', 'No. of Questions_2'],
+                    orQuestions: ['No. of OR Question (If any)_2', 'No of OR Question (If any)_2']
+                },
+                {
+                    selectMark: ['Select Mark_3'],
+                    numQuestions: ['No of Questions_3', 'No. of Questions_3'],
+                    orQuestions: ['No. of OR Question (If any)_3', 'No of OR Question (If any)_3']
+                },
+                {
+                    selectMark: ['Select Mark_4'],
+                    numQuestions: ['No of Questions_4', 'No. of Questions_4'],
+                    orQuestions: ['No. of OR Question (If any)_4', 'No of OR Question (If any)_4']
+                }
+            ];
+
+            // Function to find value by trying different column name variations
+            function findValue(patterns) {
+                for (const pattern of patterns) {
+                    if (subject[pattern] !== undefined && subject[pattern] !== null && subject[pattern] !== '') {
+                        return subject[pattern];
+                    }
+                }
+                return null;
+            }
+
+            // Parse each set of mark distribution columns
+            columnPatterns.forEach((pattern, index) => {
+                const selectMark = findValue(pattern.selectMark);
+                const numQuestions = findValue(pattern.numQuestions);
+                const orQuestions = findValue(pattern.orQuestions);
+
+                console.log(`Set ${index + 1}:`, {
+                    selectMark: selectMark,
+                    numQuestions: numQuestions,
+                    orQuestions: orQuestions
+                });
+
+                // Only add if we have both selectMark and numQuestions
+                if (selectMark !== null && numQuestions !== null) {
+                    const parsedSelectMark = parseInt(selectMark) || 0;
+                    const parsedNumQuestions = parseInt(numQuestions) || 0;
+                    const parsedOrQuestions = parseInt(orQuestions) || 0;
+
+                    if (parsedSelectMark > 0 && parsedNumQuestions > 0) {
+                        distribution.push({
+                            selectMark: parsedSelectMark,
+                            numQuestions: parsedNumQuestions,
+                            orQuestions: parsedOrQuestions
+                        });
+                    }
+                }
+            });
+
+            console.log('Final distribution:', distribution);
+            return distribution;
+        }
+
+        function calculateTotalMarks(marksDistribution) {
+            return marksDistribution.reduce((total, section) => {
+                return total + (section.selectMark * section.numQuestions);
+            }, 0);
+        }
+    </script>
+</body>
+</html>
