@@ -350,9 +350,9 @@
 
     <script>
         // Replace this URL with your Google Apps Script Web App URL
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdGCaYaJWBUGtG_pLHBHlSUgSZQsExvlkAfMhhQ5HauZL6-7cOqh8HZkGPufhJgYYMuw/exec';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzyou85B6CMqTcfRvE0C8c2c8szUgpoaLFpXskHRwWlhv0F1LwL2RJHpsQIKZbHHcKbtQ/exec';
 
-        document.getElementById('classForm').addEventListener('submit', async function(e) {
+        document.getElementById('classForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const selectedClass = document.getElementById('classSelect').value;
@@ -365,22 +365,49 @@
             hideError();
             hideResults();
 
-            try {
-                const response = await fetch(`${APPS_SCRIPT_URL}?class=${encodeURIComponent(selectedClass)}`);
-                const data = await response.json();
-
-                if (data.error) {
-                    throw new Error(data.error);
-                }
-
-                displayResults(selectedClass, data);
-            } catch (error) {
-                console.error('Error:', error);
-                showError('Failed to load syllabus information. Please try again.');
-            } finally {
-                showLoading(false);
-            }
+            // Use JSONP to bypass CORS
+            fetchDataWithJSONP(selectedClass);
         });
+
+        function fetchDataWithJSONP(className) {
+            // Create a unique callback name
+            const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+            
+            // Create the script element
+            const script = document.createElement('script');
+            const url = `${APPS_SCRIPT_URL}?class=${encodeURIComponent(className)}&callback=${callbackName}`;
+            
+            // Define the callback function
+            window[callbackName] = function(data) {
+                try {
+                    if (data.error) {
+                        throw new Error(data.error);
+                    }
+                    displayResults(className, data);
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('Failed to load syllabus information. Please try again.');
+                } finally {
+                    showLoading(false);
+                    // Cleanup
+                    document.head.removeChild(script);
+                    delete window[callbackName];
+                }
+            };
+            
+            // Handle script loading errors
+            script.onerror = function() {
+                showError('Failed to load syllabus information. Please check your internet connection.');
+                showLoading(false);
+                // Cleanup
+                document.head.removeChild(script);
+                delete window[callbackName];
+            };
+            
+            // Set script source and add to head
+            script.src = url;
+            document.head.appendChild(script);
+        }
 
         function showLoading(show) {
             document.getElementById('loading').style.display = show ? 'block' : 'none';
