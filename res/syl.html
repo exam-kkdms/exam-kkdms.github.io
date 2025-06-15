@@ -453,7 +453,7 @@
 
             document.getElementById('results').style.display = 'block';
         }
-/*
+
         function createSubjectCard(subject) {
             const card = document.createElement('div');
             card.className = 'subject-card';
@@ -505,63 +505,7 @@
 
             return card;
         }
-**/
-//-----------gpt--------------------
 
-function createSubjectCard(subject) {
-    const card = document.createElement('div');
-    card.className = 'subject-card';
-
-    const marksDistribution = parseMarksDistribution(subject);
-    const totalMarks = calculateTotalMarks(marksDistribution);
-
-    card.innerHTML = `
-        <div class="subject-header">
-            <div class="subject-name">${subject.SUBJECT}</div>
-            <div class="teacher-name">Teacher: ${subject.TEACHER}</div>
-        </div>
-        <div class="subject-content">
-            <div class="syllabus-section">
-                <div class="syllabus-title">📖 Syllabus</div>
-                <div class="syllabus-content">${subject.SYLLABUS}</div>
-            </div>
-            <div class="marks-section">
-                <div class="marks-title">📊 Mark Distribution</div>
-                <div class="table-wrapper">
-                    <table class="marks-table">
-                        <thead>
-                            <tr>
-                                <th>MARKS</th>
-                                <th>NO. OF QUESTIONS</th>
-                                <th>TOTAL</th>
-                                <th>NO. OF OPTIONAL Qs</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${marksDistribution.map(row => `
-                                <tr>
-                                    <td>${row.MARKS}</td>
-                                    <td>${row["NO. OF QUESTIONS"]}</td>
-                                    <td>${row.TOTAL}</td>
-                                    <td>${row["NO. OF OPTIONAL Qs"] || '-'}</td>
-                                </tr>
-                            `).join('')}
-                            <tr class="total-marks">
-                                <td colspan="2"><strong>Total</strong></td>
-                                <td colspan="2"><strong>${totalMarks}</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    `;
-
-    return card;
-}
-
-//   ----------------------gpt -------------
-        
         function parseMarksDistribution(subject) {
             const distribution = [];
             
