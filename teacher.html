@@ -422,33 +422,36 @@ button:hover {
     </div>
 
     <div id="viewSubmenu_admit" class="view-submenu">
-        <label><strong>Term II Classes:</strong></label><br>
-        <select onchange="loadIframe(this.value)">
-            <option value="">Select Class</option>
-            <option value='exp.html'>Balvatika 1</option>
-	    <option value='exp.html'>Balvatika 2 A</option>
-            <option value='exp.html'>Balvatika 2 B</option>
-            <option value='exp.html'>Balvatika 3 A</option>
-	    <option value='exp.html'>Balvatika 3 B</option>
-            <option value='exp.html'>Class 1 A</option>
-            <option value='exp.html'>Class 1 B</option>
-            <option value='exp.html'>Class 2 A</option>
-		<option value='exp.html'>Class 2 B</option>
-            <option value='exp.html'>Class 3 A</option>
-            <option value='exp.html'>Class 3 B</option>
-            <option value='exp.html'>Class 4 A</option>
-            <option value='exp.html'>Class 4 B</option>
-            <option value='exp.html'>Class 5 A</option>
-		<option value='exp.html'>Class 5 B</option>
-            <option value='exp.html'>Class 6 A</option>
-            <option value='exp.html'>Class 7 A</option>
-            <option value='exp.html'>Class 7 B</option>
-            <option value='exp.html'>Class 8 A</option>
-		<option value='exp.html'>Class 8 B</option>
-            <option value='exp.html'>Class 9 A</option>
-            <option value='exp.html'>Class 10 A</option>
-        </select>
-    </div>
+  <label><strong>ADMIT:</strong></label><br>
+  <select onchange="downloadFile(this.value)">
+    <option value="">Select Class</option>
+    <option value="admit/BV1.pdf">Balvatika 1</option>
+    <option value="admit/BV2A.pdf">Balvatika 2 A</option>
+    <option value="admit/BV2B.pdf">Balvatika 2 B</option>
+    <option value="admit/BV3A.pdf">Balvatika 3 A</option>
+    <option value="admit/BV3B.pdf">Balvatika 3 B</option>
+    <option value="admit/I-A.pdf">Class 1 A</option>
+    <option value="admit/I-B.pdf">Class 1 B</option>
+    <option value="admit/II-A.pdf">Class 2 A</option>
+    <option value="admit/II-B.pdf">Class 2 B</option>
+    <option value="admit/III-A.pdf">Class 3 A</option>
+    <option value="admit/III-B.pdf">Class 3 B</option>
+    <option value="admit/IV-A.pdf">Class 4 A</option>
+    <option value="admit/IV-B.pdf">Class 4 B</option>
+    <option value="admit/V-A.pdf">Class 5 A</option>
+    <option value="admit/V-B.pdf">Class 5 B</option>
+    <option value="admit/VI-A.pdf">Class 6 A</option>
+    <option value="admit/VII-A.pdf">Class 7 A</option>
+    <option value="admit/VII-B.pdf">Class 7 B</option>
+    <option value="admit/VIII-A.pdf">Class 8 A</option>
+    <option value="admit/VIII-B.pdf">Class 8 B</option>
+    <option value="admit/IX-A.pdf">Class 9 A</option>
+    <option value="admit/X-A.pdf">Class 10 A</option>
+  </select>
+</div>
+
+
+
 
 		
     <div id="viewSubmenu_TermII" class="view-submenu">
@@ -521,6 +524,14 @@ button:hover {
 </div>
 
 <script>
+
+function downloadFile(fileUrl) {
+  if (fileUrl) {
+    window.open(fileUrl, '_blank');
+  }
+}
+
+	
 // Simulated user data
 const users = [
     { name: "Abdul Sir", userId: "Abdul1998", password: "Abdul@1998" },
