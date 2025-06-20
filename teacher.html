@@ -217,6 +217,7 @@ button:hover {
     <button onclick="toggleMenu('datesMenu')">Dates</button>
 	<button onclick="loadIframe('exp.html')">Exam Manual</button>
 	<button onclick="loadIframe('notice.html')">Notice</button>
+	<button onclick="toggleViewSubmenu('admit')">ADMIT</button>
 </div>
 
 <!-- Upload -->
@@ -420,6 +421,36 @@ button:hover {
         </select>
     </div>
 
+    <div id="viewSubmenu_admit" class="view-submenu">
+        <label><strong>Term II Classes:</strong></label><br>
+        <select onchange="loadIframe(this.value)">
+            <option value="">Select Class</option>
+            <option value='exp.html'>Balvatika 1</option>
+	    <option value='exp.html'>Balvatika 2 A</option>
+            <option value='exp.html'>Balvatika 2 B</option>
+            <option value='exp.html'>Balvatika 3 A</option>
+	    <option value='exp.html'>Balvatika 3 B</option>
+            <option value='exp.html'>Class 1 A</option>
+            <option value='exp.html'>Class 1 B</option>
+            <option value='exp.html'>Class 2 A</option>
+		<option value='exp.html'>Class 2 B</option>
+            <option value='exp.html'>Class 3 A</option>
+            <option value='exp.html'>Class 3 B</option>
+            <option value='exp.html'>Class 4 A</option>
+            <option value='exp.html'>Class 4 B</option>
+            <option value='exp.html'>Class 5 A</option>
+		<option value='exp.html'>Class 5 B</option>
+            <option value='exp.html'>Class 6 A</option>
+            <option value='exp.html'>Class 7 A</option>
+            <option value='exp.html'>Class 7 B</option>
+            <option value='exp.html'>Class 8 A</option>
+		<option value='exp.html'>Class 8 B</option>
+            <option value='exp.html'>Class 9 A</option>
+            <option value='exp.html'>Class 10 A</option>
+        </select>
+    </div>
+
+		
     <div id="viewSubmenu_TermII" class="view-submenu">
         <label><strong>Term II Classes:</strong></label><br>
         <select onchange="loadIframe(this.value)">
