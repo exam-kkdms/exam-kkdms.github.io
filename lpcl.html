@@ -358,21 +358,30 @@
           <label for="class">🎓 Class</label>
           <select id="class" name="class" onchange="updateSubjects()">
             <option value="">Select Class</option>
-            <option value="Balvatika 1">Balvatika 1</option>
-            <option value="Balvatika 2">Balvatika 2</option>
-            <option value="Balvatika 3">Balvatika 3</option>
-            <option value="Class 1">Class 1</option>
-            <option value="Class 2">Class 2</option>
-            <option value="Class 3">Class 3</option>
-            <option value="Class 4">Class 4</option>
-            <option value="Class 5">Class 5</option>
-            <option value="Class 6">Class 6</option>
-            <option value="Class 7">Class 7</option>
-            <option value="Class 8">Class 8</option>
-            <option value="Class 9">Class 9</option>
-            <option value="Class 10">Class 10</option>
-            <option value="Class 11">Class 11</option>
-            <option value="Class 12">Class 12</option>
+           <option value="Balvatika-I-A">Balvatika 1</option>
+  <option value="Balvatika-II-A">Balvatika 2 A</option>
+  <option value="Balvatika-II-B">Balvatika 2 B</option>
+  <option value="Balvatika-III-A">Balvatika 3 A</option>
+  <option value="Balvatika-III-B">Balvatika 3 B</option>
+  <option value="I-A">Class 1 A</option>
+  <option value="I-B">Class 1 B</option>
+  <option value="II-A">Class 2 A</option>
+  <option value="II-B">Class 2 B</option>
+  <option value="III-A">Class 3 A</option>
+  <option value="III-B">Class 3 B</option>
+  <option value="IV-A">Class 4 A</option>
+  <option value="IV-B">Class 4 B</option>
+  <option value="V-A">Class 5 A</option>
+  <option value="V-B">Class 5 B</option>
+  <option value="VI-A">Class 6 A</option>
+  <option value="VII-A">Class 7 A</option>
+  <option value="VII-B">Class 7 B</option>
+  <option value="VIII-A">Class 8 A</option>
+  <option value="VIII-B">Class 8 B</option>
+  <option value="IX-A">Class 9 A</option>
+  <option value="X-A">Class 10 A</option>
+  <option value="XI">Class 11</option>
+  <option value="XII">Class 12</option>
           </select>
         </div>
 
@@ -404,26 +413,43 @@
       "Class 6": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
       "Class 7": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
       "Class 8": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
-      "Class 9": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "SST", "Science", "IT"],
-      "Class 10": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "SST", "Science", "IT"],
+      "Class 9": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "HISTORY", "GEOGRAPHY", "ECONOMIC","POL. SCIENCE","PHYSICS","CHEMISTRY","BIOLOGY", "IT"],
+          "Class 10": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "HISTORY", "GEOGRAPHY", "ECONOMIC","POL. SCIENCE","PHYSICS","CHEMISTRY","BIOLOGY", "IT"],
       "Class 11": ["English", "Bengali", "Hindi", "Mathematics", "History", "Sociology", "Economics", "Pol. Science", "Geography", "Physics", "Chemistry", "Biology", "Phy education", "Accountancy", "Business Studies", "Computer Sci", "Commercial art"],
       "Class 12": ["English", "Bengali", "Hindi", "Mathematics", "History", "Sociology", "Economics", "Pol. Science", "Geography", "Physics", "Chemistry", "Biology", "Phy education", "Accountancy", "Business Studies", "Computer Sci", "Commercial art"]
     };
 
-    function updateSubjects() {
-      const classVal = document.getElementById("class").value;
-      const subjectDropdown = document.getElementById("subject");
+   function updateSubjects() {
+  let classVal = document.getElementById("class").value;
+  const subjectDropdown = document.getElementById("subject");
 
-      subjectDropdown.innerHTML = '<option value="">Select Subject</option>';
-      if (subjectOptions[classVal]) {
-        subjectOptions[classVal].forEach(subject => {
-          const option = document.createElement("option");
-          option.value = subject;
-          option.textContent = subject;
-          subjectDropdown.appendChild(option);
-        });
-      }
-    }
+  subjectDropdown.innerHTML = '<option value="">Select Subject</option>';
+
+  // Normalize class value to match subjectOptions keys
+  if (classVal.includes("Balvatika-I")) classVal = "Balvatika 1";
+  else if (classVal.includes("Balvatika-II")) classVal = "Balvatika 2";
+  else if (classVal.includes("Balvatika-III")) classVal = "Balvatika 3";
+  else if (classVal.startsWith("I-")) classVal = "Class 1";
+  else if (classVal.startsWith("II-")) classVal = "Class 2";
+  else if (classVal.startsWith("III-")) classVal = "Class 3";
+  else if (classVal.startsWith("IV-")) classVal = "Class 4";
+  else if (classVal.startsWith("V-")) classVal = "Class 5";
+  else if (classVal.startsWith("VI-")) classVal = "Class 6";
+  else if (classVal.startsWith("VII-")) classVal = "Class 7";
+  else if (classVal.startsWith("VIII-")) classVal = "Class 8";
+  else if (classVal.startsWith("IX-")) classVal = "Class 9";
+  else if (classVal.startsWith("X-")) classVal = "Class 10";
+
+  if (subjectOptions[classVal]) {
+    subjectOptions[classVal].forEach(subject => {
+      const option = document.createElement("option");
+      option.value = subject;
+      option.textContent = subject;
+      subjectDropdown.appendChild(option);
+    });
+  }
+}
+
 
     async function search() {
       const week = document.getElementById("week").value;
