@@ -69,32 +69,32 @@
         font-size: 0.8rem;
       }
     }
+
     @media print {
-  body {
-    background: white;
-    margin: 0;
-  }
+      body {
+        background: white;
+        margin: 0;
+      }
 
-  input, button, #aadharInput, .container > h2 {
-    display: none !important;
-  }
+      input, button, #aadharInput, .container > h2 {
+        display: none !important;
+      }
 
-  #printBtn {
-    display: none !important;
-  }
+      #printBtn {
+        display: none !important;
+      }
 
-  #pdfContent {
-    width: 100% !important;
-    margin: 0;
-    page-break-after: auto;
-  }
+      #pdfContent {
+        width: 100% !important;
+        margin: 0;
+        page-break-after: auto;
+      }
 
-  table, tr, td, th {
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
-  }
-}
-
+      table, tr, td, th {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -107,11 +107,8 @@
   <div id="result" class="form-box"></div>
 </div>
 
-<!-- html2pdf CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <script>
-  const apiUrl = "https://script.google.com/a/~/macros/s/AKfycbyBiVJlZcyzZT68UhquteC9XTCO5D8srF76UHxnUfE2UXIO9jGi5HWGtdj95LBUrq8s/exec"; // Replace with your script URL
+  const apiUrl = "https://script.google.com/macros/s/AKfycbyBiVJlZcyzZT68UhquteC9XTCO5D8srF76UHxnUfE2UXIO9jGi5HWGtdj95LBUrq8s/exec";
 
   async function getFormData() {
     const aadhar = document.getElementById("aadharInput").value.trim();
@@ -128,35 +125,33 @@
     spinner.style.display = "block";
 
     try {
-  const response = await fetch(`${apiUrl}?aadhar=${encodeURIComponent(aadhar)}`);
-  const data = await response.json();
-  spinner.style.display = "none";
+      const response = await fetch(`${apiUrl}?aadhar=${encodeURIComponent(aadhar)}`);
+      const data = await response.json();
+      spinner.style.display = "none";
 
-  if (data.error) {
-    result.innerHTML = `<div style="color:red;">❌ ${data.error}</div>`;
-    result.style.display = "block";
-    return;
+      if (data.error) {
+        result.innerHTML = `<div style="color:red;">❌ ${data.error}</div>`;
+        result.style.display = "block";
+        return;
+      }
+
+      result.innerHTML = renderHTML(data) +
+        `<button id="printBtn" class="btn-download" onclick="window.print()">🖨️ Print This Form</button>`;
+      result.style.display = "block";
+
+      document.getElementById("aadharInput").style.display = "none";
+      document.querySelector('button[onclick="getFormData()"]').style.display = "none";
+
+    } catch (error) {
+      spinner.style.display = "none";
+      result.innerHTML = `<div style="color:red;">❌ Error fetching data.</div>`;
+      result.style.display = "block";
+    }
   }
-
-  result.innerHTML = renderHTML(data) +
-    `<button id="printBtn" class="btn-download" onclick="window.print()">🖨️ Print This Form</button>`;
-  result.style.display = "block";
-
-  // ✅ Now hide the search area
-  document.getElementById("aadharInput").style.display = "none";
-  document.querySelector('button[onclick="getFormData()"]').style.display = "none";
-
-} catch (error) {
-  spinner.style.display = "none";
-  result.innerHTML = `<div style="color:red;">❌ Error fetching data.</div>`;
-  result.style.display = "block";
-}
-
 
   function renderHTML(d) {
     return `
       <div id="pdfContent" style="width: 800px; max-width: 100%; margin: auto; overflow-wrap: break-word;">
-
         <h3 style="text-align:center;">CBSE Registration Form (Class XI)</h3>
         <table>
           <tr><td><strong>Candidate Name:</strong></td><td colspan="3">${d["Name of the student :"] || ""}</td></tr>
@@ -187,7 +182,7 @@
           <tr><td colspan="2">${d["SUBJECT 3"] || ""}</td><td colspan="2">${d["CODE 3"] || ""}</td></tr>
           <tr><td colspan="2">${d["SUBJECT 4"] || ""}</td><td colspan="2">${d["CODE 4"] || ""}</td></tr>
           <tr><td colspan="2">${d["SUBJECT 5"] || ""}</td><td colspan="2">${d["CODE 5"] || ""}</td></tr>
-          <tr><td colspan="2">${d["SUBJECT 6"] || ""}</td><td colspan="2">${d["CODE 6"] || ""}</td></td></tr>
+          <tr><td colspan="2">${d["SUBJECT 6"] || ""}</td><td colspan="2">${d["CODE 6"] || ""}</td></tr>
           <tr>
             <td class="signature-box"><strong>Student's Signature</strong></td>
             <td class="signature-box"><strong>Father's Signature</strong></td>
@@ -198,31 +193,14 @@
       </div>`;
   }
 
-function formatDate(input) {
-  const date = new Date(input);
-  if (isNaN(date)) return input; // return original if not a valid date
-  const dd = String(date.getDate()).padStart(2, '0');
-  const mm = String(date.getMonth() + 1).padStart(2, '0');
-  const yyyy = date.getFullYear();
-  return `${dd}/${mm}/${yyyy}`;
-}
-
-  
-function downloadPDF() {
-  const element = document.getElementById("pdfContent");
-
-  const opt = {
-    margin:       [10, 10, 10, 10], // top, left, bottom, right
-    filename:     'CBSE_Registration_Form.pdf',
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2, useCORS: true },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-    pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-  };
-
-  html2pdf().set(opt).from(element).save();
-}
-
+  function formatDate(input) {
+    const date = new Date(input);
+    if (isNaN(date)) return input;
+    const dd = String(date.getDate()).padStart(2, '0');
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const yyyy = date.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
+  }
 </script>
 
 </body>
