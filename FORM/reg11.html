@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CBSE Class XI Registration</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f7f7f7; }
+    input, button { padding: 10px; margin: 10px 0; width: 100%; }
+    #formContainer { display: none; background: white; padding: 20px; border: 1px solid #ccc; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    td, th { border: 1px solid #000; padding: 5px; vertical-align: top; }
+    .signature-box { height: 60px; }
+  </style>
+</head>
+<body>
+
+  <h2>CBSE Class XI Registration Form Viewer</h2>
+  <input type="text" id="aadhar" placeholder="Enter your Aadhar Number" />
+  <button onclick="fetchData()">View Form</button>
+
+  <div id="formContainer">
+    <div id="formContent"></div>
+    <button onclick="downloadPDF()">Download as PDF</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbyi2uRDe6wA1b4FTx9_grtbXx08Csf_qM5-cWVLlvoEsPm1u8m6kkuRKmd_je2tDwDb/exec';
+
+    function fetchData() {
+      const aadhar = document.getElementById('aadhar').value.trim();
+      if (!aadhar) return alert("Please enter Aadhar number");
+
+      fetch(`${apiUrl}?aadhar=${aadhar}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) return alert("Student not found!");
+          renderForm(data);
+        })
+        .catch(err => alert("Error fetching data."));
+    }
+
+    function renderForm(data) {
+      const form = `
+        <div id="pdfContent">
+        <h3>CBSE Registration Form (Class XI)</h3>
+        <table>
+          <tr><td><strong>Candidate Name:</strong></td><td colspan="3">${data['Name of the student :']}</td></tr>
+          <tr><td><strong>Admission No.:</strong></td><td>${data['ADMISSION NO']}</td>
+              <td><strong>Date of Admission:</strong></td><td>${data['ADMISSION DATE :']}</td></tr>
+          <tr><td><strong>Mother's Name:</strong></td><td colspan="3">${data["Mother's Name:"]}</td></tr>
+          <tr><td><strong>Father's Name:</strong></td><td colspan="3">${data["Father's Name:"]}</td></tr>
+          <tr>
+            <td><strong>Sex:</strong> ${data['Sex:']}</td>
+            <td><strong>Category:</strong> ${data['Category:']}</td>
+            <td><strong>Handicap:</strong> ${data['Handicap:']}</td>
+            <td><strong>Only Child:</strong> ${data['Only Child:']}</td>
+          </tr>
+          <tr>
+            <td><strong>Date of Birth:</strong> ${data['Date of Birth:']}</td>
+            <td><strong>Minority:</strong> ${data['Minority:']}</td>
+            <td><strong>Religion:</strong> ${data['Religion:']}</td>
+            <td><strong>Aadhar No.:</strong> ${data['Aadhar No.']}</td>
+          </tr>
+          <tr><td><strong>Class X Roll No.:</strong> ${data['Class X Roll No.']}</td>
+              <td><strong>Year:</strong> ${data['Class X Year:']}</td>
+              <td colspan="2"><strong>Board:</strong> ${data['Class X Board:']}</td></tr>
+          <tr><th>Subject</th><th>Code</th><th colspan="2"></th></tr>
+          <tr><td>${data['SUBJECT 2']}</td><td>${data['CODE 1']}</td><td colspan="2"></td></tr>
+          <tr><td>${data['SUBJECT 3']}</td><td>${data['CODE 2']}</td><td colspan="2"></td></tr>
+          <tr><td>${data['SUBJECT 4']}</td><td>${data['CODE 3']}</td><td colspan="2"></td></tr>
+          <tr><td>${data['SUBJECT 5']}</td><td>${data['CODE 4']}</td><td colspan="2"></td></tr>
+          <tr><td>${data['SUBJECT 6']}</td><td>${data['CODE 5']}</td><td colspan="2"></td></tr>
+          <tr><td class="signature-box"><strong>Student's Signature</strong></td>
+              <td class="signature-box"><strong>Father's Signature</strong></td>
+              <td class="signature-box"><strong>Mother's Signature</strong></td>
+              <td class="signature-box"><strong>Principal's Signature</strong></td></tr>
+        </table>
+        </div>
+      `;
+
+      document.getElementById('formContent').innerHTML = form;
+      document.getElementById('formContainer').style.display = 'block';
+    }
+
+    function downloadPDF() {
+      const element = document.getElementById('pdfContent');
+      html2pdf().from(element).save('CBSE_Registration_Form.pdf');
+    }
+  </script>
+
+</body>
+</html>
