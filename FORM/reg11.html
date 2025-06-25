@@ -72,9 +72,13 @@
     @media print {
   table, tr, td, th {
     page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  #pdfContent {
+    page-break-after: auto;
   }
 }
-
   </style>
 </head>
 <body>
@@ -130,7 +134,8 @@
 
   function renderHTML(d) {
     return `
-      <div id="pdfContent" style="width: 800px; max-width: 100%; margin: auto;">
+      <div id="pdfContent" style="width: 800px; max-width: 100%; margin: auto; overflow-wrap: break-word;">
+
         <h3 style="text-align:center;">CBSE Registration Form (Class XI)</h3>
         <table>
           <tr><td><strong>Candidate Name:</strong></td><td colspan="3">${d["Name of the student :"] || ""}</td></tr>
@@ -186,15 +191,17 @@ function downloadPDF() {
   const element = document.getElementById("pdfContent");
 
   const opt = {
-    margin:       10,
+    margin:       [10, 10, 10, 10], // top, left, bottom, right
     filename:     'CBSE_Registration_Form.pdf',
-    image:        { type: 'jpeg', quality: 1 },
-    html2canvas:  { scale: 3, useCORS: true },
-    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2, useCORS: true },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
   };
 
   html2pdf().set(opt).from(element).save();
 }
+
 
 </script>
 
