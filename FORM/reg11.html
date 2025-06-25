@@ -70,15 +70,31 @@
       }
     }
     @media print {
+  body {
+    background: white;
+    margin: 0;
+  }
+
+  input, button, #aadharInput, .container > h2 {
+    display: none !important;
+  }
+
+  #printBtn {
+    display: none !important;
+  }
+
+  #pdfContent {
+    width: 100% !important;
+    margin: 0;
+    page-break-after: auto;
+  }
+
   table, tr, td, th {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
-
-  #pdfContent {
-    page-break-after: auto;
-  }
 }
+
   </style>
 </head>
 <body>
@@ -112,25 +128,30 @@
     spinner.style.display = "block";
 
     try {
-      const response = await fetch(`${apiUrl}?aadhar=${encodeURIComponent(aadhar)}`);
-      const data = await response.json();
-      spinner.style.display = "none";
+  const response = await fetch(`${apiUrl}?aadhar=${encodeURIComponent(aadhar)}`);
+  const data = await response.json();
+  spinner.style.display = "none";
 
-      if (data.error) {
-        result.innerHTML = `<div style="color:red;">❌ ${data.error}</div>`;
-        result.style.display = "block";
-        return;
-      }
-
-      result.innerHTML = renderHTML(data) +
-        `<button class="btn-download" onclick="downloadPDF()">📄 Download PDF</button>`;
-      result.style.display = "block";
-    } catch (error) {
-      spinner.style.display = "none";
-      result.innerHTML = `<div style="color:red;">❌ Error fetching data.</div>`;
-      result.style.display = "block";
-    }
+  if (data.error) {
+    result.innerHTML = `<div style="color:red;">❌ ${data.error}</div>`;
+    result.style.display = "block";
+    return;
   }
+
+  result.innerHTML = renderHTML(data) +
+    `<button id="printBtn" class="btn-download" onclick="window.print()">🖨️ Print This Form</button>`;
+  result.style.display = "block";
+
+  // ✅ Now hide the search area
+  document.getElementById("aadharInput").style.display = "none";
+  document.querySelector('button[onclick="getFormData()"]').style.display = "none";
+
+} catch (error) {
+  spinner.style.display = "none";
+  result.innerHTML = `<div style="color:red;">❌ Error fetching data.</div>`;
+  result.style.display = "block";
+}
+
 
   function renderHTML(d) {
     return `
@@ -201,7 +222,6 @@ function downloadPDF() {
 
   html2pdf().set(opt).from(element).save();
 }
-
 
 </script>
 
