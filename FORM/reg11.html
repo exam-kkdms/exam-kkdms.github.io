@@ -2,90 +2,110 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>CBSE Class XI Registration</title>
+  <title>CBSE XI Form Viewer</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f7f7f7; }
-    input, button { padding: 10px; margin: 10px 0; width: 100%; }
-    #formContainer { display: none; background: white; padding: 20px; border: 1px solid #ccc; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    td, th { border: 1px solid #000; padding: 5px; vertical-align: top; }
+    body { font-family: Arial; padding: 20px; background: #f2f2f2; }
+    input, button { padding: 10px; width: 100%; margin-bottom: 10px; }
+    .form-box { background: #fff; padding: 20px; border: 1px solid #ccc; display: none; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    td, th { border: 1px solid #333; padding: 6px; vertical-align: top; }
     .signature-box { height: 60px; }
   </style>
 </head>
 <body>
 
-  <h2>CBSE Class XI Registration Form Viewer</h2>
-  <input type="text" id="aadhar" placeholder="Enter your Aadhar Number" />
-  <button onclick="fetchData()">View Form</button>
-
-  <div id="formContainer">
-    <div id="formContent"></div>
-    <button onclick="downloadPDF()">Download as PDF</button>
-  </div>
+  <h2>📝 CBSE Class XI Registration Form</h2>
+  <input type="text" id="aadharInput" placeholder="Enter your Aadhar Number">
+  <button onclick="getFormData()">Search</button>
+  <div id="spinner" style="display:none;">🔄 Searching...</div>
+  <div id="result" class="form-box"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
-    const apiUrl = 'https://script.google.com/macros/s/AKfycbyi2uRDe6wA1b4FTx9_grtbXx08Csf_qM5-cWVLlvoEsPm1u8m6kkuRKmd_je2tDwDb/exec';
+    const apiUrl = "https://script.google.com/macros/s/AKfycbzvAMMcQwO4GQNxw9a05hdgu2ahcq1eph6YaYXMfs5Lbsc4FdTP5ui31Q5U8GR38woY/exec"; // Replace with actual script URL
 
-    function fetchData() {
-      const aadhar = document.getElementById('aadhar').value.trim();
-      if (!aadhar) return alert("Please enter Aadhar number");
+    async function getFormData() {
+      const aadhar = document.getElementById("aadharInput").value.trim();
+      const result = document.getElementById("result");
+      const spinner = document.getElementById("spinner");
+      result.innerHTML = "";
+      result.style.display = "none";
 
-      fetch(`${apiUrl}?aadhar=${aadhar}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.error) return alert("Student not found!");
-          renderForm(data);
-        })
-        .catch(err => alert("Error fetching data."));
+      if (!aadhar) {
+        alert("Please enter your Aadhar number.");
+        return;
+      }
+
+      spinner.style.display = "block";
+
+      try {
+        const response = await fetch(`${apiUrl}?aadhar=${encodeURIComponent(aadhar)}`);
+        const data = await response.json();
+        spinner.style.display = "none";
+
+        if (data.error) {
+          result.innerHTML = `<div style="color:red;">❌ ${data.error}</div>`;
+          result.style.display = "block";
+          return;
+        }
+
+        result.innerHTML = renderHTML(data) + `<button onclick="downloadPDF()">Download as PDF</button>`;
+        result.style.display = "block";
+
+      } catch (error) {
+        spinner.style.display = "none";
+        result.innerHTML = `<div style="color:red;">❌ Error fetching data.</div>`;
+        result.style.display = "block";
+        console.error(error);
+      }
     }
 
-    function renderForm(data) {
-      const form = `
+    function renderHTML(d) {
+      return `
         <div id="pdfContent">
-        <h3>CBSE Registration Form (Class XI)</h3>
-        <table>
-          <tr><td><strong>Candidate Name:</strong></td><td colspan="3">${data['Name of the student :']}</td></tr>
-          <tr><td><strong>Admission No.:</strong></td><td>${data['ADMISSION NO']}</td>
-              <td><strong>Date of Admission:</strong></td><td>${data['ADMISSION DATE :']}</td></tr>
-          <tr><td><strong>Mother's Name:</strong></td><td colspan="3">${data["Mother's Name:"]}</td></tr>
-          <tr><td><strong>Father's Name:</strong></td><td colspan="3">${data["Father's Name:"]}</td></tr>
-          <tr>
-            <td><strong>Sex:</strong> ${data['Sex:']}</td>
-            <td><strong>Category:</strong> ${data['Category:']}</td>
-            <td><strong>Handicap:</strong> ${data['Handicap:']}</td>
-            <td><strong>Only Child:</strong> ${data['Only Child:']}</td>
-          </tr>
-          <tr>
-            <td><strong>Date of Birth:</strong> ${data['Date of Birth:']}</td>
-            <td><strong>Minority:</strong> ${data['Minority:']}</td>
-            <td><strong>Religion:</strong> ${data['Religion:']}</td>
-            <td><strong>Aadhar No.:</strong> ${data['Aadhar No.']}</td>
-          </tr>
-          <tr><td><strong>Class X Roll No.:</strong> ${data['Class X Roll No.']}</td>
-              <td><strong>Year:</strong> ${data['Class X Year:']}</td>
-              <td colspan="2"><strong>Board:</strong> ${data['Class X Board:']}</td></tr>
-          <tr><th>Subject</th><th>Code</th><th colspan="2"></th></tr>
-          <tr><td>${data['SUBJECT 2']}</td><td>${data['CODE 1']}</td><td colspan="2"></td></tr>
-          <tr><td>${data['SUBJECT 3']}</td><td>${data['CODE 2']}</td><td colspan="2"></td></tr>
-          <tr><td>${data['SUBJECT 4']}</td><td>${data['CODE 3']}</td><td colspan="2"></td></tr>
-          <tr><td>${data['SUBJECT 5']}</td><td>${data['CODE 4']}</td><td colspan="2"></td></tr>
-          <tr><td>${data['SUBJECT 6']}</td><td>${data['CODE 5']}</td><td colspan="2"></td></tr>
-          <tr><td class="signature-box"><strong>Student's Signature</strong></td>
+          <h3>CBSE Registration Form (Class XI)</h3>
+          <table>
+            <tr><td><strong>Candidate Name:</strong></td><td colspan="3">${d["Name of the student :"] || ""}</td></tr>
+            <tr><td><strong>Admission No.:</strong></td><td>${d["ADMISSION NO"] || ""}</td>
+                <td><strong>Admission Date:</strong></td><td>${d["ADMISSION DATE :"] || ""}</td></tr>
+            <tr><td><strong>Mother's Name:</strong></td><td colspan="3">${d["Mother's Name:"] || ""}</td></tr>
+            <tr><td><strong>Father's Name:</strong></td><td colspan="3">${d["Father's Name:"] || ""}</td></tr>
+            <tr>
+              <td><strong>Sex:</strong> ${d["Sex:"] || ""}</td>
+              <td><strong>Category:</strong> ${d["Category:"] || ""}</td>
+              <td><strong>Handicap:</strong> ${d["Handicap:"] || ""}</td>
+              <td><strong>Only Child:</strong> ${d["Only Child:"] || ""}</td>
+            </tr>
+            <tr>
+              <td><strong>Date of Birth:</strong> ${d["Date of Birth:"] || ""}</td>
+              <td><strong>Minority:</strong> ${d["Minority:"] || ""}</td>
+              <td colspan="2"><strong>Religion:</strong> ${d["Religion:"] || ""}</td>
+            </tr>
+            <tr><td><strong>Aadhar No.:</strong></td><td colspan="3">${d["Aadhar No."] || ""}</td></tr>
+            <tr>
+              <td><strong>Class X Roll No.:</strong> ${d["Class X Roll No."] || ""}</td>
+              <td><strong>Year:</strong> ${d["Class X Year:"] || ""}</td>
+              <td colspan="2"><strong>Board:</strong> ${d["Class X Board:"] || ""}</td>
+            </tr>
+            <tr><th>Subject</th><th>Code</th><th colspan="2"></th></tr>
+            <tr><td>${d["SUBJECT 2"] || ""}</td><td>${d["CODE 1"] || ""}</td><td colspan="2"></td></tr>
+            <tr><td>${d["SUBJECT 3"] || ""}</td><td>${d["CODE 2"] || ""}</td><td colspan="2"></td></tr>
+            <tr><td>${d["SUBJECT 4"] || ""}</td><td>${d["CODE 3"] || ""}</td><td colspan="2"></td></tr>
+            <tr><td>${d["SUBJECT 5"] || ""}</td><td>${d["CODE 4"] || ""}</td><td colspan="2"></td></tr>
+            <tr><td>${d["SUBJECT 6"] || ""}</td><td>${d["CODE 5"] || ""}</td><td colspan="2"></td></tr>
+            <tr>
+              <td class="signature-box"><strong>Student's Signature</strong></td>
               <td class="signature-box"><strong>Father's Signature</strong></td>
               <td class="signature-box"><strong>Mother's Signature</strong></td>
-              <td class="signature-box"><strong>Principal's Signature</strong></td></tr>
-        </table>
+              <td class="signature-box"><strong>Principal's Signature</strong></td>
+            </tr>
+          </table>
         </div>
       `;
-
-      document.getElementById('formContent').innerHTML = form;
-      document.getElementById('formContainer').style.display = 'block';
     }
 
     function downloadPDF() {
-      const element = document.getElementById('pdfContent');
-      html2pdf().from(element).save('CBSE_Registration_Form.pdf');
+      html2pdf().from(document.getElementById("pdfContent")).save("CBSE_Registration_Form.pdf");
     }
   </script>
 
