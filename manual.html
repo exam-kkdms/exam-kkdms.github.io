@@ -26,9 +26,26 @@
       border-radius: 6px;
       margin-top: 10px;
     }
-
     .accordion:hover {
       background-color: #0059b3;
+    }
+    .download {
+      background-color: #12b054;
+      color: white;
+      cursor: pointer;
+      padding: 15px;
+      width: 50%;
+      text-align: left;
+      border: none;
+      outline: none;
+      transition: 0.3s;
+      font-size: 16px;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+
+    .download:hover {
+      background-color: #12de26;
     }
 
     .panel {
@@ -176,7 +193,7 @@
       Note: No student is allowed to leave the school premises before <strong>12:40 pm</strong>.
     </div>
   </div>
-
+<a href="res/Exam Manual.pdf"><button class="download">Download Exam Manual PDF</button></a>
   <script>
     const acc = document.querySelectorAll(".accordion");
     acc.forEach(button => {
