@@ -1,118 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lesson Plan Tracker</title>
+  <title>Lesson Plan Tracking</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f4f9;
+      background: #f0f2f5;
       margin: 0;
       padding: 20px;
     }
-    .container {
-      max-width: 1000px;
-      margin: auto;
-    }
-    h1 {
+    h2 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
+    }
+    label {
+      font-weight: bold;
     }
     select {
       padding: 10px;
       font-size: 16px;
-      margin-bottom: 20px;
       width: 100%;
+      max-width: 600px;
+      margin-top: 10px;
       border-radius: 6px;
+      border: 1px solid #ccc;
     }
-    .class-section {
-      background: #fff;
-      margin-bottom: 20px;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .class-name {
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-    .subject {
-      padding: 5px 10px;
-      margin: 3px;
-      border-radius: 5px;
-      display: inline-block;
-      font-size: 14px;
-    }
-    .submitted {
-      background-color: #c8e6c9;
-      color: #2e7d32;
-    }
-    .pending {
-      background-color: #ffcdd2;
-      color: #c62828;
-    }
-    #spinner {
+    .spinner {
       display: none;
       text-align: center;
       margin: 20px 0;
     }
-    .spinner {
-      border: 5px solid #f3f3f3;
-      border-top: 5px solid #3498db;
-      border-radius: 50%;
+    .spinner div {
       width: 40px;
       height: 40px;
-      animation: spin 1s linear infinite;
+      border: 5px solid #ccc;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
       margin: auto;
+      animation: spin 1s linear infinite;
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    table {
+      margin-top: 30px;
+      width: 100%;
+      max-width: 1000px;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #e8f0fe;
+    }
+    .status-ok {
+      color: green;
+      font-weight: bold;
+    }
+    .status-missing {
+      color: red;
+      font-weight: bold;
+    }
+    .section-header {
+      background: #d9eaf7;
+      font-weight: bold;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Lesson Plan Submission Tracker</h1>
-    <select id="weekSelect">
-      <option value="">Select Week</option>
-      <option value="Week-11 ;  June-16">Week-11 ; June-16</option>
-      <option value="Week-12 ;  June-23">Week-12 ; June-23</option>
-      <option value="Week-13 ;  June-30">Week-13 ; June-30</option>
-      <option value="Week-14 ;  July-7">Week-14 ; July-7</option>
-      <option value="Week-15 ;  July-14">Week-15 ; July-14</option>
-      <!-- Add more weeks as needed -->
-    </select>
 
-    <div id="spinner"><div class="spinner"></div></div>
-    <div id="tracker"></div>
-  </div>
+  <h2>📊 Lesson Plan Submission Tracker</h2>
+  <label for="week">Select Week:</label>
+  <select id="week">
+    <option value="">Select Week</option>
+    <!-- Sample Weeks (add more as needed) -->
+    <option value="Week-11 ;  June-16">Week-11 ; June-16</option>
+    <option value="Week-12 ;  June-23">Week-12 ; June-23</option>
+    <option value="Week-13 ;  June-30">Week-13 ; June-30</option>
+    <option value="Week-14 ;  July-7">Week-14 ; July-7</option>
+  </select>
+
+  <div class="spinner" id="spinner"><div></div></div>
+
+  <table id="resultTable" style="display:none">
+    <thead>
+      <tr>
+        <th>Class Section</th>
+        <th>Subject</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="resultBody"></tbody>
+  </table>
 
   <script>
-    const apiBase = `https://script.google.com/macros/s/AKfycbwCtNV-fa0kK46vE-ulOyDNXwyIsltG6uXOyv_Tjq461jfSo0rOQVLhgviCb1tFfsOmhg/exec`;
-
-    const classList = [
-      "Balvatika-I-A", "Balvatika-II-A", "Balvatika-II-B", "Balvatika-III-A", "Balvatika-III-B",
-      "I-A", "I-B", "II-A", "II-B", "III-A", "III-B", "IV-A", "IV-B", "V-A", "V-B",
-      "VI-A", "VII-A", "VII-B", "VIII-A", "VIII-B", "IX-A", "X-A", "XI", "XII"
-    ];
-
-    const classGroupMap = {
-      "Balvatika-I-A": "Balvatika 1", "Balvatika-II-A": "Balvatika 2", "Balvatika-II-B": "Balvatika 2",
-      "Balvatika-III-A": "Balvatika 3", "Balvatika-III-B": "Balvatika 3",
-      "I-A": "Class 1", "I-B": "Class 1", "II-A": "Class 2", "II-B": "Class 2",
-      "III-A": "Class 3", "III-B": "Class 3", "IV-A": "Class 4", "IV-B": "Class 4",
-      "V-A": "Class 5", "V-B": "Class 5", "VI-A": "Class 6", "VII-A": "Class 7",
-      "VII-B": "Class 7", "VIII-A": "Class 8", "VIII-B": "Class 8", "IX-A": "Class 9",
-      "X-A": "Class 10", "XI": "Class 11", "XII": "Class 12"
-    };
-
-    const subjectMap = {
-      "Balvatika 1": ["English", "Bengali", "Hindi", "Mathematics", "EVS", "Drawings"],
-      "Balvatika 2": ["English", "Bengali", "Hindi", "Mathematics", "EVS", "Drawings"],
-      "Balvatika 3": ["English", "Bengali", "Hindi", "Mathematics", "EVS", "Drawings"],
+    const subjectOptions = {
       "Class 1": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
       "Class 2": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
       "Class 3": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
@@ -121,49 +112,69 @@
       "Class 6": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
       "Class 7": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
       "Class 8": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
-      "Class 9": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "HISTORY", "GEOGRAPHY", "ECONOMIC","POL. SCIENCE","PHYSICS","CHEMISTRY","BIOLOGY", "IT"],
-      "Class 10": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "HISTORY", "GEOGRAPHY", "ECONOMIC","POL. SCIENCE","PHYSICS","CHEMISTRY","BIOLOGY", "IT"],
+      "Class 9": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "HISTORY", "GEOGRAPHY", "ECONOMIC", "POL. SCIENCE", "PHYSICS", "CHEMISTRY", "BIOLOGY", "IT"],
+      "Class 10": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "HISTORY", "GEOGRAPHY", "ECONOMIC", "POL. SCIENCE", "PHYSICS", "CHEMISTRY", "BIOLOGY", "IT"],
       "Class 11": ["English", "Bengali", "Hindi", "Mathematics", "History", "Sociology", "Economics", "Pol. Science", "Geography", "Physics", "Chemistry", "Biology", "Phy education", "Accountancy", "Business Studies", "Computer Sci", "Commercial art"],
       "Class 12": ["English", "Bengali", "Hindi", "Mathematics", "History", "Sociology", "Economics", "Pol. Science", "Geography", "Physics", "Chemistry", "Biology", "Phy education", "Accountancy", "Business Studies", "Computer Sci", "Commercial art"]
     };
 
-    document.getElementById("weekSelect").addEventListener("change", async function() {
-      const week = this.value;
+    const sectionMap = {
+      "Class 1": ["I-A", "I-B"],
+      "Class 2": ["II-A", "II-B"],
+      "Class 3": ["III-A", "III-B"],
+      "Class 4": ["IV-A", "IV-B"],
+      "Class 5": ["V-A", "V-B"],
+      "Class 6": ["VI-A"],
+      "Class 7": ["VII-A", "VII-B"],
+      "Class 8": ["VIII-A", "VIII-B"],
+      "Class 9": ["IX-A"],
+      "Class 10": ["X-A"],
+      "Class 11": ["XI"],
+      "Class 12": ["XII"]
+    };
+
+    document.getElementById("week").addEventListener("change", async () => {
+      const week = document.getElementById("week").value;
+      const tbody = document.getElementById("resultBody");
+      const table = document.getElementById("resultTable");
       const spinner = document.getElementById("spinner");
-      const trackerDiv = document.getElementById("tracker");
-      trackerDiv.innerHTML = "";
+
+      tbody.innerHTML = "";
+      table.style.display = "none";
       spinner.style.display = "block";
 
+      const api = `https://script.google.com/a/~/macros/s/AKfycbwCtNV-fa0kK46vE-ulOyDNXwyIsltG6uXOyv_Tjq461jfSo0rOQVLhgviCb1tFfsOmhg/exec?week=${encodeURIComponent(week)}`;
+
       try {
-        const res = await fetch(`${apiBase}?week="${encodeURIComponent(week)}"`);
-        const submittedData = await res.json();
+        const res = await fetch(api);
+        const json = await res.json();
+        const submittedSet = new Set(json.submitted.map(row => `${row.class}__${row.subject}`));
 
-        classList.forEach(cls => {
-          const group = classGroupMap[cls];
-          const subjects = subjectMap[group] || [];
+        for (let group in sectionMap) {
+          sectionMap[group].forEach(section => {
+            // Add section header row
+            const sectionHeader = `<tr class="section-header"><td colspan="3">${section}</td></tr>`;
+            tbody.innerHTML += sectionHeader;
 
-          const div = document.createElement("div");
-          div.className = "class-section";
-
-          const title = document.createElement("div");
-          title.className = "class-name";
-          title.textContent = cls;
-
-          div.appendChild(title);
-
-          subjects.forEach(subject => {
-            const span = document.createElement("span");
-            span.className = "subject";
-            const found = submittedData.some(d => d.CLASS === cls && d.SUBJECT === subject);
-            span.classList.add(found ? "submitted" : "pending");
-            span.textContent = subject;
-            div.appendChild(span);
+            (subjectOptions[group] || []).forEach(subject => {
+              const key = `${section}__${subject}`;
+              const submitted = submittedSet.has(key);
+              const row = `<tr>
+                <td>${section}</td>
+                <td>${subject}</td>
+                <td class="${submitted ? 'status-ok' : 'status-missing'}">
+                  ${submitted ? '✅ Submitted' : '❌ Not Submitted'}
+                </td>
+              </tr>`;
+              tbody.innerHTML += row;
+            });
           });
+        }
 
-          trackerDiv.appendChild(div);
-        });
-      } catch (e) {
-        trackerDiv.innerHTML = "<p style='color:red;'>Failed to load data.</p>";
+        table.style.display = "table";
+      } catch (error) {
+        tbody.innerHTML = `<tr><td colspan="3" style="color:red;">Error loading data.</td></tr>`;
+        table.style.display = "table";
       } finally {
         spinner.style.display = "none";
       }
