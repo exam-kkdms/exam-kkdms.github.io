@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson Plan Tracker</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    select {
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+    .class-section {
+      background: #fff;
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .class-name {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .subject {
+      padding: 5px 10px;
+      margin: 3px;
+      border-radius: 5px;
+      display: inline-block;
+      font-size: 14px;
+    }
+    .submitted {
+      background-color: #c8e6c9;
+      color: #2e7d32;
+    }
+    .pending {
+      background-color: #ffcdd2;
+      color: #c62828;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Lesson Plan Submission Tracker</h1>
+    <select id="weekSelect">
+      <option value="">Select Week</option>
+            <option value="Week-11 ;  June-16">Week-11 ; June-16</option>
+            <option value="Week-12 ;  June-23">Week-12 ; June-23</option>
+            <option value="Week-13 ;  June-30">Week-13 ; June-30</option>
+            <option value="Week-14 ;  July-7">Week-14 ; July-7</option>
+            <option value="Week-15 ;  July-14">Week-15 ; July-14</option>
+            <option value="Week-16 ;  July-21">Week-16 ; July-21</option>
+            <option value="Week-17 ;  July-28">Week-17 ; July-28</option>
+            <option value="Week-18 ;  August-4">Week-18 ; August-4</option>
+            <option value="Week-19 ;  August-11">Week-19 ; August-11</option>
+            <option value="Week-20 ;  August-18">Week-20 ; August-18</option>
+            <option value="Week-21 ;  August-25">Week-21 ; August-25</option>
+            <option value="Week-22 ;  September-1">Week-22 ; September-1</option>
+            <option value="Week-23 ;  September-08">Week-23 ; September-08</option>
+            <option value="Week-24 ;  September-15">Week-24 ; September-15</option>
+            <option value="Week-25 ;  September-22">Week-25 ; September-22</option>
+            <option value="Week-26 ;  September-29">Week-26 ; September-29</option>
+            <option value="Week-27 ;  October-06">Week-27 ; October-06</option>
+            <option value="Week-28 ;  October-13">Week-28 ; October-13</option>
+            <option value="Week-29 ;  October-20">Week-29 ; October-20</option>
+            <option value="Week-30 ;  October-27">Week-30 ; October-27</option>
+            <option value="Week-31 ;  November-03">Week-31 ; November-03</option>
+            <option value="Week-32 ;  November-10">Week-32 ; November-10</option>
+            <option value="Week-33 ;  November-17">Week-33 ; November-17</option>
+            <option value="Week-34 ;  November-24">Week-34 ; November-24</option>
+            <option value="Week-35 ;  December-01">Week-35 ; December-01</option>
+            <option value="Week-36 ;  December-8">Week-36 ; December-8</option>
+            <option value="Week-37 ;  December-15">Week-37 ; December-15</option>
+            <option value="Week-38 ;  December-22">Week-38 ; December-22</option>
+            <option value="Week-39 ;  December-29">Week-39 ; December-29</option>
+            <option value="Week-40 ;  January-5">Week-40 ; January-5</option>
+            <option value="Week-41 ;  January-12">Week-41 ; January-12</option>
+            <option value="Week-42 ;  January-19">Week-42 ; January-19</option>
+            <option value="Week-43 ;  January-26">Week-43 ; January-26</option>
+            <option value="Week-44 ;  February-2">Week-44 ; February-2</option>
+            <option value="Week-45 ;  February-09">Week-45 ; February-09</option>
+            <option value="Week-46 ;  February-16">Week-46 ; February-16</option>
+            <option value="Week-47 ;  February-23">Week-47 ; February-23</option>
+            <option value="Week-48 ;  March-2">Week-48 ; March-2</option>
+            <option value="Week-49 ;  March-09">Week-49 ; March-09</option>
+            <option value="Week-50 ;  March-16">Week-50 ; March-16</option>
+            <option value="Week-51 ;  March-23">Week-51 ; March-23</option>
+      <!-- Add remaining weeks as needed -->
+    </select>
+
+    <div id="tracker"></div>
+  </div>
+
+  <script>
+    const apiBase = `https://script.google.com/a/~/macros/s/AKfycbwCtNV-fa0kK46vE-ulOyDNXwyIsltG6uXOyv_Tjq461jfSo0rOQVLhgviCb1tFfsOmhg/exec`;
+
+    const classList = [
+      "Balvatika-I-A", "Balvatika-II-A", "Balvatika-II-B", "Balvatika-III-A", "Balvatika-III-B",
+      "I-A", "I-B", "II-A", "II-B", "III-A", "III-B", "IV-A", "IV-B", "V-A", "V-B",
+      "VI-A", "VII-A", "VII-B", "VIII-A", "VIII-B", "IX-A", "X-A", "XI", "XII"
+    ];
+
+    const classGroupMap = {
+      "Balvatika-I-A": "Balvatika 1", "Balvatika-II-A": "Balvatika 2", "Balvatika-II-B": "Balvatika 2",
+      "Balvatika-III-A": "Balvatika 3", "Balvatika-III-B": "Balvatika 3",
+      "I-A": "Class 1", "I-B": "Class 1", "II-A": "Class 2", "II-B": "Class 2",
+      "III-A": "Class 3", "III-B": "Class 3", "IV-A": "Class 4", "IV-B": "Class 4",
+      "V-A": "Class 5", "V-B": "Class 5", "VI-A": "Class 6", "VII-A": "Class 7",
+      "VII-B": "Class 7", "VIII-A": "Class 8", "VIII-B": "Class 8", "IX-A": "Class 9",
+      "X-A": "Class 10", "XI": "Class 11", "XII": "Class 12"
+    };
+
+    const subjectMap = {
+      "Balvatika 1": ["English", "Bengali", "Hindi", "Mathematics", "EVS", "Drawings"],
+      "Balvatika 2": ["English", "Bengali", "Hindi", "Mathematics", "EVS", "Drawings"],
+      "Balvatika 3": ["English", "Bengali", "Hindi", "Mathematics", "EVS", "Drawings"],
+      "Class 1": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+      "Class 2": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+      "Class 3": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+      "Class 4": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+      "Class 5": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+      "Class 6": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
+      "Class 7": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
+      "Class 8": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
+      "Class 9": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "HISTORY", "GEOGRAPHY", "ECONOMIC","POL. SCIENCE","PHYSICS","CHEMISTRY","BIOLOGY", "IT"],
+      "Class 10": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "HISTORY", "GEOGRAPHY", "ECONOMIC","POL. SCIENCE","PHYSICS","CHEMISTRY","BIOLOGY", "IT"],
+      "Class 11": ["English", "Bengali", "Hindi", "Mathematics", "History", "Sociology", "Economics", "Pol. Science", "Geography", "Physics", "Chemistry", "Biology", "Phy education", "Accountancy", "Business Studies", "Computer Sci", "Commercial art"],
+      "Class 12": ["English", "Bengali", "Hindi", "Mathematics", "History", "Sociology", "Economics", "Pol. Science", "Geography", "Physics", "Chemistry", "Biology", "Phy education", "Accountancy", "Business Studies", "Computer Sci", "Commercial art"]
+    };
+
+    document.getElementById("weekSelect").addEventListener("change", async function() {
+      const week = this.value;
+      if (!week) return;
+
+      const res = await fetch(`${apiBase}?week="${encodeURIComponent(week)}"`);
+      const submittedData = await res.json();
+      const trackerDiv = document.getElementById("tracker");
+      trackerDiv.innerHTML = "";
+
+      classList.forEach(cls => {
+        const group = classGroupMap[cls];
+        const subjects = subjectMap[group] || [];
+
+        const div = document.createElement("div");
+        div.className = "class-section";
+
+        const title = document.createElement("div");
+        title.className = "class-name";
+        title.textContent = cls;
+
+        div.appendChild(title);
+
+        subjects.forEach(subject => {
+          const span = document.createElement("span");
+          span.className = "subject";
+          const found = submittedData.some(d => d.CLASS === cls && d.SUBJECT === subject);
+          span.classList.add(found ? "submitted" : "pending");
+          span.textContent = subject;
+          div.appendChild(span);
+        });
+
+        trackerDiv.appendChild(div);
+      });
+    });
+  </script>
+</body>
+</html>
