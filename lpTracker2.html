@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Lesson Plan Tracker</title>
   <style>
     body {
@@ -24,6 +24,7 @@
       font-size: 16px;
       margin-bottom: 20px;
       width: 100%;
+      border-radius: 6px;
     }
     .class-section {
       background: #fff;
@@ -52,6 +53,24 @@
       background-color: #ffcdd2;
       color: #c62828;
     }
+    #spinner {
+      display: none;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .spinner {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -59,55 +78,20 @@
     <h1>Lesson Plan Submission Tracker</h1>
     <select id="weekSelect">
       <option value="">Select Week</option>
-            <option value="Week-11 ;  June-16">Week-11 ; June-16</option>
-            <option value="Week-12 ;  June-23">Week-12 ; June-23</option>
-            <option value="Week-13 ;  June-30">Week-13 ; June-30</option>
-            <option value="Week-14 ;  July-7">Week-14 ; July-7</option>
-            <option value="Week-15 ;  July-14">Week-15 ; July-14</option>
-            <option value="Week-16 ;  July-21">Week-16 ; July-21</option>
-            <option value="Week-17 ;  July-28">Week-17 ; July-28</option>
-            <option value="Week-18 ;  August-4">Week-18 ; August-4</option>
-            <option value="Week-19 ;  August-11">Week-19 ; August-11</option>
-            <option value="Week-20 ;  August-18">Week-20 ; August-18</option>
-            <option value="Week-21 ;  August-25">Week-21 ; August-25</option>
-            <option value="Week-22 ;  September-1">Week-22 ; September-1</option>
-            <option value="Week-23 ;  September-08">Week-23 ; September-08</option>
-            <option value="Week-24 ;  September-15">Week-24 ; September-15</option>
-            <option value="Week-25 ;  September-22">Week-25 ; September-22</option>
-            <option value="Week-26 ;  September-29">Week-26 ; September-29</option>
-            <option value="Week-27 ;  October-06">Week-27 ; October-06</option>
-            <option value="Week-28 ;  October-13">Week-28 ; October-13</option>
-            <option value="Week-29 ;  October-20">Week-29 ; October-20</option>
-            <option value="Week-30 ;  October-27">Week-30 ; October-27</option>
-            <option value="Week-31 ;  November-03">Week-31 ; November-03</option>
-            <option value="Week-32 ;  November-10">Week-32 ; November-10</option>
-            <option value="Week-33 ;  November-17">Week-33 ; November-17</option>
-            <option value="Week-34 ;  November-24">Week-34 ; November-24</option>
-            <option value="Week-35 ;  December-01">Week-35 ; December-01</option>
-            <option value="Week-36 ;  December-8">Week-36 ; December-8</option>
-            <option value="Week-37 ;  December-15">Week-37 ; December-15</option>
-            <option value="Week-38 ;  December-22">Week-38 ; December-22</option>
-            <option value="Week-39 ;  December-29">Week-39 ; December-29</option>
-            <option value="Week-40 ;  January-5">Week-40 ; January-5</option>
-            <option value="Week-41 ;  January-12">Week-41 ; January-12</option>
-            <option value="Week-42 ;  January-19">Week-42 ; January-19</option>
-            <option value="Week-43 ;  January-26">Week-43 ; January-26</option>
-            <option value="Week-44 ;  February-2">Week-44 ; February-2</option>
-            <option value="Week-45 ;  February-09">Week-45 ; February-09</option>
-            <option value="Week-46 ;  February-16">Week-46 ; February-16</option>
-            <option value="Week-47 ;  February-23">Week-47 ; February-23</option>
-            <option value="Week-48 ;  March-2">Week-48 ; March-2</option>
-            <option value="Week-49 ;  March-09">Week-49 ; March-09</option>
-            <option value="Week-50 ;  March-16">Week-50 ; March-16</option>
-            <option value="Week-51 ;  March-23">Week-51 ; March-23</option>
-      <!-- Add remaining weeks as needed -->
+      <option value="Week-11 ;  June-16">Week-11 ; June-16</option>
+      <option value="Week-12 ;  June-23">Week-12 ; June-23</option>
+      <option value="Week-13 ;  June-30">Week-13 ; June-30</option>
+      <option value="Week-14 ;  July-7">Week-14 ; July-7</option>
+      <option value="Week-15 ;  July-14">Week-15 ; July-14</option>
+      <!-- Add more weeks as needed -->
     </select>
 
+    <div id="spinner"><div class="spinner"></div></div>
     <div id="tracker"></div>
   </div>
 
   <script>
-    const apiBase = `https://script.google.com/a/~/macros/s/AKfycbwCtNV-fa0kK46vE-ulOyDNXwyIsltG6uXOyv_Tjq461jfSo0rOQVLhgviCb1tFfsOmhg/exec`;
+    const apiBase = `https://script.google.com/macros/s/AKfycbwCtNV-fa0kK46vE-ulOyDNXwyIsltG6uXOyv_Tjq461jfSo0rOQVLhgviCb1tFfsOmhg/exec`;
 
     const classList = [
       "Balvatika-I-A", "Balvatika-II-A", "Balvatika-II-B", "Balvatika-III-A", "Balvatika-III-B",
@@ -145,37 +129,44 @@
 
     document.getElementById("weekSelect").addEventListener("change", async function() {
       const week = this.value;
-      if (!week) return;
-
-      const res = await fetch(`${apiBase}?week="${encodeURIComponent(week)}"`);
-      const submittedData = await res.json();
+      const spinner = document.getElementById("spinner");
       const trackerDiv = document.getElementById("tracker");
       trackerDiv.innerHTML = "";
+      spinner.style.display = "block";
 
-      classList.forEach(cls => {
-        const group = classGroupMap[cls];
-        const subjects = subjectMap[group] || [];
+      try {
+        const res = await fetch(`${apiBase}?week="${encodeURIComponent(week)}"`);
+        const submittedData = await res.json();
 
-        const div = document.createElement("div");
-        div.className = "class-section";
+        classList.forEach(cls => {
+          const group = classGroupMap[cls];
+          const subjects = subjectMap[group] || [];
 
-        const title = document.createElement("div");
-        title.className = "class-name";
-        title.textContent = cls;
+          const div = document.createElement("div");
+          div.className = "class-section";
 
-        div.appendChild(title);
+          const title = document.createElement("div");
+          title.className = "class-name";
+          title.textContent = cls;
 
-        subjects.forEach(subject => {
-          const span = document.createElement("span");
-          span.className = "subject";
-          const found = submittedData.some(d => d.CLASS === cls && d.SUBJECT === subject);
-          span.classList.add(found ? "submitted" : "pending");
-          span.textContent = subject;
-          div.appendChild(span);
+          div.appendChild(title);
+
+          subjects.forEach(subject => {
+            const span = document.createElement("span");
+            span.className = "subject";
+            const found = submittedData.some(d => d.CLASS === cls && d.SUBJECT === subject);
+            span.classList.add(found ? "submitted" : "pending");
+            span.textContent = subject;
+            div.appendChild(span);
+          });
+
+          trackerDiv.appendChild(div);
         });
-
-        trackerDiv.appendChild(div);
-      });
+      } catch (e) {
+        trackerDiv.innerHTML = "<p style='color:red;'>Failed to load data.</p>";
+      } finally {
+        spinner.style.display = "none";
+      }
     });
   </script>
 </body>
