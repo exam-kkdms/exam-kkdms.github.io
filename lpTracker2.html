@@ -151,25 +151,28 @@
         const submittedSet = new Set(json.submitted.map(row => `${row.class}__${row.subject}`));
 
         for (let group in sectionMap) {
-          sectionMap[group].forEach(section => {
-            // Add section header row
-            const sectionHeader = `<tr class="section-header"><td colspan="3">${section}</td></tr>`;
-            tbody.innerHTML += sectionHeader;
+  sectionMap[group].forEach(section => {
+    const sectionHeader = `<tr class="section-header"><td colspan="3">${section}</td></tr>`;
+    tbody.innerHTML += sectionHeader;
 
-            (subjectOptions[group] || []).forEach(subject => {
-              const key = `${section}__${subject}`;
-              const submitted = submittedSet.has(key);
-              const row = `<tr>
-                <td>${section}</td>
-                <td>${subject}</td>
-                <td class="${submitted ? 'status-ok' : 'status-missing'}">
-                  ${submitted ? '✅ Submitted' : '❌ Not Submitted'}
-                </td>
-              </tr>`;
-              tbody.innerHTML += row;
-            });
-          });
-        }
+    (subjectOptions[group] || []).forEach(subject => {
+      // ✅ Map back to class name for lookup
+      const className = group;  // Already known from loop
+      const key = `${className}__${subject}`;
+      const submitted = submittedSet.has(key);
+
+      const row = `<tr>
+        <td>${section}</td>
+        <td>${subject}</td>
+        <td class="${submitted ? 'status-ok' : 'status-missing'}">
+          ${submitted ? '✅ Submitted' : '❌ Not Submitted'}
+        </td>
+      </tr>`;
+      tbody.innerHTML += row;
+    });
+  });
+}
+
 
         table.style.display = "table";
       } catch (error) {
