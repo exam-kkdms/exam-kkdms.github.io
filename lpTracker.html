@@ -138,36 +138,42 @@
   </table>
 
   <script>
-    const subjectOptions = {
-      "Class 1": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
-      "Class 2": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
-      "Class 3": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
-      "Class 4": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
-      "Class 5": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
-      "Class 6": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
-      "Class 7": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
-      "Class 8": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
-      "Class 9": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "HISTORY", "GEOGRAPHY", "ECONOMIC", "POL. SCIENCE", "PHYSICS", "CHEMISTRY", "BIOLOGY", "IT"],
-      "Class 10": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "HISTORY", "GEOGRAPHY", "ECONOMIC", "POL. SCIENCE", "PHYSICS", "CHEMISTRY", "BIOLOGY", "IT"],
-      "Class 11": ["English", "Bengali", "Hindi", "Mathematics", "History", "Sociology", "Economics", "Pol. Science", "Geography", "Physics", "Chemistry", "Biology", "Phy education", "Accountancy", "Business Studies", "Computer Sci", "Commercial art"],
-      "Class 12": ["English", "Bengali", "Hindi", "Mathematics", "History", "Sociology", "Economics", "Pol. Science", "Geography", "Physics", "Chemistry", "Biology", "Phy education", "Accountancy", "Business Studies", "Computer Sci", "Commercial art"]
-    };
+  const subjectOptions = {
+    "Balvatika 1": ["English", "Bengali", "Hindi", "Mathematics", "EVS", "Drawings"],
+    "Balvatika 2": ["English", "Bengali", "Hindi", "Mathematics", "EVS", "Drawings"],
+    "Balvatika 3": ["English", "Bengali", "Hindi", "Mathematics", "EVS", "Drawings"],
+    "Class 1": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+    "Class 2": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+    "Class 3": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+    "Class 4": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+    "Class 5": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "EVS", "Drawings", "Computer", "General knowladge"],
+    "Class 6": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
+    "Class 7": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
+    "Class 8": ["English", "Bengali 2nd Lan", "Bengali 3rd Lan", "Hindi 2nd Lan", "Hindi 3rd Lan", "Mathematics", "SST", "Science", "Drawings", "Computer", "General knowladge"],
+    "Class 9": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "HISTORY", "GEOGRAPHY", "ECONOMIC", "POL. SCIENCE", "PHYSICS", "CHEMISTRY", "BIOLOGY", "IT"],
+    "Class 10": ["English", "Bengali 2nd Lan", "Hindi 2nd Lan", "Mathematics", "HISTORY", "GEOGRAPHY", "ECONOMIC", "POL. SCIENCE", "PHYSICS", "CHEMISTRY", "BIOLOGY", "IT"],
+    "Class 11": ["English", "Bengali", "Hindi", "Mathematics", "History", "Sociology", "Economics", "Pol. Science", "Geography", "Physics", "Chemistry", "Biology", "Phy education", "Accountancy", "Business Studies", "Computer Sci", "Commercial art"],
+    "Class 12": ["English", "Bengali", "Hindi", "Mathematics", "History", "Sociology", "Economics", "Pol. Science", "Geography", "Physics", "Chemistry", "Biology", "Phy education", "Accountancy", "Business Studies", "Computer Sci", "Commercial art"]
+  };
 
-    const sectionMap = {
-      "Class 1": ["I-A", "I-B"],
-      "Class 2": ["II-A", "II-B"],
-      "Class 3": ["III-A", "III-B"],
-      "Class 4": ["IV-A", "IV-B"],
-      "Class 5": ["V-A", "V-B"],
-      "Class 6": ["VI-A"],
-      "Class 7": ["VII-A", "VII-B"],
-      "Class 8": ["VIII-A", "VIII-B"],
-      "Class 9": ["IX-A"],
-      "Class 10": ["X-A"],
-      "Class 11": ["XI"],
-      "Class 12": ["XII"]
+  const sectionMap = {
+    "Balvatika 1": ["Balvatika-I-A"],
+    "Balvatika 2": ["Balvatika-II-A", "Balvatika-II-B"],
+    "Balvatika 3": ["Balvatika-III-A", "Balvatika-III-B"],
+    "Class 1": ["I-A", "I-B"],
+    "Class 2": ["II-A", "II-B"],
+    "Class 3": ["III-A", "III-B"],
+    "Class 4": ["IV-A", "IV-B"],
+    "Class 5": ["V-A", "V-B"],
+    "Class 6": ["VI-A"],
+    "Class 7": ["VII-A", "VII-B"],
+    "Class 8": ["VIII-A", "VIII-B"],
+    "Class 9": ["IX-A"],
+    "Class 10": ["X-A"],
+    "Class 11": ["XI"],
+    "Class 12": ["XII"]
     };
-
+  
     document.getElementById("week").addEventListener("change", async () => {
       const week = document.getElementById("week").value;
       const tbody = document.getElementById("resultBody");
