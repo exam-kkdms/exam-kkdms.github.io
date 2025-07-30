@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Syllabus Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f5f5;
+      padding: 10px;
+    }
+    h1 {
+      text-align: center;
+    }
+    select, button {
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      width: 100%;
+    }
+    .subject-card {
+      background: #fff;
+      border: 1px solid #ccc;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .subject-card h3 {
+      margin: 0 0 5px;
+      color: #2c3e50;
+    }
+    .subject-card p {
+      margin: 5px 0;
+      white-space: pre-wrap;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 5px;
+    }
+    table, th, td {
+      border: 1px solid #aaa;
+    }
+    th, td {
+      padding: 5px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Class Syllabus Viewer</h1>
+
+  <label for="classSelect">Select Class:</label>
+  <select id="classSelect">
+    <option value="">-- Select Class --</option>
+    ${[...Array(12)].map((_, i) => `<option value="Class ${i+1}">Class ${i+1}</option>`).join('')}
+  </select>
+
+  <div id="result"></div>
+
+  <script>
+    const apiBase = "https://script.google.com/macros/s/AKfycbzKUxDGO51fwaNTox5yn2cqfpqMLAFKqJhiAFxGpPxg6ANNWpCJVKvyw29dYwsnOIiX/exec";
+
+    document.getElementById("classSelect").addEventListener("change", async function () {
+      const selectedClass = this.value;
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "Loading...";
+
+      if (!selectedClass) {
+        resultDiv.innerHTML = "";
+        return;
+      }
+
+      try {
+        const response = await fetch(`${apiBase}?class=${encodeURIComponent(selectedClass)}`);
+        const data = await response.json();
+
+        if (!data.subjects || data.subjects.length === 0) {
+          resultDiv.innerHTML = `<p>No data available for ${selectedClass}.</p>`;
+          return;
+        }
+
+        resultDiv.innerHTML = `<h2>${data.class}</h2>`;
+        data.subjects.forEach(subject => {
+          if (!subject.SUBJECT) return;
+
+          const syllabus = subject.SYLLABUS || "N/A";
+          const teacher = subject.TEACHER || "N/A";
+
+          let markTable = "<table><tr><th>Mark</th><th>No. of Questions</th><th>Optional Questions</th></tr>";
+          subject.MARK_DISTRIBUTION.forEach(row => {
+            if (row.MARK !== "" || row.NUM_QUESTIONS !== "" || row.OR_QUESTIONS !== "") {
+              markTable += `<tr>
+                <td>${row.MARK || ""}</td>
+                <td>${row.NUM_QUESTIONS || ""}</td>
+                <td>${row.OR_QUESTIONS || ""}</td>
+              </tr>`;
+            }
+          });
+          markTable += "</table>";
+
+          const total = subject.TOTALS.TOTAL_MARK || 0;
+
+          resultDiv.innerHTML += `
+            <div class="subject-card">
+              <h3>${subject.SUBJECT}</h3>
+              <p><strong>Teacher:</strong> ${teacher}</p>
+              <p><strong>Syllabus:</strong><br>${syllabus}</p>
+              <p><strong>Mark Distribution:</strong></p>
+              ${markTable}
+              <p><strong>Total Marks:</strong> ${total}</p>
+            </div>
+          `;
+        });
+
+      } catch (error) {
+        resultDiv.innerHTML = `<p style="color:red;">Error fetching data. Please try again later.</p>`;
+        console.error("Fetch error:", error);
+      }
+    });
+  </script>
+</body>
+</html>
