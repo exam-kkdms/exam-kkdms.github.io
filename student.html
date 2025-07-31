@@ -485,7 +485,7 @@
 
     <script>
         let studentClass = ""; // Universal variable to store student's class
-        const baseUrl = 'https://script.google.com/macros/s/AKfycbzKUxDGO51fwaNTox5yn2cqfpqMLAFKqJhiAFxGpPxg6ANNWpCJVKvyw29dYwsnOIiX/exec';
+        const baseUrl = 'https://script.google.com/a/~/macros/s/AKfycbzKUxDGO51fwaNTox5yn2cqfpqMLAFKqJhiAFxGpPxg6ANNWpCJVKvyw29dYwsnOIiX/exec';
 
         async function login() {
             const admissionNo = document.getElementById("admissionNo").value.trim();
@@ -504,7 +504,7 @@
             loginBtnText.innerHTML = '<span class="login-spinner"></span>Logging in...';
             errorMsg.textContent = "";
 
-            const apiUrl = `https://script.google.com/macros/s/AKfycbyI5MdKWihNQxlCtpU0z4CH7cM2_av8I29-ST3SE6Nt2Wqfq6h4zZZ7cMOQqu8JJb6ZnA/exec?admissionno=${admissionNo}`;
+            const apiUrl = `https://script.google.com/a/~/macros/s/AKfycbyI5MdKWihNQxlCtpU0z4CH7cM2_av8I29-ST3SE6Nt2Wqfq6h4zZZ7cMOQqu8JJb6ZnA/exec?admissionno=${admissionNo}`;
 
             try {
                 const response = await fetch(apiUrl);
