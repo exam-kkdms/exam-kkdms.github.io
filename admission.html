@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Inquiry Management</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+    const { Plus, Eye, FileText, Search, RefreshCw } = lucide;
+
+    // Replace this with your Google Apps Script Web App URL after deployment
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-pyXNpH22TIEaiECK7BG_dkBr21J4suc25lECDdxySQa0nFXfFMzH5EBvbkkcS37f/exec';
+
+    function InquiryManagementApp() {
+      const [activeTab, setActiveTab] = useState('new');
+      const [inquiries, setInquiries] = useState([]);
+      const [selectedInquiry, setSelectedInquiry] = useState(null);
+      const [loading, setLoading] = useState(false);
+      const [searchTerm, setSearchTerm] = useState('');
+
+      const [newInquiry, setNewInquiry] = useState({
+        studentName: '',
+        fatherName: '',
+        motherName: '',
+        address: '',
+        mobile: '',
+        dob: '',
+        classInterested: '',
+        session: '',
+        counselorName: ''
+      });
+
+      const [followUp, setFollowUp] = useState({
+        inquiryId: '',
+        counselorName: '',
+        status: '',
+        remarks: '',
+        cancelReason: ''
+      });
+
+      const loadInquiries = async () => {
+        setLoading(true);
+        try {
+          const response = await fetch(`${SCRIPT_URL}?action=getInquiries`);
+          const data = await response.json();
+          setInquiries(data);
+        } catch (error) {
+          console.error('Error loading inquiries:', error);
+          setInquiries([
+            {
+              id: 'INQ001',
+              studentName: 'Rahul Kumar',
+              fatherName: 'Suresh Kumar',
+              motherName: 'Priya Kumar',
+              address: 'Siliguri, WB',
+              mobile: '9876543210',
+              dob: '2010-05-15',
+              classInterested: 'Class 10',
+              session: '2025-26',
+              counselorName: 'Mr. Sharma',
+              status: 'Pending',
+              followUpCount: 0,
+              followUps: [],
+              createdAt: new Date().toISOString()
+            }
+          ]);
+        }
+        setLoading(false);
+      };
+
+      useEffect(() => {
+        loadInquiries();
+      }, []);
+
+      const handleNewInquirySubmit = async () => {
+        if (!newInquiry.studentName || !newInquiry.fatherName || !newInquiry.motherName || 
+            !newInquiry.address || !newInquiry.mobile || !newInquiry.dob || 
+            !newInquiry.classInterested || !newInquiry.session || !newInquiry.counselorName) {
+          alert('Please fill all required fields');
+          return;
+        }
+
+        setLoading(true);
+
+        const inquiry = {
+          id: `INQ${String(inquiries.length + 1).padStart(3, '0')}`,
+          ...newInquiry,
+          status: 'Pending',
+          followUpCount: 0,
+          followUps: [],
+          createdAt: new Date().toISOString()
+        };
+
+        try {
+          await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'addInquiry', data: inquiry })
+          });
+
+          setInquiries([...inquiries, inquiry]);
+          setNewInquiry({
+            studentName: '',
+            fatherName: '',
+            motherName: '',
+            address: '',
+            mobile: '',
+            dob: '',
+            classInterested: '',
+            session: '',
+            counselorName: ''
+          });
+          alert('Inquiry submitted successfully!');
+          setActiveTab('view');
+        } catch (error) {
+          console.error('Error submitting inquiry:', error);
+        }
+        setLoading(false);
+      };
+
+      const handleFollowUpSubmit = async () => {
+        if (!followUp.inquiryId || !followUp.counselorName || !followUp.status || !followUp.remarks) {
+          alert('Please fill all required fields');
+          return;
+        }
+
+        const inquiry = inquiries.find(i => i.id === followUp.inquiryId);
+        if (!inquiry) {
+          alert('Inquiry not found!');
+          return;
+        }
+
+        if (followUp.status === 'Cancel' && !followUp.cancelReason) {
+          alert('Please provide a reason for cancellation');
+          return;
+        }
+
+        setLoading(true);
+
+        const newFollowUpEntry = {
+          date: new Date().toISOString(),
+          counselorName: followUp.counselorName,
+          status: followUp.status,
+          remarks: followUp.remarks,
+          cancelReason: followUp.status === 'Cancel' ? followUp.cancelReason : ''
+        };
+
+        const updatedInquiry = {
+          ...inquiry,
+          status: followUp.status,
+          followUpCount: inquiry.followUpCount + 1,
+          followUps: [...inquiry.followUps, newFollowUpEntry]
+        };
+
+        try {
+          await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'updateInquiry', data: updatedInquiry })
+          });
+
+          setInquiries(inquiries.map(i => i.id === inquiry.id ? updatedInquiry : i));
+          setFollowUp({
+            inquiryId: '',
+            counselorName: '',
+            status: '',
+            remarks: '',
+            cancelReason: ''
+          });
+          alert('Follow-up recorded successfully!');
+          setActiveTab('view');
+        } catch (error) {
+          console.error('Error submitting follow-up:', error);
+        }
+        setLoading(false);
+      };
+
+      const loadInquiryForFollowUp = () => {
+        return inquiries.find(i => i.id === followUp.inquiryId);
+      };
+
+      const filteredInquiries = inquiries.filter(i =>
+        i.studentName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        i.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        i.mobile.includes(searchTerm)
+      );
+
+      const Icon = ({ icon: IconComponent, ...props }) => {
+        return <i data-lucide={IconComponent} {...props} />;
+      };
+
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+          <div className="container mx-auto px-4 py-8">
+            <div className="bg-white rounded-lg shadow-xl overflow-hidden">
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6">
+                <h1 className="text-3xl font-bold">Student Inquiry Management System</h1>
+                <p className="text-blue-100 mt-2">Track and manage student inquiries efficiently</p>
+              </div>
+
+              <div className="flex border-b">
+                <button
+                  onClick={() => setActiveTab('new')}
+                  className={`flex items-center gap-2 px-6 py-4 font-medium transition ${
+                    activeTab === 'new'
+                      ? 'bg-blue-50 text-blue-600 border-b-2 border-blue-600'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <span>➕</span>
+                  New Inquiry
+                </button>
+                <button
+                  onClick={() => setActiveTab('followup')}
+                  className={`flex items-center gap-2 px-6 py-4 font-medium transition ${
+                    activeTab === 'followup'
+                      ? 'bg-blue-50 text-blue-600 border-b-2 border-blue-600'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <span>📝</span>
+                  Follow Up
+                </button>
+                <button
+                  onClick={() => setActiveTab('view')}
+                  className={`flex items-center gap-2 px-6 py-4 font-medium transition ${
+                    activeTab === 'view'
+                      ? 'bg-blue-50 text-blue-600 border-b-2 border-blue-600'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <span>👁️</span>
+                  View All ({inquiries.length})
+                </button>
+              </div>
+
+              <div className="p-6">
+                {activeTab === 'new' && (
+                  <div className="space-y-4">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-4">New Student Inquiry</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Student Name *</label>
+                        <input
+                          type="text"
+                          value={newInquiry.studentName}
+                          onChange={(e) => setNewInquiry({ ...newInquiry, studentName: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Father's Name *</label>
+                        <input
+                          type="text"
+                          value={newInquiry.fatherName}
+                          onChange={(e) => setNewInquiry({ ...newInquiry, fatherName: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Mother's Name *</label>
+                        <input
+                          type="text"
+                          value={newInquiry.motherName}
+                          onChange={(e) => setNewInquiry({ ...newInquiry, motherName: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number *</label>
+                        <input
+                          type="tel"
+                          pattern="[0-9]{10}"
+                          value={newInquiry.mobile}
+                          onChange={(e) => setNewInquiry({ ...newInquiry, mobile: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth *</label>
+                        <input
+                          type="date"
+                          value={newInquiry.dob}
+                          onChange={(e) => setNewInquiry({ ...newInquiry, dob: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Class Interested *</label>
+                        <select
+                          value={newInquiry.classInterested}
+                          onChange={(e) => setNewInquiry({ ...newInquiry, classInterested: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                          <option value="">Select Class</option>
+                          {['Nursery', 'LKG', 'UKG', 'Class 1', 'Class 2', 'Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'].map(c => (
+                            <option key={c} value={c}>{c}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Session *</label>
+                        <input
+                          type="text"
+                          placeholder="e.g., 2025-26"
+                          value={newInquiry.session}
+                          onChange={(e) => setNewInquiry({ ...newInquiry, session: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Counselor Name *</label>
+                        <input
+                          type="text"
+                          value={newInquiry.counselorName}
+                          onChange={(e) => setNewInquiry({ ...newInquiry, counselorName: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Address *</label>
+                        <textarea
+                          value={newInquiry.address}
+                          onChange={(e) => setNewInquiry({ ...newInquiry, address: e.target.value })}
+                          rows="3"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleNewInquirySubmit}
+                      disabled={loading}
+                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transition disabled:opacity-50"
+                    >
+                      {loading ? 'Submitting...' : 'Submit Inquiry'}
+                    </button>
+                  </div>
+                )}
+
+                {activeTab === 'followup' && (
+                  <div className="space-y-4">
+                    <h2 className="text-2xl font-bold text-gray-800 mb-4">Follow Up</h2>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Inquiry ID *</label>
+                        <input
+                          type="text"
+                          value={followUp.inquiryId}
+                          onChange={(e) => setFollowUp({ ...followUp, inquiryId: e.target.value.toUpperCase() })}
+                          placeholder="e.g., INQ001"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+
+                      {followUp.inquiryId && loadInquiryForFollowUp() && (
+                        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                          <h3 className="font-semibold text-blue-900 mb-2">Student Details</h3>
+                          <div className="grid grid-cols-2 gap-2 text-sm">
+                            <p><span className="font-medium">Name:</span> {loadInquiryForFollowUp().studentName}</p>
+                            <p><span className="font-medium">Class:</span> {loadInquiryForFollowUp().classInterested}</p>
+                            <p><span className="font-medium">Mobile:</span> {loadInquiryForFollowUp().mobile}</p>
+                            <p><span className="font-medium">Current Status:</span> <span className={`px-2 py-1 rounded text-xs ${
+                              loadInquiryForFollowUp().status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                              loadInquiryForFollowUp().status === 'Done' ? 'bg-green-100 text-green-800' :
+                              'bg-red-100 text-red-800'
+                            }`}>{loadInquiryForFollowUp().status}</span></p>
+                            <p><span className="font-medium">Follow-ups:</span> {loadInquiryForFollowUp().followUpCount}</p>
+                          </div>
+                        </div>
+                      )}
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Counselor Name *</label>
+                        <input
+                          type="text"
+                          value={followUp.counselorName}
+                          onChange={(e) => setFollowUp({ ...followUp, counselorName: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Status *</label>
+                        <select
+                          value={followUp.status}
+                          onChange={(e) => setFollowUp({ ...followUp, status: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                          <option value="">Select Status</option>
+                          <option value="Pending">Pending</option>
+                          <option value="Done">Done</option>
+                          <option value="Cancel">Cancel</option>
+                        </select>
+                      </div>
+
+                      {followUp.status === 'Cancel' && (
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">Cancellation Reason *</label>
+                          <textarea
+                            value={followUp.cancelReason}
+                            onChange={(e) => setFollowUp({ ...followUp, cancelReason: e.target.value })}
+                            rows="3"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Please explain why this inquiry is being cancelled"
+                          />
+                        </div>
+                      )}
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Remarks *</label>
+                        <textarea
+                          value={followUp.remarks}
+                          onChange={(e) => setFollowUp({ ...followUp, remarks: e.target.value })}
+                          rows="4"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="Enter follow-up remarks"
+                        />
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleFollowUpSubmit}
+                      disabled={loading}
+                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 transition disabled:opacity-50"
+                    >
+                      {loading ? 'Submitting...' : 'Submit Follow Up'}
+                    </button>
+                  </div>
+                )}
+
+                {activeTab === 'view' && (
+                  <div>
+                    <div className="flex justify-between items-center mb-4">
+                      <h2 className="text-2xl font-bold text-gray-800">All Inquiries</h2>
+                      <button
+                        onClick={loadInquiries}
+                        className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                      >
+                        <span>🔄</span>
+                        Refresh
+                      </button>
+                    </div>
+
+                    <div className="mb-4">
+                      <div className="relative">
+                        <span className="absolute left-3 top-3 text-gray-400">🔍</span>
+                        <input
+                          type="text"
+                          placeholder="Search by name, ID, or mobile..."
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead className="bg-gray-50">
+                          <tr>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Student Name</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mobile</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Class</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Follow-ups</th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {filteredInquiries.map((inquiry) => (
+                            <tr key={inquiry.id} className="hover:bg-gray-50">
+                              <td className="px-4 py-3 text-sm font-medium text-gray-900">{inquiry.id}</td>
+                              <td className="px-4 py-3 text-sm text-gray-900">{inquiry.studentName}</td>
+                              <td className="px-4 py-3 text-sm text-gray-900">{inquiry.mobile}</td>
+                              <td className="px-4 py-3 text-sm text-gray-900">{inquiry.classInterested}</td>
+                              <td className="px-4 py-3 text-sm">
+                                <span className={`px-2 py-1 rounded text-xs font-medium ${
+                                  inquiry.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                                  inquiry.status === 'Done' ? 'bg-green-100 text-green-800' :
+                                  'bg-red-100 text-red-800'
+                                }`}>
+                                  {inquiry.status}
+                                </span>
+                              </td>
+                              <td className="px-4 py-3 text-sm text-gray-900 text-center">{inquiry.followUpCount}</td>
+                              <td className="px-4 py-3 text-sm">
+                                <button
+                                  onClick={() => setSelectedInquiry(inquiry)}
+                                  className="text-blue-600 hover:text-blue-800 font-medium"
+                                >
+                                  View Details
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {selectedInquiry && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+              <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h2 className="text-2xl font-bold">{selectedInquiry.studentName}</h2>
+                      <p className="text-blue-100">Inquiry ID: {selectedInquiry.id}</p>
+                    </div>
+                    <button
+                      onClick={() => setSelectedInquiry(null)}
+                      className="text-white hover:text-gray-200 text-2xl"
+                    >
+                      ×
+                    </button>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div>
+                      <p className="text-sm text-gray-500">Father's Name</p>
+                      <p className="font-medium">{selectedInquiry.fatherName}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Mother's Name</p>
+                      <p className="font-medium">{selectedInquiry.motherName}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Mobile</p>
+                      <p className="font-medium">{selectedInquiry.mobile}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Date of Birth</p>
+                      <p className="font-medium">{selectedInquiry.dob}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Class Interested</p>
+                      <p className="font-medium">{selectedInquiry.classInterested}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Session</p>
+                      <p className="font-medium">{selectedInquiry.session}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Initial Counselor</p>
+                      <p className="font-medium">{selectedInquiry.counselorName}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Current Status</p>
+                      <span className={`inline-block px-2 py-1 rounded text-xs font-medium ${
+                        selectedInquiry.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                        selectedInquiry.status === 'Done' ? 'bg-green-100 text-green-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {selectedInquiry.status}
+                      </span>
+                    </div>
+                    <div className="col-span-2">
+                      <p className="text-sm text-gray-500">Address</p>
+                      <p className="font-medium">{selectedInquiry.address}</p>
+                    </div>
+                  </div>
+
+                  <div className="border-t pt-4">
+                    <h3 className="text-lg font-bold mb-4">Follow-up History ({selectedInquiry.followUpCount})</h3>
+                    {selectedInquiry.followUps.length > 0 ? (
+                      <div className="space-y-4">
+                        {selectedInquiry.followUps.map((fu, idx) => (
+                          <div key={idx} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div className="flex justify-between items-start mb-2">
+                              <p className="font-semibold text-gray-900">Follow-up #{idx + 1}</p>
+                              <p className="text-xs text-gray-500">{new Date(fu.date).toLocaleString()}</p>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2 text-sm mb-2">
+                              <p><span className="text-gray-600">Counselor:</span> {fu.counselorName}</p>
+                              <p><span className="text-gray-600">Status:</span> <span className={`px-2 py-1 rounded text-xs ${
+                                fu.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                                fu.status === 'Done' ? 'bg-green-100 text-green-800' :
+                                'bg-red-100 text-red-800'
+                              }`}>{fu.status}</span></p>
+                            </div>
+                            <p className="text-sm text-gray-700"><span className="font-medium">Remarks:</span> {fu.remarks}</p>
+                            {fu.cancelReason && (
+                              <p className="text-sm text-red-600 mt-2"><span className="font-medium">Cancel Reason:</span> {fu.cancelReason}</p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-gray-500 text-center py-4">No follow-ups yet</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<InquiryManagementApp />);
+  </script>
+</body>
+</html>
