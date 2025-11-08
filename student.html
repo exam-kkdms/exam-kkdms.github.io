@@ -206,6 +206,64 @@
             padding: 30px;
         }
 
+        .exam-selector {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .exam-selector label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .exam-selector select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #f9fafb;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .exam-selector select:focus {
+            outline: none;
+            border-color: #4f46e5;
+            background-color: white;
+        }
+
+        .btn-search {
+            width: 100%;
+            margin-top: 15px;
+            padding: 14px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-search:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-search:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .loading {
             text-align: center;
             padding: 60px;
@@ -249,47 +307,51 @@
         }
 
         .subject-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-5px);
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
         }
 
         .subject-header {
             background: linear-gradient(135deg, #1e40af, #3b82f6);
             color: white;
-            padding: 20px 25px;
-            border-bottom: 1px solid #e5e7eb;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .subject-name {
-            font-size: 1.4rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 8px;
         }
 
-        .subject-teacher {
-            font-size: 0.95rem;
-            opacity: 0.9;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .total-marks-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1.3rem;
+            font-weight: 700;
         }
 
         .subject-body {
             padding: 25px;
         }
 
-        .syllabus-section {
+        .info-section {
             margin-bottom: 25px;
         }
 
-        .syllabus-title {
+        .section-title {
             font-weight: 600;
             color: #374151;
             margin-bottom: 10px;
             font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .syllabus-text {
+        .section-content {
             background: #f8fafc;
             padding: 15px;
             border-radius: 8px;
@@ -299,48 +361,55 @@
             color: #4b5563;
         }
 
-        .marks-table {
+        .mark-pattern {
+            margin-top: 15px;
+            overflow-x: auto;
+        }
+
+        .mark-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
             background: white;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .marks-table th {
+        .mark-table thead {
             background: linear-gradient(135deg, #374151, #4b5563);
             color: white;
-            padding: 12px 15px;
-            text-align: left;
+        }
+
+        .mark-table th {
+            padding: 15px;
+            text-align: center;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .marks-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #f1f5f9;
-            color: #374151;
+        .mark-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 1.1em;
+            color: #333;
         }
 
-        .marks-table tr:hover {
-            background: #f8fafc;
+        .mark-table tbody tr:hover {
+            background: #f5f7fa;
         }
 
-        .marks-table tr:last-child td {
+        .mark-table tbody tr:last-child td {
             border-bottom: none;
         }
 
-        .total-marks {
-            background: linear-gradient(135deg, #059669, #10b981);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-top: 15px;
+        .no-pattern {
             text-align: center;
-            font-weight: 600;
-            font-size: 1.1rem;
+            padding: 20px;
+            color: #666;
+            font-style: italic;
         }
 
         .no-data {
@@ -348,15 +417,6 @@
             padding: 60px;
             color: #6b7280;
             font-size: 1.1rem;
-        }
-
-        .oral-mark {
-            background: #fef3c7;
-            color: #92400e;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: 500;
         }
 
         .back-btn {
@@ -382,13 +442,19 @@
                 padding: 20px;
             }
 
-            .marks-table {
-                font-size: 0.85rem;
+            .subject-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
             }
 
-            .marks-table th,
-            .marks-table td {
-                padding: 8px 10px;
+            .mark-table {
+                font-size: 0.9em;
+            }
+
+            .mark-table th,
+            .mark-table td {
+                padding: 10px 5px;
             }
 
             .action-buttons {
@@ -472,6 +538,18 @@
                 </button>
             </div>
 
+            <div class="exam-selector">
+                <label for="examSelect">Select Examination</label>
+                <select id="examSelect">
+                    <option value="">-- Choose Exam --</option>
+                    <option value="TERM II">TERM II</option>
+                    <option value="PA 4">PA 4</option>
+                </select>
+                <button onclick="fetchSyllabus()" class="btn-search" id="searchBtn">
+                    🔍 View Syllabus
+                </button>
+            </div>
+
             <div id="loading" class="loading" style="display: none;">
                 <div class="spinner"></div>
                 <div>Loading syllabus data...</div>
@@ -485,7 +563,7 @@
 
     <script>
         let studentClass = ""; // Universal variable to store student's class
-        const baseUrl = 'https://script.google.com/a/~/macros/s/AKfycbzKUxDGO51fwaNTox5yn2cqfpqMLAFKqJhiAFxGpPxg6ANNWpCJVKvyw29dYwsnOIiX/exec';
+        const SYLLABUS_API = "https://script.google.com/macros/s/AKfycbwRq59ebZVkXJmPmZSNUV3FuY16f_Jc5hYrJ4XBponxaBaZLFPkZXy_c3qpNjMANJ3W/exec";
 
         async function login() {
             const admissionNo = document.getElementById("admissionNo").value.trim();
@@ -548,7 +626,7 @@
             }
         }
 
-        async function showSyllabus() {
+        function showSyllabus() {
             if (!studentClass) {
                 alert("Class information not available. Please login again.");
                 return;
@@ -557,14 +635,18 @@
             // Hide home section, show syllabus section
             document.getElementById("homeSection").style.display = "none";
             document.getElementById("syllabusSection").style.display = "block";
-
-            // Load syllabus data
-            await loadClassData(studentClass);
+            
+            // Reset exam selection and content
+            document.getElementById("examSelect").value = "";
+            document.getElementById("syllabusContent").innerHTML = "";
         }
 
         function backToHome() {
             document.getElementById("syllabusSection").style.display = "none";
             document.getElementById("homeSection").style.display = "block";
+            // Clear syllabus content
+            document.getElementById("syllabusContent").innerHTML = "";
+            document.getElementById("examSelect").value = "";
         }
 
         function logout() {
@@ -574,6 +656,7 @@
             document.getElementById("dob").value = "";
             document.getElementById("errorMsg").textContent = "";
             document.getElementById("syllabusContent").innerHTML = "";
+            document.getElementById("examSelect").value = "";
             
             // Show login section, hide others
             document.getElementById("homeSection").style.display = "none";
@@ -581,110 +664,155 @@
             document.getElementById("loginSection").style.display = "block";
         }
 
-        async function loadClassData(className) {
+        async function fetchSyllabus() {
+            const examSelect = document.getElementById('examSelect').value;
             const loading = document.getElementById('loading');
             const error = document.getElementById('error');
             const content = document.getElementById('syllabusContent');
+            const searchBtn = document.getElementById('searchBtn');
 
-            loading.style.display = 'block';
-            error.style.display = 'none';
-            content.innerHTML = '';
-
-            try {
-                const url = `${baseUrl}?class=${encodeURIComponent(className)}`;
-                const response = await fetch(url);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                displayClassData(data);
-                
-            } catch (err) {
-                console.error('Error fetching data:', err);
-                error.textContent = `Error loading data: ${err.message}. Please check your internet connection and try again.`;
-                error.style.display = 'block';
-            } finally {
-                loading.style.display = 'none';
-            }
-        }
-
-        function displayClassData(data) {
-            const content = document.getElementById('syllabusContent');
-            
-            if (!data || !data.subjects || data.subjects.length === 0) {
-                content.innerHTML = '<div class="no-data">No syllabus data available for your class.</div>';
+            if (!examSelect) {
+                alert('⚠️ Please select an examination');
                 return;
             }
 
-            let html = `<h2 style="text-align: center; margin-bottom: 30px; color: #374151; font-size: 1.8rem;">📋 ${data.class} - Syllabus & Mark Distribution</h2>`;
+            if (!studentClass) {
+                alert('⚠️ Class information not available. Please login again.');
+                return;
+            }
 
-            data.subjects.forEach(subject => {
-                html += createSubjectCard(subject);
+            content.innerHTML = '';
+            error.style.display = 'none';
+            loading.style.display = 'block';
+            searchBtn.disabled = true;
+
+            try {
+                const url = `${SYLLABUS_API}?class=${encodeURIComponent(studentClass)}&exam=${encodeURIComponent(examSelect)}`;
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch syllabus data');
+                }
+
+                const data = await response.json();
+                displayResults(data);
+            } catch (err) {
+                console.error('Error:', err);
+                error.textContent = '❌ Error loading syllabus. Please try again later.';
+                error.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+                searchBtn.disabled = false;
+            }
+        }
+
+        function displayResults(data) {
+            const content = document.getElementById('syllabusContent');
+            
+            if (!data || data.length === 0) {
+                content.innerHTML = '<div class="no-data">📭 No syllabus found for the selected exam.</div>';
+                return;
+            }
+
+            let html = '';
+            data.forEach(subject => {
+                if (!subject.Subject) return;
+
+                html += `
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-name">${subject.Subject}</div>
+                            <div class="total-marks-badge">Total: ${subject['TOTAL MARK'] || 'N/A'} Marks</div>
+                        </div>
+
+                        <div class="subject-body">
+                            ${subject['TEACHER NAME'] ? `
+                            <div class="info-section">
+                                <div class="section-title">👨‍🏫 Teacher</div>
+                                <div class="section-content">${subject['TEACHER NAME']}</div>
+                            </div>
+                            ` : ''}
+
+                            ${subject['Syllabus (Chapter Name & Topics) '] ? `
+                            <div class="info-section">
+                                <div class="section-title">📖 Syllabus</div>
+                                <div class="section-content">${subject['Syllabus (Chapter Name & Topics) ']}</div>
+                            </div>
+                            ` : ''}
+
+                            <div class="info-section">
+                                <div class="section-title">📊 Mark Pattern</div>
+                                <div class="mark-pattern">
+                                    ${generateMarkPattern(subject)}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
             });
 
             content.innerHTML = html;
         }
 
-        function createSubjectCard(subject) {
-            let marksTableHtml = `
-                <table class="marks-table">
+        function generateMarkPattern(subject) {
+            let rows = [];
+            
+            // Collect all mark patterns
+            for (let i = 1; i <= 5; i++) {
+                const mark = subject[`Select Mark_${i}`];
+                const questions = subject[`No of Questions_${i}`];
+                const orQuestions = subject[`No. of OR Question (If any)_${i}`];
+
+                // Only add row if there's data (mark and questions exist)
+                if (mark && questions) {
+                    rows.push({
+                        mark: mark,
+                        questions: questions,
+                        orQuestions: orQuestions || '-'
+                    });
+                }
+            }
+
+            // If no patterns found, return message
+            if (rows.length === 0) {
+                return '<div class="no-pattern">No mark pattern available</div>';
+            }
+
+            // Generate table HTML
+            let html = `
+                <table class="mark-table">
                     <thead>
                         <tr>
-                            <th>Marks per Question</th>
-                            <th>Number of Questions</th>
-                            <th>Total Marks</th>
-                            <th>Special Notes</th>
+                            <th>Mark</th>
+                            <th>No. of Questions</th>
+                            <th>No. of OR Questions</th>
                         </tr>
                     </thead>
                     <tbody>
             `;
 
-            subject.MARK_DISTRIBUTION.forEach((mark, index) => {
-                if (mark.MARK || mark.NUM_QUESTIONS || mark.OR_QUESTIONS) {
-                    const totalMarks = mark.MARK && mark.NUM_QUESTIONS ? mark.MARK * mark.NUM_QUESTIONS : '';
-                    const specialNote = mark.OR_QUESTIONS ? `<span class="oral-mark">${mark.OR_QUESTIONS}</span>` : '';
-                    
-                    marksTableHtml += `
-                        <tr>
-                            <td>${mark.MARK || '-'}</td>
-                            <td>${mark.NUM_QUESTIONS || '-'}</td>
-                            <td>${totalMarks || '-'}</td>
-                            <td>${specialNote}</td>
-                        </tr>
-                    `;
-                }
+            rows.forEach(row => {
+                html += `
+                    <tr>
+                        <td><strong>${row.mark}</strong></td>
+                        <td>${row.questions}</td>
+                        <td>${row.orQuestions}</td>
+                    </tr>
+                `;
             });
 
-            marksTableHtml += `
+            html += `
                     </tbody>
                 </table>
-                <div class="total-marks">
-                    🎯 Total Marks: ${subject.TOTALS.TOTAL_MARK}
-                </div>
             `;
 
-            return `
-                <div class="subject-card">
-                    <div class="subject-header">
-                        <div class="subject-name">${subject.SUBJECT}</div>
-                        <div class="subject-teacher">👨‍🏫 Teacher: ${subject.TEACHER}</div>
-                    </div>
-                    <div class="subject-body">
-                        <div class="syllabus-section">
-                            <div class="syllabus-title">📖 Syllabus:</div>
-                            <div class="syllabus-text">${subject.SYLLABUS}</div>
-                        </div>
-                        
-                        <div class="syllabus-section">
-                            <div class="syllabus-title">📊 Mark Distribution:</div>
-                            ${marksTableHtml}
-                        </div>
-                    </div>
-                </div>
-            `;
+            return html;
         }
+
+        // Allow Enter key to trigger search
+        document.getElementById('examSelect').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') fetchSyllabus();
+        });
     </script>
 </body>
 </html>
