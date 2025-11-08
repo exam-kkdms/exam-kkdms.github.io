@@ -213,9 +213,7 @@ button:hover {
     <button onclick="toggleMenu('uploadMenu')">Upload</button>
     <button onclick="toggleMenu('downloadMenu')">Download</button>
     <button onclick="toggleMenu('viewMenu')">View</button>
-    <button onclick="toggleMenu('lessonPlanMenu')">Lesson Plan</button>
-    <button onclick="toggleMenu('datesMenu')">Dates</button>
-	<button onclick="loadIframe('manual.html')">Exam Manual</button>
+    <button onclick="toggleMenu('pa4')">PA4 Admit</button>
 	<button onclick="loadIframe('res/qp_status.html')">QP Status</button>
 	<button onclick="toggleMenu('art')">Art integrated</button>
 </div>
@@ -225,7 +223,41 @@ button:hover {
 	<button onclick="loadIframe('https://docs.google.com/forms/d/e/1FAIpQLScM49vDr9Qv8-OibGJqAv3fiohs6xODK8NQ2_ARjhrJGJbpmg/viewform?usp=publish-editor')">Group & Topics</button>
 </div>
 
+<div id="pa4" class="submenu">
+	 <button onclick="toggleMenu('viewSubmenu_AdmitCards')">Admit Download</button> <!-- New button -->
+	<button onclick="loadIframe('#')">Remark</button>
+</div>
 
+
+<div id="viewSubmenu_AdmitCards" class="view-submenu">
+    <label><strong>Download Admit Card:</strong></label><br>
+    <select onchange="if(this.value) window.open(this.value, '_blank')">
+        <option value="">Select Class</option>
+	    <option value="https://exam-kkdms.github.io/res/admit/BV1.pdf">Balvatika 1</option>
+        <option value="https://exam-kkdms.github.io/res/admit/BV-2A.pdf">Balvatika 2A</option>
+        <option value="https://exam-kkdms.github.io/res/admit/BV-2B.pdf">Balvatika 2B</option>
+        <option value="https://exam-kkdms.github.io/res/admit/BV3-3A.pdf">Balvatika 3A</option>
+        <option value="https://exam-kkdms.github.io/res/admit/BV3-3B.pdf">Balvatika 3B</option>
+        <option value="https://exam-kkdms.github.io/res/admit/1A.pdf">Class 1A</option>
+        <option value="https://exam-kkdms.github.io/res/admit/1B.pdf">Class 1B</option>
+        <option value="https://exam-kkdms.github.io/res/admit/2A.pdf">Class 2A</option>
+        <option value="https://exam-kkdms.github.io/res/admit/2B.pdf">Class 2B</option>
+        <option value="https://exam-kkdms.github.io/res/admit/3A.pdf">Class 3A</option>
+        <option value="https://exam-kkdms.github.io/res/admit/3B.pdf">Class 3B</option>
+        <option value="https://exam-kkdms.github.io/res/admit/4A.pdf">Class 4A</option>
+        <option value="https://exam-kkdms.github.io/res/admit/4B.pdf">Class 4B</option>
+        <option value="https://exam-kkdms.github.io/res/admit/5A.pdf">Class 5A</option>
+        <option value="https://exam-kkdms.github.io/res/admit/5B.pdf">Class 5B</option>
+        <option value="https://exam-kkdms.github.io/res/admit/6A.pdf">Class 6A</option>
+        <option value="https://exam-kkdms.github.io/res/admit/7A.pdf">Class 7A</option>
+        <option value="https://exam-kkdms.github.io/res/admit/7B.pdf">Class 7B</option>
+        <option value="https://exam-kkdms.github.io/res/admit/8A.pdf">Class 8A</option>
+        <option value="https://exam-kkdms.github.io/res/admit/8B.pdf">Class 8B</option>
+        <option value="https://exam-kkdms.github.io/res/admit/9.pdf">Class 9</option>
+    </select>
+</div>
+
+			
 			
 <!-- Upload -->
 <div id="uploadMenu" class="submenu">
