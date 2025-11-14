@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Syllabus Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('https://i.ibb.co/vxYj1BM/Building-1.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .syllabus-content {
+            padding: 30px;
+        }
+
+        .exam-selector {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .exam-selector label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .exam-selector select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #f9fafb;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .exam-selector select:focus {
+            outline: none;
+            border-color: #4f46e5;
+            background-color: white;
+        }
+
+        .btn-search {
+            width: 100%;
+            margin-top: 15px;
+            padding: 14px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-search:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-search:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f4f6;
+            border-radius: 50%;
+            border-top-color: #4f46e5;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .subject-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .subject-header {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .subject-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .total-marks-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .subject-body {
+            padding: 25px;
+        }
+
+        .info-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-content {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+            white-space: pre-line;
+            line-height: 1.6;
+            color: #4b5563;
+        }
+
+        .mark-pattern {
+            margin-top: 15px;
+            overflow-x: auto;
+        }
+
+        .mark-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .mark-table thead {
+            background: linear-gradient(135deg, #374151, #4b5563);
+            color: white;
+        }
+
+        .mark-table th {
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mark-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .mark-table tbody tr:hover {
+            background: #f5f7fa;
+        }
+
+        .mark-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .no-pattern {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px;
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 16px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .syllabus-content {
+                padding: 20px;
+            }
+
+            .subject-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .mark-table {
+                font-size: 0.9em;
+            }
+
+            .mark-table th,
+            .mark-table td {
+                padding: 10px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👨‍🏫 Teacher Syllabus Portal</h1>
+            <p>View syllabus and mark distribution for any class</p>
+        </div>
+
+        <div class="syllabus-content">
+            <div class="exam-selector">
+                <label for="classSelect">Select Class</label>
+                <select id="classSelect">
+                    <option value="">-- Choose Class --</option>
+                    <option value="Balvatika 1">Balvatika 1</option>
+                    <option value="Balvatika 2">Balvatika 2</option>
+                    <option value="Balvatika 3">Balvatika 3</option>
+                    <option value="Class 1">Class 1</option>
+                    <option value="Class 2">Class 2</option>
+                    <option value="Class 3">Class 3</option>
+                    <option value="Class 4">Class 4</option>
+                    <option value="Class 5">Class 5</option>
+                    <option value="Class 6">Class 6</option>
+                    <option value="Class 7">Class 7</option>
+                    <option value="Class 8">Class 8</option>
+                    <option value="Class 9">Class 9</option>
+                    <option value="Class 11">Class 11</option>
+                </select>
+
+                <label for="examSelect">Select Examination</label>
+                <select id="examSelect">
+                    <option value="">-- Choose Exam --</option>
+                    <option value="TERM II">TERM II</option>
+                    <option value="PA 4">PA 4</option>
+                </select>
+
+                <button onclick="fetchSyllabus()" class="btn-search" id="searchBtn">
+                    🔍 View Syllabus
+                </button>
+            </div>
+
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <div>Loading syllabus data...</div>
+            </div>
+
+            <div id="error" class="error" style="display: none;"></div>
+
+            <div id="syllabusContent"></div>
+        </div>
+    </div>
+
+    <script>
+        const SYLLABUS_API = "https://script.google.com/macros/s/AKfycbwRq59ebZVkXJmPmZSNUV3FuY16f_Jc5hYrJ4XBponxaBaZLFPkZXy_c3qpNjMANJ3W/exec";
+
+        async function fetchSyllabus() {
+            const classSelect = document.getElementById('classSelect').value;
+            const examSelect = document.getElementById('examSelect').value;
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const content = document.getElementById('syllabusContent');
+            const searchBtn = document.getElementById('searchBtn');
+
+            if (!classSelect) {
+                alert('⚠️ Please select a class');
+                return;
+            }
+
+            if (!examSelect) {
+                alert('⚠️ Please select an examination');
+                return;
+            }
+
+            content.innerHTML = '';
+            error.style.display = 'none';
+            loading.style.display = 'block';
+            searchBtn.disabled = true;
+
+            try {
+                const url = `${SYLLABUS_API}?class=${encodeURIComponent(classSelect)}&exam=${encodeURIComponent(examSelect)}`;
+                console.log('Fetching URL:', url);
+                console.log('Class:', classSelect);
+                console.log('Exam:', examSelect);
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch syllabus data');
+                }
+
+                const data = await response.json();
+                console.log('Response data:', data);
+                console.log('Data length:', data.length);
+                console.log('Data type:', typeof data);
+                
+                displayResults(data);
+            } catch (err) {
+                console.error('Error:', err);
+                error.textContent = '❌ Error loading syllabus. Please try again later.';
+                error.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+                searchBtn.disabled = false;
+            }
+        }
+
+        function displayResults(data) {
+            const content = document.getElementById('syllabusContent');
+            
+            if (!data || data.length === 0) {
+                content.innerHTML = '<div class="no-data">📭 No syllabus found for the selected class and exam.</div>';
+                return;
+            }
+
+            let html = '';
+            data.forEach(subject => {
+                if (!subject.Subject) return;
+
+                html += `
+                    <div class="subject-card">
+                        <div class="subject-header">
+                            <div class="subject-name">${subject.Subject}</div>
+                            <div class="total-marks-badge">Total: ${subject['TOTAL MARK'] || 'N/A'} Marks</div>
+                        </div>
+
+                        <div class="subject-body">
+                            ${subject['TEACHER NAME'] ? `
+                            <div class="info-section">
+                                <div class="section-title">👨‍🏫 Teacher</div>
+                                <div class="section-content">${subject['TEACHER NAME']}</div>
+                            </div>
+                            ` : ''}
+
+                            ${subject['Syllabus (Chapter Name & Topics) '] ? `
+                            <div class="info-section">
+                                <div class="section-title">📖 Syllabus</div>
+                                <div class="section-content">${subject['Syllabus (Chapter Name & Topics) ']}</div>
+                            </div>
+                            ` : ''}
+
+                            <div class="info-section">
+                                <div class="section-title">📊 Mark Pattern</div>
+                                <div class="mark-pattern">
+                                    ${generateMarkPattern(subject)}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            content.innerHTML = html;
+        }
+
+        function generateMarkPattern(subject) {
+            let rows = [];
+            
+            // Collect all mark patterns
+            for (let i = 1; i <= 5; i++) {
+                const mark = subject[`Select Mark_${i}`];
+                const questions = subject[`No of Questions_${i}`];
+                const orQuestions = subject[`No. of OR Question (If any)_${i}`];
+
+                // Only add row if there's data (mark and questions exist)
+                if (mark && questions) {
+                    rows.push({
+                        mark: mark,
+                        questions: questions,
+                        orQuestions: orQuestions || '-'
+                    });
+                }
+            }
+
+            // If no patterns found, return message
+            if (rows.length === 0) {
+                return '<div class="no-pattern">No mark pattern available</div>';
+            }
+
+            // Generate table HTML
+            let html = `
+                <table class="mark-table">
+                    <thead>
+                        <tr>
+                            <th>Mark</th>
+                            <th>No. of Questions</th>
+                            <th>No. of OR Questions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            rows.forEach(row => {
+                html += `
+                    <tr>
+                        <td><strong>${row.mark}</strong></td>
+                        <td>${row.questions}</td>
+                        <td>${row.orQuestions}</td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+
+            return html;
+        }
+
+        // Allow Enter key to trigger search on select elements
+        document.getElementById('classSelect').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') fetchSyllabus();
+        });
+
+        document.getElementById('examSelect').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') fetchSyllabus();
+        });
+    </script>
+</body>
+</html>
