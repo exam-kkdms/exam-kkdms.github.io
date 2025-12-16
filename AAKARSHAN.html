@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAKARSHAN - Registration Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px 10px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .header .tagline {
+            font-size: 1em;
+            margin-bottom: 15px;
+            font-weight: 500;
+            animation: fadeInUp 1s ease;
+        }
+
+        .header .organizer {
+            font-size: 0.9em;
+            font-style: italic;
+            opacity: 0.95;
+            animation: fadeInUp 1.2s ease;
+        }
+
+        .last-date {
+            background: #ff4757;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.5; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-container {
+            padding: 30px 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .required {
+            color: #ff4757;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .competition-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .competition-section h3 {
+            margin-bottom: 20px;
+            color: #667eea;
+            text-align: center;
+        }
+
+        .competition-option {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .competition-option.disabled {
+            opacity: 0.6;
+            background: #f5f5f5;
+        }
+
+        .competition-option:not(.disabled):hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .competition-checkbox {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .competition-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .competition-checkbox input[type="checkbox"]:disabled {
+            cursor: not-allowed;
+        }
+
+        .competition-name {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .category-select {
+            margin-top: 10px;
+            margin-left: 30px;
+        }
+
+        .error-message {
+            color: #ff4757;
+            font-size: 0.85em;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.85em;
+            border-radius: 5px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: flex;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .modal-body {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .modal-body h4 {
+            color: #f5576c;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .modal-body ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+        }
+
+        .close-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .header .tagline {
+                font-size: 0.9em;
+            }
+            
+            .form-container {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modal -->
+    <div id="instructionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📢 Important Information</h2>
+            </div>
+            <div class="modal-body">
+                <h4>🗓️ Last Date of Application:</h4>
+                <p style="font-size: 1.2em; color: #ff4757; font-weight: bold; text-align: center;">30-12-2025</p>
+                
+                <h4>📋 Age Eligibility Criteria (as on 03-01-2026):</h4>
+                <ul>
+                    <li><strong>Drawing Competition:</strong> Students up to 8 years of age</li>
+                    <li><strong>Dance Competition:</strong>
+                        <ul>
+                            <li>Category 1: Up to 6 years</li>
+                            <li>Category 2: 6 to 12 years</li>
+                        </ul>
+                    </li>
+                    <li><strong>Fashion Show:</strong>
+                        <ul>
+                            <li>Category 1: Up to 6 years</li>
+                            <li>Category 2: 6 to 12 years</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <h4>📝 Instructions:</h4>
+                <ul>
+                    <li>Fill all mandatory fields marked with (*)</li>
+                    <li>Students can select up to 3 competitions</li>
+                    <li>Age will be calculated as on 03-01-2026</li>
+                    <li>Competitions will be automatically enabled/disabled based on age</li>
+                    <li>Select appropriate category for Dance and Fashion Show</li>
+                </ul>
+            </div>
+            <button class="close-btn" onclick="closeModal()">I Understand</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>AAKARSHAN</h1>
+            <div class="tagline">FESTIVAL OF TALENT, CREATIVITY & WELLNESS</div>
+            <div class="organizer">Organized by Dr. Haridas Nath Memorial Trust</div>
+        </div>
+
+        <div class="last-date">
+            ⏰ Last Date: 30-12-2025
+        </div>
+
+        <div class="form-container">
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label>Student Name <span class="required">*</span></label>
+                    <input type="text" id="studentName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Father's Name <span class="required">*</span></label>
+                    <input type="text" id="fatherName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Class <span class="required">*</span></label>
+                    <input type="text" id="class" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Date of Birth <span class="required">*</span></label>
+                    <input type="date" id="dob" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Mobile Number <span class="required">*</span></label>
+                    <input type="tel" id="mobile" pattern="[0-9]{10}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email (Optional)</label>
+                    <input type="email" id="email">
+                </div>
+
+                <div class="competition-section">
+                    <h3>🏆 Select Competitions</h3>
+
+                    <!-- Drawing Competition -->
+                    <div class="competition-option" id="drawingOption">
+                        <div class="competition-checkbox">
+                            <input type="checkbox" id="drawing" disabled>
+                            <label for="drawing" class="competition-name">🎨 Drawing Competition</label>
+                        </div>
+                        <div class="note" id="drawingNote" style="display:none;"></div>
+                    </div>
+
+                    <!-- Dance Competition -->
+                    <div class="competition-option" id="danceOption">
+                        <div class="competition-checkbox">
+                            <input type="checkbox" id="dance" disabled>
+                            <label for="dance" class="competition-name">💃 Dance Competition</label>
+                        </div>
+                        <div class="category-select" id="danceCategory" style="display:none;">
+                            <label>Select Category:</label>
+                            <select id="danceCategorySelect">
+                                <option value="">-- Select --</option>
+                                <option value="cat1">Category 1 (Up to 6 years)</option>
+                                <option value="cat2">Category 2 (6 to 12 years)</option>
+                            </select>
+                        </div>
+                        <div class="note" id="danceNote" style="display:none;"></div>
+                    </div>
+
+                    <!-- Fashion Show -->
+                    <div class="competition-option" id="fashionOption">
+                        <div class="competition-checkbox">
+                            <input type="checkbox" id="fashion" disabled>
+                            <label for="fashion" class="competition-name">👗 Fashion Show</label>
+                        </div>
+                        <div class="category-select" id="fashionCategory" style="display:none;">
+                            <label>Select Category:</label>
+                            <select id="fashionCategorySelect">
+                                <option value="">-- Select --</option>
+                                <option value="cat1">Category 1 (Up to 6 years)</option>
+                                <option value="cat2">Category 2 (6 to 12 years)</option>
+                            </select>
+                        </div>
+                        <div class="note" id="fashionNote" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">✨ Submit Registration</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // IMPORTANT: Replace this URL with your Google Apps Script Web App URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxjhHQlSLHDkRhDOsSzAZZU5-bZxjSsRxSA7vsfkMLW8rr4U1T4Hio-wAwVaTtloJnoPw/exec';
+
+        // Show modal on page load
+        window.onload = function() {
+            document.getElementById('instructionModal').style.display = 'flex';
+        };
+
+        function closeModal() {
+            document.getElementById('instructionModal').style.display = 'none';
+        }
+
+        // Calculate age as on 03-01-2026
+        function calculateAge(dob) {
+            const cutoffDate = new Date('2026-01-03');
+            const birthDate = new Date(dob);
+            let age = cutoffDate.getFullYear() - birthDate.getFullYear();
+            const monthDiff = cutoffDate.getMonth() - birthDate.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && cutoffDate.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            return age;
+        }
+
+        // Update competition eligibility
+        document.getElementById('dob').addEventListener('change', function() {
+            const dob = this.value;
+            if (!dob) return;
+
+            const age = calculateAge(dob);
+
+            // Drawing Competition (up to 8 years)
+            const drawingCheckbox = document.getElementById('drawing');
+            const drawingOption = document.getElementById('drawingOption');
+            const drawingNote = document.getElementById('drawingNote');
+
+            if (age <= 8) {
+                drawingCheckbox.disabled = false;
+                drawingOption.classList.remove('disabled');
+                drawingNote.style.display = 'none';
+            } else {
+                drawingCheckbox.disabled = true;
+                drawingCheckbox.checked = false;
+                drawingOption.classList.add('disabled');
+                drawingNote.style.display = 'block';
+                drawingNote.innerHTML = '⚠️ Applicant age is not in range (Eligible: up to 8 years)';
+            }
+
+            // Dance Competition (up to 12 years, with categories)
+            const danceCheckbox = document.getElementById('dance');
+            const danceOption = document.getElementById('danceOption');
+            const danceNote = document.getElementById('danceNote');
+            const danceCategorySelect = document.getElementById('danceCategorySelect');
+
+            if (age <= 12) {
+                danceCheckbox.disabled = false;
+                danceOption.classList.remove('disabled');
+                danceNote.style.display = 'none';
+                
+                // Set appropriate category options
+                danceCategorySelect.innerHTML = '<option value="">-- Select --</option>';
+                if (age <= 6) {
+                    danceCategorySelect.innerHTML += '<option value="cat1">Category 1 (Up to 6 years)</option>';
+                } else {
+                    danceCategorySelect.innerHTML += '<option value="cat2">Category 2 (6 to 12 years)</option>';
+                }
+            } else {
+                danceCheckbox.disabled = true;
+                danceCheckbox.checked = false;
+                danceOption.classList.add('disabled');
+                danceNote.style.display = 'block';
+                danceNote.innerHTML = '⚠️ Applicant age is not in range (Eligible: up to 12 years)';
+                document.getElementById('danceCategory').style.display = 'none';
+            }
+
+            // Fashion Show (up to 12 years, with categories)
+            const fashionCheckbox = document.getElementById('fashion');
+            const fashionOption = document.getElementById('fashionOption');
+            const fashionNote = document.getElementById('fashionNote');
+            const fashionCategorySelect = document.getElementById('fashionCategorySelect');
+
+            if (age <= 12) {
+                fashionCheckbox.disabled = false;
+                fashionOption.classList.remove('disabled');
+                fashionNote.style.display = 'none';
+                
+                // Set appropriate category options
+                fashionCategorySelect.innerHTML = '<option value="">-- Select --</option>';
+                if (age <= 6) {
+                    fashionCategorySelect.innerHTML += '<option value="cat1">Category 1 (Up to 6 years)</option>';
+                } else {
+                    fashionCategorySelect.innerHTML += '<option value="cat2">Category 2 (6 to 12 years)</option>';
+                }
+            } else {
+                fashionCheckbox.disabled = true;
+                fashionCheckbox.checked = false;
+                fashionOption.classList.add('disabled');
+                fashionNote.style.display = 'block';
+                fashionNote.innerHTML = '⚠️ Applicant age is not in range (Eligible: up to 12 years)';
+                document.getElementById('fashionCategory').style.display = 'none';
+            }
+        });
+
+        // Show/hide category selection for dance
+        document.getElementById('dance').addEventListener('change', function() {
+            document.getElementById('danceCategory').style.display = this.checked ? 'block' : 'none';
+        });
+
+        // Show/hide category selection for fashion
+        document.getElementById('fashion').addEventListener('change', function() {
+            document.getElementById('fashionCategory').style.display = this.checked ? 'block' : 'none';
+        });
+
+        // Form submission
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Check if at least one competition is selected
+            const drawing = document.getElementById('drawing').checked;
+            const dance = document.getElementById('dance').checked;
+            const fashion = document.getElementById('fashion').checked;
+
+            if (!drawing && !dance && !fashion) {
+                alert('⚠️ Please select at least one competition!');
+                return;
+            }
+
+            // Validate category selection for dance and fashion
+            if (dance && !document.getElementById('danceCategorySelect').value) {
+                alert('⚠️ Please select a category for Dance Competition!');
+                return;
+            }
+
+            if (fashion && !document.getElementById('fashionCategorySelect').value) {
+                alert('⚠️ Please select a category for Fashion Show!');
+                return;
+            }
+
+            // Prepare data
+            const formData = {
+                studentName: document.getElementById('studentName').value,
+                fatherName: document.getElementById('fatherName').value,
+                class: document.getElementById('class').value,
+                dob: document.getElementById('dob').value,
+                mobile: document.getElementById('mobile').value,
+                email: document.getElementById('email').value || 'N/A',
+                age: calculateAge(document.getElementById('dob').value),
+                drawing: drawing ? 'Yes' : 'No',
+                dance: dance ? 'Yes - ' + (document.getElementById('danceCategorySelect').value === 'cat1' ? 'Category 1' : 'Category 2') : 'No',
+                fashion: fashion ? 'Yes - ' + (document.getElementById('fashionCategorySelect').value === 'cat1' ? 'Category 1' : 'Category 2') : 'No',
+                timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+            };
+
+            // Disable submit button and show loading
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span> Submitting...';
+
+            try {
+                // Send data to Google Apps Script
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                // Note: no-cors mode doesn't allow reading the response
+                // We assume success if no error is thrown
+                alert('🎉 Registration Submitted Successfully!\n\nThank you for registering for AAKARSHAN.\nYou will receive confirmation shortly.');
+                
+                // Reset form
+                this.reset();
+                document.getElementById('danceCategory').style.display = 'none';
+                document.getElementById('fashionCategory').style.display = 'none';
+                
+                // Reset competition options
+                document.getElementById('drawing').disabled = true;
+                document.getElementById('dance').disabled = true;
+                document.getElementById('fashion').disabled = true;
+                document.getElementById('drawingOption').classList.add('disabled');
+                document.getElementById('danceOption').classList.add('disabled');
+                document.getElementById('fashionOption').classList.add('disabled');
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ There was an error submitting your registration. Please try again or contact support.');
+            } finally {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '✨ Submit Registration';
+            }
+        });
+    </script>
+</body>
+</html>
