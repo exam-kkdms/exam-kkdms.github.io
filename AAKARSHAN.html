@@ -34,6 +34,32 @@
             color: white;
         }
 
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo-container {
+            animation: fadeInLeft 0.8s ease;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 3px solid white;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .header-text {
+            text-align: left;
+        }
+
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
@@ -89,6 +115,17 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
         }
 
@@ -352,6 +389,19 @@
             .header .tagline {
                 font-size: 0.9em;
             }
+
+            .logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .header-content {
+                gap: 15px;
+            }
+
+            .header-text {
+                text-align: center;
+            }
             
             .form-container {
                 padding: 20px 15px;
@@ -364,25 +414,25 @@
     <div id="instructionModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>📢 Important Information</h2>
+                <h3>📢 Important Information</h3>
             </div>
             <div class="modal-body">
                 <h4>🗓️ Last Date of Application:</h4>
-                <p style="font-size: 1.2em; color: #ff4757; font-weight: bold; text-align: center;">30-12-2025</p>
+                <p style="font-size: 1.2em; color: #ff4757; font-weight: bold; text-align: center;">30-Dec-2025</p>
                 
-                <h4>📋 Age Eligibility Criteria (as on 03-01-2026):</h4>
+                <h4>📋 Age Eligibility Criteria (as on 03-Jan-2026):</h4>
                 <ul>
                     <li><strong>Drawing Competition:</strong> Students up to 8 years of age</li>
                     <li><strong>Dance Competition:</strong>
                         <ul>
-                            <li>Category 1: Up to 6 years</li>
-                            <li>Category 2: 6 to 12 years</li>
+                            <li>Group 1: Up to 6 years</li>
+                            <li>Group 2: 6 to 12 years</li>
                         </ul>
                     </li>
                     <li><strong>Fashion Show:</strong>
                         <ul>
-                            <li>Category 1: Up to 6 years</li>
-                            <li>Category 2: 6 to 12 years</li>
+                            <li>Group 1: Up to 6 years</li>
+                            <li>Group 2: 6 to 12 years</li>
                         </ul>
                     </li>
                 </ul>
@@ -391,9 +441,9 @@
                 <ul>
                     <li>Fill all mandatory fields marked with (*)</li>
                     <li>Students can select up to 3 competitions</li>
-                    <li>Age will be calculated as on 03-01-2026</li>
+                    <li>Age will be calculated as on 03-Jan-2026</li>
                     <li>Competitions will be automatically enabled/disabled based on age</li>
-                    <li>Select appropriate category for Dance and Fashion Show</li>
+                    <li>Select appropriate Group for Dance and Fashion Show</li>
                 </ul>
             </div>
             <button class="close-btn" onclick="closeModal()">I Understand</button>
@@ -402,13 +452,20 @@
 
     <div class="container">
         <div class="header">
-            <h1>AAKARSHAN</h1>
-            <div class="tagline">FESTIVAL OF TALENT, CREATIVITY & WELLNESS</div>
-            <div class="organizer">Organized by Dr. Haridas Nath Memorial Trust</div>
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="logo.png" alt="KKDMS Logo" class="logo">
+                </div>
+                <div class="header-text">
+                    <div class="organizer">Organized by Dr. Haridas Nath Memorial Trust</div>
+                    <h1>AAKARSHAN</h1>
+                    <div class="tagline">FESTIVAL OF TALENT, CREATIVITY & WELLNESS</div>
+                </div>
+            </div>
         </div>
 
         <div class="last-date">
-            ⏰ Last Date: 30-12-2025
+            ⏰ Last Date: 30-Dec-2025
         </div>
 
         <div class="form-container">
@@ -462,11 +519,11 @@
                             <label for="dance" class="competition-name">💃 Dance Competition</label>
                         </div>
                         <div class="category-select" id="danceCategory" style="display:none;">
-                            <label>Select Category:</label>
+                            <label>Select Group:</label>
                             <select id="danceCategorySelect">
                                 <option value="">-- Select --</option>
-                                <option value="cat1">Category 1 (Up to 6 years)</option>
-                                <option value="cat2">Category 2 (6 to 12 years)</option>
+                                <option value="cat1">Group 1 (Up to 6 years)</option>
+                                <option value="cat2">Group 2 (6 to 12 years)</option>
                             </select>
                         </div>
                         <div class="note" id="danceNote" style="display:none;"></div>
@@ -479,11 +536,11 @@
                             <label for="fashion" class="competition-name">👗 Fashion Show</label>
                         </div>
                         <div class="category-select" id="fashionCategory" style="display:none;">
-                            <label>Select Category:</label>
+                            <label>Select Group:</label>
                             <select id="fashionCategorySelect">
                                 <option value="">-- Select --</option>
-                                <option value="cat1">Category 1 (Up to 6 years)</option>
-                                <option value="cat2">Category 2 (6 to 12 years)</option>
+                                <option value="cat1">Group 1 (Up to 6 years)</option>
+                                <option value="cat2">Group 2 (6 to 12 years)</option>
                             </select>
                         </div>
                         <div class="note" id="fashionNote" style="display:none;"></div>
@@ -560,9 +617,9 @@
                 // Set appropriate category options
                 danceCategorySelect.innerHTML = '<option value="">-- Select --</option>';
                 if (age <= 6) {
-                    danceCategorySelect.innerHTML += '<option value="cat1">Category 1 (Up to 6 years)</option>';
+                    danceCategorySelect.innerHTML += '<option value="cat1">Group 1 (Up to 6 years)</option>';
                 } else {
-                    danceCategorySelect.innerHTML += '<option value="cat2">Category 2 (6 to 12 years)</option>';
+                    danceCategorySelect.innerHTML += '<option value="cat2">Group 2 (6 to 12 years)</option>';
                 }
             } else {
                 danceCheckbox.disabled = true;
@@ -587,9 +644,9 @@
                 // Set appropriate category options
                 fashionCategorySelect.innerHTML = '<option value="">-- Select --</option>';
                 if (age <= 6) {
-                    fashionCategorySelect.innerHTML += '<option value="cat1">Category 1 (Up to 6 years)</option>';
+                    fashionCategorySelect.innerHTML += '<option value="cat1">Group 1 (Up to 6 years)</option>';
                 } else {
-                    fashionCategorySelect.innerHTML += '<option value="cat2">Category 2 (6 to 12 years)</option>';
+                    fashionCategorySelect.innerHTML += '<option value="cat2">Group 2 (6 to 12 years)</option>';
                 }
             } else {
                 fashionCheckbox.disabled = true;
