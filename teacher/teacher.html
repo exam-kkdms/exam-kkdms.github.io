@@ -33,7 +33,6 @@
 <div class="button-group">
     <button onclick="toggleMenu('uploadMenu')">Upload</button>
     <button onclick="loadIframe('syllabus_teacher.html')">View</button>
-  	<button onclick="toggleMenu('pa4')">PA4 Admit</button>
 	<button onclick="loadIframe('qp_status.html')">QP Status</button>
 	<button onclick="loadIframe('pre-mark.html')">Pre-Board Mark View</button>
 	<button onclick="toggleMenu('art')">Art integrated</button>
@@ -42,44 +41,6 @@
 <div id="art" class="submenu">
 	<a href="https://docs.google.com/spreadsheets/d/1Nc4C3e1lK-oCj1vpyRZK_gGU08s-Mh9qSecUcE-9raU/edit?usp=sharing" target="_blank"><button>Student grouping</button></a>
 	<button onclick="loadIframe('https://docs.google.com/forms/d/e/1FAIpQLScM49vDr9Qv8-OibGJqAv3fiohs6xODK8NQ2_ARjhrJGJbpmg/viewform?usp=publish-editor')">Group & Topics</button>
-</div>
-
-<div id="pa4" class="submenu">
-	 <button onclick="toggleViewSubmenu('AdmitCards')">Admit Download</button>
-	<button onclick="loadIframe('https://docs.google.com/forms/d/e/1FAIpQLSd8N1X_O1BB9BhfuAZ26TyojXXQN3Ke_4MFH7ZU1z0BxhXGfA/viewform?usp=publish-editor')">Remark</button>
-</div>
-
-
-<div id="viewSubmenu_AdmitCards" class="view-submenu">
-    <label><strong>Download Admit Card:</strong></label><br>
-    <select onchange="if(this.value) window.open(this.value, '_blank')">
-        <option value="">Select Class</option>
-	    <option value="https://exam-kkdms.github.io/teacher/res/admit/BV1.pdf">Balvatika 1</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/BV-2A.pdf">Balvatika 2A</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/BV-2B.pdf">Balvatika 2B</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/BV-3A.pdf">Balvatika 3A</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/BV-3B.pdf">Balvatika 3B</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/1A.pdf">Class 1A</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/1B.pdf">Class 1B</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/2A.pdf">Class 2A</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/2B.pdf">Class 2B</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/3A.pdf">Class 3A</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/3B.pdf">Class 3B</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/4A.pdf">Class 4A</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/4B.pdf">Class 4B</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/5A.pdf">Class 5A</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/5B.pdf">Class 5B</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/6A.pdf">Class 6A</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/7A.pdf">Class 7A</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/7B.pdf">Class 7B</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/8A.pdf">Class 8A</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/8B.pdf">Class 8B</option>
-        <option value="https://exam-kkdms.github.io/teacher/res/admit/9A.pdf">Class 9A</option>
-		<option value="https://exam-kkdms.github.io/teacher/res/admit/9B.pdf">Class 9B</option>
-		<option value="https://exam-kkdms.github.io/teacher/res/admit/11-A.pdf">Class 11 Art</option>
-		<option value="https://exam-kkdms.github.io/teacher/res/admit/11-C.pdf">Class 11 Com</option>
-		<option value="https://exam-kkdms.github.io/teacher/res/admit/11-S.pdf">Class 11 Sci</option>
-    </select>
 </div>
 
 			
@@ -95,7 +56,8 @@
 
 <!-- Mark Upload submenu (initially hidden) -->
 <div id="markUploadMenu" class="submenu" style="margin-left: 20px;">
-    <button onclick="loadIframe('https://docs.google.com/forms/d/e/1FAIpQLSc__pAG2CX3wajdP6p6qdaGsYXIvuc9mUldjeTUz4srL81kJQ/viewform?embedded=true')">Pre-Board</button>
+  <a href="https://docs.google.com/spreadsheets/d/1zEe-f_DcXhv0gPXF78inF0yx1PJnXRHezCqdSPWMZaI/edit?usp=sharing" target="_blank"><button>PA - III Mark Upload</button></a>
+	 <a href="https://docs.google.com/spreadsheets/d/1YCwpMu8hDXPawKbCLmANSek0fafdDC_EV-JeWfy5uLk/edit?usp=sharing" target="_blank"><button>PA - IV Mark Upload</button></a>
 </div>
 </div>
 
