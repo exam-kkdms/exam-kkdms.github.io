@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Teacher Resource Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      background: #fff;
+      width: 95%;
+      max-width: 480px;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 12px;
+      display: block;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 11px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background: #667eea;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #5a67d8;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    .downloads {
+      margin-top: 25px;
+    }
+
+    .pdf-btn {
+      display: block;
+      text-decoration: none;
+      background: #48bb78;
+      color: white;
+      padding: 11px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .pdf-btn:hover {
+      background: #38a169;
+    }
+
+    /* Spinner */
+    .spinner {
+      display: none;
+      margin: 20px auto;
+      width: 40px;
+      height: 40px;
+      border: 4px solid #ddd;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Teacher Login</h2>
+
+  <label>Teacher Name</label>
+  <select id="teacher">
+    <option value="">-- Select Teacher --</option>
+    <option>MAYURI SINGHA ROY</option>
+    <option>HABIBA KHATUN</option>
+    <option>SOUMI GHOSH</option>
+    <option>SONAMOTI MAHATO</option>
+    <option>JAMUNA CHHETRI</option>
+    <option>MOU DAS</option>
+    <option>PRITHA ADHIKARI</option>
+    <option>SHELLY CHATTERJEE</option>
+    <option>PRAKRITI TAMANG</option>
+    <option>NILANJANA PAL</option>
+    <option>MOHUWA RANI SARKAR</option>
+    <option>SAYANTI SAHA</option>
+    <option>MADHUMITA SINGHA</option>
+    <option>MOUMITA GHOSH</option>
+    <option>MOUMITA KAR RUDRA</option>
+    <option>ABHISHEK SARKAR</option>
+    <option>KRISHNANDU CHATTERJEE</option>
+    <option>SOUMEN DHAR</option>
+    <option>SATABDI SINGHA ROY</option>
+    <option>SAYAN DEY</option>
+    <option>SURAJ DAS</option>
+    <option>GIMI DAS</option>
+    <option>SUDIPTA MONIA</option>
+    <option>DANIEL HAMBRAM</option>
+    <option>KUSHAL CHETRI</option>
+    <option>SUPRIYA CHKRABORTY</option>
+    <option>YADAB CHANDRA</option>
+    <option>BIKRAM SINGH</option>
+    <option>SUCHANDA SAHA</option>
+    <option>NURJAHAN KHATUN</option>
+    <option>NABENDU PAUL</option>
+    <option>PREMADITYA MUKHERJEE</option>
+    <option>ABDUL HASAN SK</option>
+  </select>
+
+  <label>Password</label>
+  <div style="position:relative;">
+  <input type="password" id="password" placeholder="Enter password">
+ 
+ <span onclick="togglePassword()"
+        style="
+          position:absolute;
+          right:12px;
+          top:50%;
+          transform:translateY(-50%);
+          cursor:pointer;
+          font-size:18px;
+        "
+        id="eye">👁️</span>
+</div>
+
+  <button onclick="login()">Login</button>
+
+  <div class="spinner" id="spinner"></div>
+  <div class="error" id="error"></div>
+
+  <div class="downloads" id="downloads"></div>
+</div>
+
+<script>
+const API =
+"https://script.google.com/macros/s/AKfycbz7h8VIv4-zWmunjZLjliIDtVgrzxFVijbW1Iu4Z2YamlWtqbXYloc2e1WL9AiQq0ehZQ/exec";
+
+function login() {
+  const teacher = document.getElementById("teacher").value;
+  const password = document.getElementById("password").value;
+  const error = document.getElementById("error");
+  const downloads = document.getElementById("downloads");
+  const spinner = document.getElementById("spinner");
+
+  error.textContent = "";
+  downloads.innerHTML = "";
+
+  if (!teacher || !password) {
+    error.textContent = "Please select teacher and enter password";
+    return;
+  }
+
+  spinner.style.display = "block";
+
+  fetch(`${API}?teacher=${encodeURIComponent(teacher)}`)
+    .then(res => res.json())
+    .then(json => {
+      spinner.style.display = "none";
+
+      if (json.status !== "success" || json.count === 0) {
+        error.textContent = "No records found";
+        return;
+      }
+
+      if (json.data[0].PASSWORD !== password) {
+        error.textContent = "Incorrect password";
+        return;
+      }
+
+      json.data.forEach(item => {
+        const a = document.createElement("a");
+        a.href = item.PDF;
+        a.target = "_blank";
+        a.className = "pdf-btn";
+        a.textContent = `${item.CLASS} – ${item.SUBJECT}`;
+        downloads.appendChild(a);
+      });
+    })
+    .catch(() => {
+      spinner.style.display = "none";
+      error.textContent = "Server error. Try again.";
+    });
+}
+
+function togglePassword() {
+  const pwd = document.getElementById("password");
+  const eye = document.getElementById("eye");
+
+  if (pwd.type === "password") {
+    pwd.type = "text";
+    eye.textContent = "🙈";
+  } else {
+    pwd.type = "password";
+    eye.textContent = "👁️";
+  }
+}
+
+
+</script>
+
+</body>
+</html>
