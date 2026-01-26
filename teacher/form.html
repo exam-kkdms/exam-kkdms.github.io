@@ -97,7 +97,20 @@ button:disabled{background:#aaa;cursor:not-allowed}
 </select>
 
 <label>Password</label>
-<input type="password" id="password">
+  <div style="position:relative;">
+  <input type="password" id="password" placeholder="Enter password">
+ 
+ <span onclick="togglePassword()"
+        style="
+          position:absolute;
+          right:12px;
+          top:50%;
+          transform:translateY(-50%);
+          cursor:pointer;
+          font-size:18px;
+        "
+        id="eye">👁️</span>
+</div>
 
 <button onclick="login()">Login</button>
 
@@ -183,6 +196,18 @@ function submitForm(){
     reviewForm.reset();
     papers.innerHTML="";
   });
+}
+  function togglePassword() {
+  const pwd = document.getElementById("password");
+  const eye = document.getElementById("eye");
+
+  if (pwd.type === "password") {
+    pwd.type = "text";
+    eye.textContent = "🙈";
+  } else {
+    pwd.type = "password";
+    eye.textContent = "👁️";
+  }
 }
 </script>
 </body>
