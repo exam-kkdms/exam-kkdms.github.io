@@ -6,42 +6,65 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{
+  box-sizing: border-box;
+}
 body{
   font-family:'Segoe UI',sans-serif;
   background:linear-gradient(135deg,#667eea,#764ba2);
-  min-height:100vh;margin:0;
-  display:flex;justify-content:center;align-items:center;
+  min-height:100vh;
+  margin:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 .card{
-  background:#fff;width:95%;max-width:520px;
-  padding:25px;border-radius:16px;
+  background:#fff;
+  width:95%;
+  max-width:520px;
+  padding:25px;
+  border-radius:16px;
   box-shadow:0 20px 40px rgba(0,0,0,.2);
 }
 h2{text-align:center;margin-bottom:20px}
 label{font-weight:600;margin-top:12px;display:block}
 select,input,textarea{
-  width:100%;padding:10px;margin-top:6px;
-  border-radius:8px;border:1px solid #ccc;
+  width:100%;
+  padding:10px;
+  margin-top:6px;
+  border-radius:8px;
+  border:1px solid #ccc;
 }
 button{
-  width:100%;margin-top:20px;padding:12px;
-  background:#667eea;color:#fff;border:none;
-  border-radius:8px;font-size:16px;cursor:pointer;
+  width:100%;
+  margin-top:20px;
+  padding:12px;
+  background:#667eea;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  cursor:pointer;
 }
 button:disabled{background:#aaa;cursor:not-allowed}
 .paper{
-  border:1px solid #ddd;padding:12px;
-  border-radius:10px;margin-top:12px;
+  border:1px solid #ddd;
+  padding:12px;
+  border-radius:10px;
+  margin-top:12px;
 }
 .remark{display:none;margin-top:8px}
 .spinner{
-  display:none;margin:20px auto;width:40px;height:40px;
-  border:4px solid #ddd;border-top:4px solid #667eea;
-  border-radius:50%;animation:spin 1s linear infinite;
+  display:none;
+  margin:20px auto;
+  width:40px;height:40px;
+  border:4px solid #ddd;
+  border-top:4px solid #667eea;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* Beautiful alert */
 .alert{
   display:none;
   background:#48bb78;
@@ -52,6 +75,26 @@ button:disabled{background:#aaa;cursor:not-allowed}
   font-weight:600;
   margin-top:20px;
 }
+.password-wrapper{
+  position:relative;
+  width:100%;
+}
+
+.password-wrapper input{
+  width:100%;
+  padding-right:45px;
+}
+
+.password-wrapper span{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  font-size:18px;
+  z-index:5;
+}
+
 </style>
 </head>
 
@@ -97,25 +140,12 @@ button:disabled{background:#aaa;cursor:not-allowed}
 </select>
 
 <label>Password</label>
-<div style="position:relative;">
-  <input type="password" id="password" placeholder="Enter password" style="padding-right:45px;">
-  
-  <span onclick="togglePassword()"
-    style="
-      position:absolute;
-      right:12px;
-      top:50%;
-      transform:translateY(-50%);
-      cursor:pointer;
-      font-size:18px;
-      z-index:5;
-    "
-    id="eye">👁️</span>
+<div class="password-wrapper">
+  <input type="password" id="password" placeholder="Enter password">
+  <span id="eye" onclick="togglePassword()">👁️</span>
 </div>
 
-
 <button onclick="login()">Login</button>
-
 <div class="spinner" id="loginSpinner"></div>
 
 <form id="reviewForm" style="display:none">
@@ -142,11 +172,14 @@ let paperData=[],submitted=false;
 
 function login(){
   loginSpinner.style.display="block";
-  fetch(`${LOGIN_API}?teacher=${teacher.value}`)
+  fetch(`${LOGIN_API}?teacher=${encodeURIComponent(teacher.value)}`)
   .then(r=>r.json())
   .then(j=>{
     loginSpinner.style.display="none";
-    if(j.data[0].PASSWORD!==password.value){alert("Wrong password");return;}
+    if(j.data[0].PASSWORD!==password.value){
+      alert("Incorrect password");
+      return;
+    }
     paperData=j.data;
     reviewForm.style.display="block";
     renderPapers();
@@ -178,7 +211,10 @@ function submitForm(){
   for(let i=0;i<paperData.length;i++){
     let status=document.querySelector(`input[name="s${i}"]:checked`).value;
     let remark=document.getElementById("r"+i).value;
-    if(status==="NOT OK" && remark===""){alert("Remark required");return;}
+    if(status==="NOT OK" && remark===""){
+      alert("Remark required for NOT OK");
+      return;
+    }
     payload.push({
       teacher:teacher.value,
       class:paperData[i].CLASS,
@@ -191,7 +227,10 @@ function submitForm(){
   submitBtn.disabled=true;
   submitSpinner.style.display="block";
 
-  fetch(SUBMIT_API,{method:"POST",body:JSON.stringify(payload)})
+  fetch(SUBMIT_API,{
+    method:"POST",
+    body:JSON.stringify(payload)
+  })
   .then(()=>{
     submitSpinner.style.display="none";
     successAlert.style.display="block";
@@ -199,18 +238,19 @@ function submitForm(){
     papers.innerHTML="";
   });
 }
-  function togglePassword() {
-  const pwd = document.getElementById("password");
-  const eye = document.getElementById("eye");
 
-  if (pwd.type === "password") {
-    pwd.type = "text";
-    eye.textContent = "🙈";
-  } else {
-    pwd.type = "password";
-    eye.textContent = "👁️";
+function togglePassword(){
+  const pwd=document.getElementById("password");
+  const eye=document.getElementById("eye");
+  if(pwd.type==="password"){
+    pwd.type="text";
+    eye.textContent="🙈";
+  }else{
+    pwd.type="password";
+    eye.textContent="👁️";
   }
 }
 </script>
+
 </body>
 </html>
