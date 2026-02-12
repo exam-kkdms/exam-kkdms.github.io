@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Teacher Home</title>
+</head>
+<body onload="loadTeacher()">
+
+<div class="main">
+  <div id="homePage">
+    <h2><center>KAMAL KUMARI DEVI MODEL SCHOOL</center></h2><br>
+
+    <h1>Welcome, <span id="userName"></span>!</h1>
+
+    <div class="button-container">
+
+      <h1>Teacher Portal</h1>
+
+      <div class="button-group">
+        <button onclick="toggleMenu('uploadMenu')">Upload</button>
+        <button onclick="loadIframe('syllabus_teacher.html')">View</button>
+        <button onclick="loadIframe('qp_status.html')">QP Status</button>
+        <button onclick="loadIframe('qp-ch.html')">Term-II QP View</button>
+        <button onclick="loadIframe('form.html')">Term-II QP Check Remark</button>
+      </div>
+
+      <div id="art" class="submenu">
+        <a href="https://docs.google.com/spreadsheets/d/1Nc4C3e1lK-oCj1vpyRZK_gGU08s-Mh9qSecUcE-9raU/edit?usp=sharing" target="_blank">
+          <button>Student grouping</button>
+        </a>
+
+        <button onclick="loadIframe('https://docs.google.com/forms/d/e/1FAIpQLScM49vDr9Qv8-OibGJbpmg/viewform?usp=publish-editor')">
+          Group & Topics
+        </button>
+      </div>
+
+      <div id="uploadMenu" class="submenu">
+        <button onclick="loadIframe('https://docs.google.com/forms/d/e/1FAIpQLSepF4_h9IY2TQwqop1aS7YAc1XCIjsKcjZD8JZkH4MMbhN9cA/viewform?embedded=true')">Syllabus</button>
+
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScYB2_XwsjJwToCgw0kjVd0epOqHjVRgpFVk-Kbooomj762pg/viewform?usp=sharing&ouid=107304971746362659980" target="_blank">
+          <button>QUESTION PAPER</button>
+        </a>
+
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdZ_nzYsBGAnYrEv0JPTtx5GPXF5Xqsf5w9Wa8J66tJe6nTAw/viewform?usp=dialog" target="_blank">
+          <button>Answer Scheme</button>
+        </a>
+
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeXRbVjYWyVPV-72WBVNA7UI3SjRAsihZOfa2aSHwK6poFYwA/viewform?usp=dialog" target="_blank">
+          <button>Oral/Practical Question</button>
+        </a>
+
+        <button onclick="toggleMenu('markUploadMenu')">Mark Upload</button>
+      </div>
+
+      <div id="markUploadMenu" class="submenu" style="margin-left: 20px;">
+        <a href="https://docs.google.com/spreadsheets/d/1zEe-f_DcXhv0gPXF78inF0yx1PJnXRHezCqdSPWMZaI/edit?usp=sharing" target="_blank">
+          <button>PA - III Mark Upload</button>
+        </a>
+
+        <a href="https://docs.google.com/spreadsheets/d/1YCwpMu8hDXPawKbCLmANSek0fafdDC_EV-JeWfy5uLk/edit?usp=sharing" target="_blank">
+          <button>PA - IV Mark Upload</button>
+        </a>
+      </div>
+
+      <button onclick="logout()" style="margin-top:15px;">Logout</button>
+
+      <iframe id="contentFrame" class="welcome-frame hidden" src="" height="600" width="100%"></iframe>
+
+    </div>
+  </div>
+</div>
+
+<script src="session.js"></script>
+
+<script>
+function loadTeacher(){
+  checkLogin();
+
+  let teacher = getTeacherSession();
+  document.getElementById("userName").innerText = teacher.name;
+}
+
+function logout(){
+  clearTeacherSession();
+  window.location.href="login.html";
+}
+
+function toggleMenu(menuId) {
+  document.querySelectorAll('.submenu').forEach(menu => {
+    if (menu.id === menuId) {
+      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    } else {
+      menu.style.display = 'none';
+    }
+  });
+}
+
+function loadIframe(url) {
+  if (url) {
+    const frame = document.getElementById('contentFrame');
+    frame.src = url;
+    frame.classList.remove('hidden');
+  }
+}
+</script>
+
+</body>
+</html>
