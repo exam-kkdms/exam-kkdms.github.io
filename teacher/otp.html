@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTP Verification</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+  <h2><center>OTP Verification</center></h2>
+  <p style="text-align:center;">OTP has been sent to your Email</p>
+
+  <form id="otpForm">
+    <input type="text" id="otp" placeholder="Enter OTP" required>
+    <button type="submit">Verify OTP</button>
+  </form>
+
+  <div id="msg" class="error"></div>
+</div>
+
+<script src="api.js"></script>
+<script src="session.js"></script>
+
+<script>
+let teacher = getTeacherSession();
+if(!teacher){
+  window.location.href="login.html";
+}
+
+document.getElementById("otpForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+
+  let otp = document.getElementById("otp").value;
+
+  document.getElementById("msg").innerHTML="Verifying...";
+
+  let res = await fetch(API_URL + "?action=verifyOtp", {
+    method:"POST",
+    body: JSON.stringify({
+      email: teacher.email,
+      otp: otp
+    })
+  });
+
+  let data = await res.json();
+
+  if(data.status==="success"){
+    window.location.href="home.html";
+  } else {
+    document.getElementById("msg").innerHTML=data.message;
+  }
+});
+</script>
+
+</body>
+</html>
